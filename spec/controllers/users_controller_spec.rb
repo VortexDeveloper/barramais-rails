@@ -19,12 +19,11 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe UsersController, type: :controller do
+  include Devise::Test::ControllerHelpers
   # This should return the minimal set of attributes required to create a valid
   # User. As you add validations to User, be sure to
   # adjust the attributes here as well.
-  # let(:valid_attributes) {
-  #   skip("Add a hash of attributes valid for your model")
-  # }
+  # let(:valid_attributes) { FactoryGirl.attributes_for :user }
   #
   # let(:invalid_attributes) {
   #   skip("Add a hash of attributes invalid for your model")

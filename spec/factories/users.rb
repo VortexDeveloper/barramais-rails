@@ -1,17 +1,19 @@
 FactoryGirl.define do
   factory :user do
-    first_name "MyString"
-    last_name "MyString"
-    cellphone "MyString"
-    birthday "2017-01-20"
-    sex "MyString"
-    nautical_professional 1
-    academic_profile "MyText"
-    relationship 1
-    user nil
-    about "MyText"
-    has_embarcation 1
-    nautical_work "MyText"
-    naval_service "MyText"
+    first_name Faker::Name.first_name
+    last_name Faker::Name.last_name
+    cellphone Faker::PhoneNumber.cell_phone
+    birthday { 18.years.ago }
+    sex ['M', 'F'].sample
+    nautical_professional Faker::Boolean.boolean
+    academic_profile Faker::Lorem.paragraph
+    relationship [0, 1, 2].sample
+    partner nil
+    about Faker::Lorem.paragraph
+    has_embarcation Faker::Boolean.boolean
+    nautical_work Faker::Lorem.paragraph
+    naval_service Faker::Lorem.paragraph
+    email Faker::Internet.email
+    password '123456'
   end
 end
