@@ -1,7 +1,11 @@
 class UsersController < ApplicationController
-  before_action :set_user
+  before_action :set_user, except: [:index]
 
   private
+
+  def index
+    @users = User.all
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_user
