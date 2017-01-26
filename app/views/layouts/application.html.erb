@@ -11,6 +11,7 @@
   <body>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
+    <%= image_tag User.last.avatar.url %>
     <%= yield %>
   </body>
 </html>
