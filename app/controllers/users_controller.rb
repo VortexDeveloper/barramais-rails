@@ -1,6 +1,22 @@
 class UsersController < ApplicationController
   before_action :set_user, except: [:index]
 
+  def save_avatar
+    image = Paperclip.io_adapters.for(avatar_params[:image])
+    image.original_filename = "#{avatar_params[:filename]}"
+    @user.avatar = image
+
+    respond_to do |format|
+      if @user.save
+        format.html {}
+        format.json { render json: @user }
+      else
+        format.html {}
+        format.json { render json: {errors: {avatar: ['não foi possível salvar']}}.to_json }
+      end
+    end
+  end
+
   private
 
   def index
@@ -29,5 +45,9 @@ class UsersController < ApplicationController
       :nautical_work,
       :naval_service
     )
+  end
+
+  def avatar_params
+    params.require(:avatar).permit(:image, :filename)
   end
 end
