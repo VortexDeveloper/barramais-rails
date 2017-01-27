@@ -11,7 +11,7 @@ FactoryGirl.define do
     partner nil
     about Faker::Lorem.paragraph
     has_embarcation Faker::Boolean.boolean
-    nautical_work Faker::Lorem.paragraph
+    nautical_profession_description Faker::Lorem.paragraph
     naval_service Faker::Lorem.paragraph
     email Faker::Internet.email
     password '123456'
