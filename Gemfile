@@ -41,6 +41,7 @@ gem 'active_model_serializers'
 gem 'awesome_print'
 gem 'devise'
 gem 'devise-i18n'
+gem 'jwt'
 gem 'omniauth-facebook'
 gem 'rack-cors'
 gem 'rubocop', '~> 0.47.0', require: false
