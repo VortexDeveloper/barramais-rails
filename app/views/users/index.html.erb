@@ -33,14 +33,14 @@
         <td><%= user.nautical_professional %></td>
         <td><%= user.academic_profile %></td>
         <td><%= user.relationship %></td>
-        <td><%= user.user %></td>
+        <td><%= user.partner %></td>
         <td><%= user.about %></td>
         <td><%= user.has_embarcation %></td>
-        <td><%= user.nautical_work %></td>
+        <td><%= user.nautical_profession_description %></td>
         <td><%= user.naval_service %></td>
-        <td><%= link_to 'Show', user %></td>
-        <td><%= link_to 'Edit', edit_user_path(user) %></td>
-        <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%#= link_to 'Show', user %></td>
+        <td><%#= link_to 'Edit', edit_user_path(user) %></td>
+        <td><%#= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -48,4 +48,4 @@
 
 <br>
 
-<%= link_to 'New User', new_user_path %>
+<%#= link_to 'New User', new_user_path %>

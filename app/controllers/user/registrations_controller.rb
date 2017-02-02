@@ -1,7 +1,7 @@
 class User::RegistrationsController < Devise::RegistrationsController
 # before_action :configure_sign_up_params, only: [:create]
 # before_action :configure_account_update_params, only: [:update]
-  respond_to :json
+  respond_to :html, :json
 
   # GET /resource/sign_up
   # def new
@@ -19,9 +19,9 @@ class User::RegistrationsController < Devise::RegistrationsController
   # end
 
   # PUT /resource
-  # def update
-  #   super
-  # end
+  def update
+    super
+  end
 
   # DELETE /resource
   # def destroy
