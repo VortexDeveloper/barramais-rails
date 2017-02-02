@@ -18,5 +18,6 @@ module BarramaisRails
         resource '*', :headers => :any, :methods => [:get, :post, :options, :delete, :put, :patch]
       end
     end
+    config.autoload_paths << Rails.root.join('lib/jwt_wrapper.rb')
   end
 end

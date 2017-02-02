@@ -1,7 +1,8 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery with: :exception
+  protect_from_forgery with: :null_session
   before_action :verified_request?
   before_action :configure_permitted_parameters, if: :devise_controller?
+  respond_to :html, :json
 
   private
 
@@ -15,6 +16,20 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [
+        :first_name,
+        :last_name,
+        :cellphone,
+        :birthday,
+        :sex,
+        :nautical_professional,
+        :academic_profile,
+        :relationship,
+        :about,
+        :has_embarcation,
+        :nautical_profession_description,
+        :naval_service
+      ])
+    devise_parameter_sanitizer.permit(:account_update, keys: [
         :first_name,
         :last_name,
         :cellphone,
