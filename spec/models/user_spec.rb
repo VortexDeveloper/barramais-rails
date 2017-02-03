@@ -11,5 +11,11 @@ RSpec.describe User, type: :model do
         }.to change{ User.count }.by(1)
       end
     end
+
+    context "with invalid attributes" do
+      xit 'doesnt persist user' do
+
+      end
+    end
   end
 end
