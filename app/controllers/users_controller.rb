@@ -1,6 +1,10 @@
 class UsersController < ApplicationController
   before_action :set_user, except: [:index]
 
+  def index
+    @users = User.all
+  end
+
   def save_avatar
     image = Paperclip.io_adapters.for(avatar_params[:image])
     image.original_filename = "#{avatar_params[:filename]}"
