@@ -13,7 +13,12 @@ FactoryGirl.define do
     has_embarcation Faker::Boolean.boolean
     nautical_profession_description Faker::Lorem.paragraph
     naval_service Faker::Lorem.paragraph
-    email Faker::Internet.email
+    email
     password '123456'
   end
+
+   sequence :email do |n|
+     "teste#{n}@teste.com"
+   end
+
 end
