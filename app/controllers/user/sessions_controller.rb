@@ -16,7 +16,7 @@ class User::SessionsController < Devise::SessionsController
     yield resource if block_given?
     respond_with resource do |format|
       format.html { redirect_to after_sign_in_path_for(resource) }
-      format.json { render json: {token: JWTWrapper.encode(resource.as_json)} }
+      format.json { render json: {token: JWTWrapper.encode(resource.as_json)}}
     end
   end
 
