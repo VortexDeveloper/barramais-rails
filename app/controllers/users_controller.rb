@@ -23,6 +23,10 @@ class UsersController < ApplicationController
 
   private
 
+  def index
+    @users = User.all
+  end
+
   # Use callbacks to share common setup or constraints between actions.
   def set_user
     @user = User.find(params[:id])
@@ -37,6 +41,7 @@ class UsersController < ApplicationController
       :birthday,
       :sex,
       :nautical_professional,
+      :nautical_profession_description,
       :academic_profile,
       :relationship,
       :user_id,
