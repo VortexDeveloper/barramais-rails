@@ -1,3 +1,4 @@
+require 'jwt_wrapper'
 module Devise
   module Strategies
     class JsonWebToken < Base
@@ -8,9 +9,9 @@ module Devise
       def authenticate!
         claim = claims
         return fail! unless claim
-        return fail! unless claim.has_key?('user_id')
+        return fail! unless claim.has_key?('id')
 
-        success! User.find_by_id claim['user_id']
+        success! User.find_by_id claim['id']
       end
 
       protected
@@ -19,7 +20,11 @@ module Devise
         strategy, token = request.headers['Authorization'].split(' ')
         return nil if (strategy || '').downcase != 'bearer'
 
-        JWTWrapper.decode(token) rescue nil
+        begin
+          JWTWrapper.decode(token)
+        rescue => e
+          puts e
+        end
       end
     end
   end

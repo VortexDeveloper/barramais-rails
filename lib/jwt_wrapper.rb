@@ -1,3 +1,4 @@
+require 'jwt'
 module JWTWrapper
   extend self
 
@@ -14,8 +15,8 @@ module JWTWrapper
     begin
       decoded_token = JWT.decode token, Rails.application.secrets.jwt_secret
       decoded_token.first
-    rescue
-      nil
+    rescue => e
+      puts e
     end
   end
 end

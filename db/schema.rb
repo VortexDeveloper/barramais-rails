@@ -10,7 +10,95 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170126183856) do
+ActiveRecord::Schema.define(version: 20170202131904) do
+
+  create_table "addresses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "street"
+    t.string   "complement"
+    t.string   "neighborhood"
+    t.integer  "city_id"
+    t.integer  "state_id"
+    t.integer  "country_id"
+    t.string   "zip_code"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.integer  "event_id"
+    t.index ["city_id"], name: "index_addresses_on_city_id", using: :btree
+    t.index ["country_id"], name: "index_addresses_on_country_id", using: :btree
+    t.index ["event_id"], name: "index_addresses_on_event_id", using: :btree
+    t.index ["state_id"], name: "index_addresses_on_state_id", using: :btree
+  end
+
+  create_table "cities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.integer  "state_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["state_id"], name: "index_cities_on_state_id", using: :btree
+  end
+
+  create_table "countries", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.string   "code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "event_guests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "user_id"
+    t.integer  "event_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_event_guests_on_event_id", using: :btree
+    t.index ["user_id"], name: "index_event_guests_on_user_id", using: :btree
+  end
+
+  create_table "events", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.date     "event_date"
+    t.integer  "address_id"
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.string   "cover_photo_file_name"
+    t.string   "cover_photo_content_type"
+    t.integer  "cover_photo_file_size"
+    t.datetime "cover_photo_updated_at"
+    t.text     "about",                    limit: 65535
+    t.index ["address_id"], name: "index_events_on_address_id", using: :btree
+    t.index ["user_id"], name: "index_events_on_user_id", using: :btree
+  end
+
+  create_table "group_members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "user_id"
+    t.integer  "group_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_group_members_on_group_id", using: :btree
+    t.index ["user_id"], name: "index_group_members_on_user_id", using: :btree
+  end
+
+  create_table "groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.text     "about",                    limit: 65535
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.string   "cover_photo_file_name"
+    t.string   "cover_photo_content_type"
+    t.integer  "cover_photo_file_size"
+    t.datetime "cover_photo_updated_at"
+    t.index ["user_id"], name: "index_groups_on_user_id", using: :btree
+  end
+
+  create_table "states", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.string   "uf"
+    t.integer  "country_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["country_id"], name: "index_states_on_country_id", using: :btree
+  end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "first_name"
@@ -47,5 +135,18 @@ ActiveRecord::Schema.define(version: 20170126183856) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  add_foreign_key "addresses", "cities"
+  add_foreign_key "addresses", "countries"
+  add_foreign_key "addresses", "events"
+  add_foreign_key "addresses", "states"
+  add_foreign_key "cities", "states"
+  add_foreign_key "event_guests", "events"
+  add_foreign_key "event_guests", "users"
+  add_foreign_key "events", "addresses"
+  add_foreign_key "events", "users"
+  add_foreign_key "group_members", "groups"
+  add_foreign_key "group_members", "users"
+  add_foreign_key "groups", "users"
+  add_foreign_key "states", "countries"
   add_foreign_key "users", "users", column: "partner_id"
 end

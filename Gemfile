@@ -48,6 +48,7 @@ gem 'rubocop', '~> 0.47.0', require: false
 gem 'simplecov', require: false, group: :test
 gem 'validates_timeliness', '~> 4.0'
 gem 'paperclip', '~> 5.0.0'
+gem 'rails-controller-testing'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to
