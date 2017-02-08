@@ -41,6 +41,7 @@ class UsersController < ApplicationController
       :birthday,
       :sex,
       :nautical_professional,
+      :nautical_profession_description,
       :academic_profile,
       :relationship,
       :user_id,
