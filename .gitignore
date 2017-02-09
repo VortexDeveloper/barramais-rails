@@ -58,7 +58,7 @@ gen-external-apklibs
 
 ### ApacheCordova ###
 # Apache Cordova generated files and directories
-bin/*
+# bin/*
 !/plugins
 !/plugins/android.json
 !/plugins/fetch.json
