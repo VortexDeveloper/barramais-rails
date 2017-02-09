@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170202131904) do
+ActiveRecord::Schema.define(version: 20170209164629) do
 
   create_table "addresses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "street"
@@ -35,6 +35,16 @@ ActiveRecord::Schema.define(version: 20170202131904) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["state_id"], name: "index_cities_on_state_id", using: :btree
+  end
+
+  create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.text     "description", limit: 65535
+    t.integer  "post_id"
+    t.integer  "user_id"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.index ["post_id"], name: "index_comments_on_post_id", using: :btree
+    t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
   end
 
   create_table "countries", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -91,6 +101,14 @@ ActiveRecord::Schema.define(version: 20170202131904) do
     t.index ["user_id"], name: "index_groups_on_user_id", using: :btree
   end
 
+  create_table "posts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.text     "description", limit: 65535
+    t.integer  "user_id"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.index ["user_id"], name: "index_posts_on_user_id", using: :btree
+  end
+
   create_table "states", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.string   "uf"
@@ -140,6 +158,8 @@ ActiveRecord::Schema.define(version: 20170202131904) do
   add_foreign_key "addresses", "events"
   add_foreign_key "addresses", "states"
   add_foreign_key "cities", "states"
+  add_foreign_key "comments", "posts"
+  add_foreign_key "comments", "users"
   add_foreign_key "event_guests", "events"
   add_foreign_key "event_guests", "users"
   add_foreign_key "events", "addresses"
@@ -147,6 +167,7 @@ ActiveRecord::Schema.define(version: 20170202131904) do
   add_foreign_key "group_members", "groups"
   add_foreign_key "group_members", "users"
   add_foreign_key "groups", "users"
+  add_foreign_key "posts", "users"
   add_foreign_key "states", "countries"
   add_foreign_key "users", "users", column: "partner_id"
 end
