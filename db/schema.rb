@@ -12,7 +12,10 @@
 
 ActiveRecord::Schema.define(version: 20170209164629) do
 
-  create_table "addresses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "addresses", force: :cascade do |t|
     t.string   "street"
     t.string   "complement"
     t.string   "neighborhood"
@@ -29,7 +32,7 @@ ActiveRecord::Schema.define(version: 20170209164629) do
     t.index ["state_id"], name: "index_addresses_on_state_id", using: :btree
   end
 
-  create_table "cities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "cities", force: :cascade do |t|
     t.string   "name"
     t.integer  "state_id"
     t.datetime "created_at", null: false
@@ -37,24 +40,24 @@ ActiveRecord::Schema.define(version: 20170209164629) do
     t.index ["state_id"], name: "index_cities_on_state_id", using: :btree
   end
 
-  create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.text     "description", limit: 65535
+  create_table "comments", force: :cascade do |t|
+    t.text     "description"
     t.integer  "post_id"
     t.integer  "user_id"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
     t.index ["post_id"], name: "index_comments_on_post_id", using: :btree
     t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
   end
 
-  create_table "countries", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "countries", force: :cascade do |t|
     t.string   "name"
     t.string   "code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "event_guests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "event_guests", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "event_id"
     t.datetime "created_at", null: false
@@ -63,23 +66,23 @@ ActiveRecord::Schema.define(version: 20170209164629) do
     t.index ["user_id"], name: "index_event_guests_on_user_id", using: :btree
   end
 
-  create_table "events", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "events", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "name"
     t.date     "event_date"
     t.integer  "address_id"
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.string   "cover_photo_file_name"
     t.string   "cover_photo_content_type"
     t.integer  "cover_photo_file_size"
     t.datetime "cover_photo_updated_at"
-    t.text     "about",                    limit: 65535
+    t.text     "about"
     t.index ["address_id"], name: "index_events_on_address_id", using: :btree
     t.index ["user_id"], name: "index_events_on_user_id", using: :btree
   end
 
-  create_table "group_members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "group_members", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "group_id"
     t.datetime "created_at", null: false
@@ -88,12 +91,12 @@ ActiveRecord::Schema.define(version: 20170209164629) do
     t.index ["user_id"], name: "index_group_members_on_user_id", using: :btree
   end
 
-  create_table "groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "groups", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "name"
-    t.text     "about",                    limit: 65535
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.text     "about"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.string   "cover_photo_file_name"
     t.string   "cover_photo_content_type"
     t.integer  "cover_photo_file_size"
@@ -101,15 +104,15 @@ ActiveRecord::Schema.define(version: 20170209164629) do
     t.index ["user_id"], name: "index_groups_on_user_id", using: :btree
   end
 
-  create_table "posts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.text     "description", limit: 65535
+  create_table "posts", force: :cascade do |t|
+    t.text     "description"
     t.integer  "user_id"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
     t.index ["user_id"], name: "index_posts_on_user_id", using: :btree
   end
 
-  create_table "states", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "states", force: :cascade do |t|
     t.string   "name"
     t.string   "uf"
     t.integer  "country_id"
@@ -118,28 +121,28 @@ ActiveRecord::Schema.define(version: 20170209164629) do
     t.index ["country_id"], name: "index_states_on_country_id", using: :btree
   end
 
-  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "users", force: :cascade do |t|
     t.string   "first_name"
     t.string   "last_name"
     t.string   "cellphone"
     t.date     "birthday"
     t.string   "sex"
     t.integer  "nautical_professional"
-    t.text     "academic_profile",                limit: 65535
+    t.text     "academic_profile"
     t.integer  "relationship"
     t.integer  "partner_id"
-    t.text     "about",                           limit: 65535
+    t.text     "about"
     t.integer  "has_embarcation"
-    t.text     "nautical_profession_description", limit: 65535
-    t.text     "naval_service",                   limit: 65535
-    t.datetime "created_at",                                                 null: false
-    t.datetime "updated_at",                                                 null: false
-    t.string   "email",                                         default: "", null: false
-    t.string   "encrypted_password",                            default: "", null: false
+    t.text     "nautical_profession_description"
+    t.text     "naval_service"
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
+    t.string   "email",                           default: "", null: false
+    t.string   "encrypted_password",              default: "", null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                                 default: 0,  null: false
+    t.integer  "sign_in_count",                   default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
