@@ -9,8 +9,8 @@ Rails.application.routes.draw do
   get "users/index"
   resources :groups
   resources :events
-
-
+  resources :coments
+  resources :posts
 
   root to: 'users#index'
 
