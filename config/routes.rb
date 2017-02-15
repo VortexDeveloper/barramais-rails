@@ -8,9 +8,15 @@ Rails.application.routes.draw do
   put 'events/:id/save_cover_photo' => 'events#save_cover_photo', as: 'events_save_cover_photo'
   get "users/index"
   resources :groups
-  resources :events
 
-
+  resources :events do
+    collection do
+      get 'country_states_city' => 'events#country_states_city'
+      get 'country_for_select' => 'events#country_for_select'
+      get 'cities_for_select/:id' => 'events#cities_for_select'
+      get 'states_for_select/:id' => 'events#states_for_select'
+    end
+  end
 
   root to: 'users#index'
 
