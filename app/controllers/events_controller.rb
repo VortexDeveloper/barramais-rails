@@ -18,10 +18,35 @@ class EventsController < ApplicationController
     end
   end
 
+  def country_for_select
+    @response = { country: Country.all }
+    respond_to do |format|
+      format.json { render json: @response.to_json }
+    end
+  end
+
+  def cities_for_select
+    @response = { city: City.where(state_id: params[:id]) }
+    respond_to do |format|
+      format.json { render json: @response.to_json }
+    end
+  end
+
+  def states_for_select
+    @response = { state: State.where(country_id: params[:id]) }
+    respond_to do |format|
+      format.json { render json: @response.to_json }
+    end
+  end
+
   # GET /events
   # GET /events.json
   def index
-    @events = Event.all
+    @events = { events: Event.all }
+    respond_to do |format|
+      format.json { render json: @events.to_json }
+      format.html { render :index }
+    end
   end
 
   # GET /events/1
@@ -42,11 +67,11 @@ class EventsController < ApplicationController
   # POST /events.json
   def create
     @event = Event.new(event_params)
-
+    @event.create_address(address_params)
     respond_to do |format|
       if @event.save
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
-        format.json { render :show, status: :created, location: @event }
+        format.json { render json: @event.to_json }
       else
         format.html { render :new }
         format.json { render json: @event.errors, status: :unprocessable_entity }
@@ -54,7 +79,7 @@ class EventsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /events/1
+  # PATCH/PUT /events/
   # PATCH/PUT /events/1.json
   def update
     respond_to do |format|
@@ -96,5 +121,18 @@ class EventsController < ApplicationController
 
     def cover_photo_params
       params.require(:cover_photo).permit(:image, :filename)
+    end
+
+    def address_params
+      params.require(:address).permit(
+        :street,
+        :complement,
+        :neighborhood,
+        :city_id,
+        :state_id,
+        :country_id,
+        :zip_code,
+        :event_id
+      )
     end
 end
