@@ -18,6 +18,9 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :coments
+  resources :posts
+
   root to: 'users#index'
 
 end
