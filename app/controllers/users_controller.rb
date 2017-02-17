@@ -1,8 +1,15 @@
 class UsersController < ApplicationController
-  before_action :set_user, except: [:index]
+  before_action :set_user, except: [:index, :friends]
 
-  def index
-    @users = User.all
+  def friends
+    response = { users: User.all.order(:first_name) }
+    respond_for response
+  end
+
+  def respond_for response
+    respond_to do |format|
+      format.json { render json: response.to_json }
+    end
   end
 
   def save_avatar

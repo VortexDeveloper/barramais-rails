@@ -1,32 +1,40 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: [:show, :edit, :update, :destroy, :save_cover_photo]
+  before_action :set_event, only: [:show, :edit, :update, :destroy, :save_cover_photo, :invitation]
 
 
   def save_cover_photo event
     image = Paperclip.io_adapters.for(cover_photo_params[:image])
     image.original_filename = "#{cover_photo_params[:filename]}"
     event.cover_photo = image
+    event.save
   end
 
   def country_for_select
-    @response = { country: Country.all }
-    respond_to do |format|
-      format.json { render json: @response.to_json }
-    end
+    response = { countrys: Country.all }
+    respond_for response
   end
 
   def cities_for_select
-    @response = { city: City.where(state_id: params[:id]) }
-    respond_to do |format|
-      format.json { render json: @response.to_json }
-    end
+    response = { cities: City.where(state_id: params[:id]).order(:name) }
+    respond_for response
   end
 
   def states_for_select
-    @response = { state: State.where(country_id: params[:id]) }
+    response = { states: State.where(country_id: params[:id]).order(:name) }
+    respond_for response
+  end
+
+  def respond_for response
     respond_to do |format|
-      format.json { render json: @response.to_json }
+      format.json { render json: response.to_json }
     end
+  end
+
+  def invitation
+    user = User.find(params[:user])
+    @event.users << user
+    response = { event_users: @event.users }
+    respond_for response
   end
 
   # GET /events
@@ -107,6 +115,7 @@ class EventsController < ApplicationController
         :event_date,
         :about,
         :address_id,
+
       )
     end
 
@@ -127,6 +136,12 @@ class EventsController < ApplicationController
         :country_id,
         :zip_code,
         :event_id
+      )
+    end
+
+    def user_params
+      params.require(:user).permit(
+        :user_id
       )
     end
 end
