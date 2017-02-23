@@ -96,13 +96,14 @@ ActiveRecord::Schema.define(version: 20170223190203) do
   end
 
   create_table "event_guests", force: :cascade do |t|
-    t.integer  "user_id"
+    t.integer  "guest_id"
     t.integer  "event_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer  "accepted"
+    t.integer  "status"
     t.index ["event_id"], name: "index_event_guests_on_event_id", using: :btree
-    t.index ["user_id"], name: "index_event_guests_on_user_id", using: :btree
+    t.index ["guest_id", "event_id"], name: "index_event_guests_on_guest_id_and_event_id", unique: true, using: :btree
+    t.index ["guest_id"], name: "index_event_guests_on_guest_id", using: :btree
   end
 
   create_table "events", force: :cascade do |t|
@@ -231,7 +232,7 @@ ActiveRecord::Schema.define(version: 20170223190203) do
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
   add_foreign_key "event_guests", "events"
-  add_foreign_key "event_guests", "users"
+  add_foreign_key "event_guests", "users", column: "guest_id"
   add_foreign_key "events", "addresses"
   add_foreign_key "events", "users"
   add_foreign_key "group_members", "groups"
