@@ -28,6 +28,22 @@ class UsersController < ApplicationController
     end
   end
 
+  def my_events
+    @events = @user.events.order(:event_date)
+  end
+
+  def confirmed_events
+    @events = @user.confirmed_events.order(:event_date)
+  end
+
+  def pending_events
+    @events = @user.pending_events.order(:event_date)
+  end
+
+  def refused_events
+    @events = @user.refused_events.order(:event_date)
+  end
+
   private
 
   def index
