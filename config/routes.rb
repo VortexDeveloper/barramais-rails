@@ -24,12 +24,22 @@ Rails.application.routes.draw do
       get 'all_guests/:id' => 'events#all_guests'
       get 'confirmed_guests/:id' => 'events#confirmed_guests'
       get 'pending_guests/:id' => 'events#pending_guests'
-      get 'refused_guests/:id' => 'events#refused_guests' 
+      get 'refused_guests/:id' => 'events#refused_guests'
       put 'invitation/:id' => 'events#invitation'
     end
   end
 
   resources :coments
   resources :posts
+
+  resources :advertisers do
+    collection do
+      get 'country_for_select' => 'advertisers#country_for_select'
+      get 'cities_for_select/:id' => 'advertisers#cities_for_select'
+      get 'states_for_select/:id' => 'advertisers#states_for_select'
+
+    end
+  end
+
 
 end
