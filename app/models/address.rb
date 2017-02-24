@@ -1,8 +1,19 @@
 class Address < ApplicationRecord
+  belongs_to :advertiser
+
   belongs_to :city
   belongs_to :state
   belongs_to :country
 
-  has_many :address_relations
-  has_many :advertisers, through: :address_relations
+  def city_name
+    city_id.name
+  end
+
+  def state_name
+    state_id.name
+  end
+
+  def state_uf
+    state_id.uf
+  end
 end
