@@ -22,10 +22,10 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 local: &local
-  #username: vortex
-  #password: vorteX20**
-  username: arthur
-  password: bkur5etc10
+  username: vortex
+  password: vorteX20**
+  #username: arthur
+  #password: bkur5etc10
   # username: vortex
   # password: vortex20**
 
