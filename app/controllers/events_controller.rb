@@ -158,7 +158,6 @@ class EventsController < ApplicationController
         :event_date,
         :about,
         :address_id,
-
       )
     end
 
