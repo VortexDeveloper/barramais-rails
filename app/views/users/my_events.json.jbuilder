@@ -5,6 +5,7 @@ json.my_events do
     json.id event.id
     json.user_id event.user_id
     json.name event.name
+    json.cover_photo_url event.cover_photo.url
     json.address event.address
     json.state event.address.state
     json.city event.address.city
