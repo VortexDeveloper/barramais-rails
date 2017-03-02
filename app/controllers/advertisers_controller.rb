@@ -49,6 +49,8 @@ class AdvertisersController < ApplicationController
   def new
     @advertiser = Advertiser.new
     @advertiser.address = Address.new
+    @advertiser.landline = Landline.new
+    @advertiser.cell_phone = CellPhone.new
 
   end
 
@@ -62,7 +64,8 @@ class AdvertisersController < ApplicationController
     @advertiser = Advertiser.new(advertiser_params)
     @advertiser.create_address(address_params)
     #@advertiser.create_phone(phone_params)
-    @advertiser.phones << Phone.create(phone_params)
+    @advertiser.create_landline(landline_params)
+    @advertiser.create_cell_phone(cell_phone_params)
 
     respond_to do |format|
       if @advertiser.save
@@ -131,9 +134,14 @@ class AdvertisersController < ApplicationController
       )
     end
 
-    def phone_params
-      params.require(:phone).permit(
-        :phone_type,
+    def landline_params
+      params.require(:landline).permit(
+        :number
+      )
+    end
+
+    def cell_phone_params
+      params.require(:cell_phone).permit(
         :number
       )
     end
