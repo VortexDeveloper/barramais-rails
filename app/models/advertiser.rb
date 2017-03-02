@@ -1,8 +1,8 @@
 class Advertiser < ApplicationRecord
   has_one :address
+  has_one :landline
+  has_one :cell_phone
 
-  has_many :phonebooks
-  has_many :phones, through: :phonebooks
   has_many :transactions
   has_many :ads, through: :transactions
 
@@ -34,5 +34,13 @@ class Advertiser < ApplicationRecord
 
   def state_uf
     address.state_id.uf
+  end
+
+  def landline_number
+    landline.number
+  end
+
+  def cell_phone_number
+    cell_phone.number
   end
 end
