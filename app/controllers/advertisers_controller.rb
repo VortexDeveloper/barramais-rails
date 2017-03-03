@@ -8,6 +8,11 @@ class AdvertisersController < ApplicationController
     end
   end
 
+  def all_ads
+    response = {all_ads: @advertiser.all_ads}
+    respond_for response
+  end
+
   #Seleção de países
   def country_for_select
     response = { countrys: Country.all }
@@ -75,6 +80,20 @@ class AdvertisersController < ApplicationController
     end
   end
 
+  def create_ad
+    @ad = Ad.new(ad_params)
+
+    respond_to do |format|
+      if @ad.save
+        format.html { redirect_to @ad, notice: 'Ad was successfully created.' }
+        format.json { render json: @ad.to_json }
+      else
+        format.html { render :new }
+        format.json { render json: @ad.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # PATCH/PUT /advertisers/1
   # PATCH/PUT /advertisers/1.json
   def update
@@ -127,6 +146,12 @@ class AdvertisersController < ApplicationController
         :country_id,
         :zip_code,
         :advertiser_id
+      )
+    end
+
+    def ad_params
+      params.require(:ad).permit(
+        :description
       )
     end
 end
