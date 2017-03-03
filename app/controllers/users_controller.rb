@@ -42,7 +42,7 @@ class UsersController < ApplicationController
 
   def refused_events
     @events = @user.refused_events.order(:event_date)
-  end
+  end 
 
   private
 

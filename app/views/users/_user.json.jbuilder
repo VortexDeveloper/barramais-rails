@@ -3,3 +3,4 @@ json.extract! user, :id, :first_name, :last_name, :cellphone, :birthday, :sex,
               :user_id, :about, :has_embarcation, :nautical_work,
               :naval_service, :created_at, :updated_at
 json.url user_url(user, format: :json)
+json.advertiser user.advertiser

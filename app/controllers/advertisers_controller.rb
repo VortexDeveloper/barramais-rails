@@ -49,8 +49,7 @@ class AdvertisersController < ApplicationController
   def new
     @advertiser = Advertiser.new
     @advertiser.address = Address.new
-    @advertiser.landline = Landline.new
-    @advertiser.cell_phone = CellPhone.new
+    @advertiser.user_id = current_user.id
 
   end
 
@@ -63,9 +62,7 @@ class AdvertisersController < ApplicationController
   def create
     @advertiser = Advertiser.new(advertiser_params)
     @advertiser.create_address(address_params)
-    #@advertiser.create_phone(phone_params)
-    @advertiser.create_landline(landline_params)
-    @advertiser.create_cell_phone(cell_phone_params)
+    @advertiser.user_id = current_user.id
 
     respond_to do |format|
       if @advertiser.save
@@ -111,7 +108,6 @@ class AdvertisersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def advertiser_params
       params.require(:advertiser).permit(
-        :name,
         :document_type,
         :document_number,
         :email,
@@ -131,18 +127,6 @@ class AdvertisersController < ApplicationController
         :country_id,
         :zip_code,
         :advertiser_id
-      )
-    end
-
-    def landline_params
-      params.require(:landline).permit(
-        :number
-      )
-    end
-
-    def cell_phone_params
-      params.require(:cell_phone).permit(
-        :number
       )
     end
 end
