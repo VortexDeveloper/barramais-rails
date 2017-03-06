@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get 'users/confirmed_events/:id' => 'users#confirmed_events'
   get 'users/refused_events/:id' => 'users#refused_events'
   get 'users/pending_events/:id' => 'users#pending_events'
+  get 'users/user_advertiser/:id' => 'users#user_advertiser'
 
   resources :groups
 
