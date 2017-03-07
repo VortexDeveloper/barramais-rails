@@ -1,6 +1,9 @@
 class User < ApplicationRecord
   # ASSOCIATIONS
   belongs_to :partner, class_name: User, optional: true
+
+  has_one :advertiser
+
   has_many :groups
   has_many :events
   has_many :posts

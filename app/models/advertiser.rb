@@ -1,8 +1,8 @@
 class Advertiser < ApplicationRecord
+  belongs_to :user
+
   has_one :address
 
-  has_many :phonebooks
-  has_many :phones, through: :phonebooks
   has_many :transactions
   has_many :ads, through: :transactions
 

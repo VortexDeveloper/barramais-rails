@@ -8,6 +8,11 @@ class AdvertisersController < ApplicationController
     end
   end
 
+  def all_ads
+    response = {all_ads: @advertiser.all_ads}
+    respond_for response
+  end
+
   #Seleção de países
   def country_for_select
     response = { countrys: Country.all }
@@ -49,7 +54,8 @@ class AdvertisersController < ApplicationController
   def new
     @advertiser = Advertiser.new
     @advertiser.address = Address.new
-    @advertiser.phones << Phone.new
+    @advertiser.user_id = current_user.id
+
   end
 
   # GET /advertisers/1/edit
@@ -61,7 +67,7 @@ class AdvertisersController < ApplicationController
   def create
     @advertiser = Advertiser.new(advertiser_params)
     @advertiser.create_address(address_params)
-    @advertiser.create_phone(phone_params)
+    @advertiser.user_id = current_user.id
 
     respond_to do |format|
       if @advertiser.save
@@ -70,6 +76,20 @@ class AdvertisersController < ApplicationController
       else
         format.html { render :new }
         format.json { render json: @advertiser.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def create_ad
+    @ad = Ad.new(ad_params)
+
+    respond_to do |format|
+      if @ad.save
+        format.html { redirect_to @ad, notice: 'Ad was successfully created.' }
+        format.json { render json: @ad.to_json }
+      else
+        format.html { render :new }
+        format.json { render json: @ad.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -107,7 +127,6 @@ class AdvertisersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def advertiser_params
       params.require(:advertiser).permit(
-        :name,
         :document_type,
         :document_number,
         :email,
@@ -134,6 +153,12 @@ class AdvertisersController < ApplicationController
       params.require(:phone).permit(
         :type,
         :number
+      )
+    end
+
+    def ad_params
+      params.require(:ad).permit(
+        :description
       )
     end
 end

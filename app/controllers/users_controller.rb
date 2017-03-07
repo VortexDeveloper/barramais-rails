@@ -12,6 +12,12 @@ class UsersController < ApplicationController
     end
   end
 
+  def user_advertiser
+    @user.advertiser
+    #response = { user_advertiser: @user.advertiser }
+    #respond_for response
+  end
+
   def save_avatar
     image = Paperclip.io_adapters.for(avatar_params[:image])
     image.original_filename = "#{avatar_params[:filename]}"
