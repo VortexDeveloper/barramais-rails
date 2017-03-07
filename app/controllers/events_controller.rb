@@ -56,11 +56,13 @@ class EventsController < ApplicationController
     respond_for response
   end
 
+
   #Convida usuário e retorna lista de convidados atualizada
   def invitation
     begin
-      new_guest = User.find(params[:user])
-      @event.guests << new_guest
+      params[:guests].each do |guest|
+        @event.guests << User.find(guest[:id])
+      end
       response = { guests: @event.guests.order(:first_name) }
       respond_for response
     rescue ActiveRecord::RecordInvalid => e
@@ -157,7 +159,7 @@ class EventsController < ApplicationController
         :name,
         :event_date,
         :about,
-        :address_id,
+        :address_id
       )
     end
 

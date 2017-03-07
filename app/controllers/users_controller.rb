@@ -44,6 +44,20 @@ class UsersController < ApplicationController
     @events = @user.refused_events.order(:event_date)
   end
 
+  def accept_event
+    event = Event.find(params[:event])
+    @user.accept_event(event)
+    response = { sucess: "Convite aceito!" }
+    respond_for response
+  end
+
+  def refuse_event
+    event = Event.find(params[:event])
+    @user.refuse_event(event)
+    response = { sucess: "Convite recusado!" }
+    respond_for response
+  end
+
   private
 
   def index

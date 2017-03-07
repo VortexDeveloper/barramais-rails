@@ -131,7 +131,9 @@ class AdvertisersController < ApplicationController
     end
 
     def phone_params
-      :type,
-      :number
+      params.require(:phone).permit(
+        :type,
+        :number
+      )
     end
 end
