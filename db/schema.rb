@@ -15,6 +15,15 @@ ActiveRecord::Schema.define(version: 20170224161556) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "address_relations", force: :cascade do |t|
+    t.integer  "advertiser_id"
+    t.integer  "address_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["address_id"], name: "index_address_relations_on_address_id", using: :btree
+    t.index ["advertiser_id"], name: "index_address_relations_on_advertiser_id", using: :btree
+  end
+
   create_table "addresses", force: :cascade do |t|
     t.string   "street"
     t.string   "complement"
@@ -222,6 +231,8 @@ ActiveRecord::Schema.define(version: 20170224161556) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  add_foreign_key "address_relations", "addresses"
+  add_foreign_key "address_relations", "advertisers"
   add_foreign_key "addresses", "advertisers"
   add_foreign_key "addresses", "cities"
   add_foreign_key "addresses", "countries"

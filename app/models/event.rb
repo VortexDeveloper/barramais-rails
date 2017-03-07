@@ -9,9 +9,9 @@ class Event < ApplicationRecord
   has_attached_file :cover_photo, styles: { large: "1368x500>", medium: "800x400>", small: "500x300>" }, default_url: "/images/:style/cover_photo.png"
   validates_attachment_content_type :cover_photo, content_type: /\Aimage\/.*\z/
 
-  scope :accepted_by, ->(user) {join_to_user(user).where(event_guests: {status: :accept})}
-  scope :refused_by, ->(user) {join_to_user(user).where(event_guests: {status: :refuse})}
-  scope :pending_by, ->(user) {join_to_user(user).where(event_guests: {status: :pending})}
+  scope :accepted_by, -> (user) {join_to_user(user).where(event_guests: {status: :accept})}
+  scope :refused_by,  -> (user) {join_to_user(user).where(event_guests: {status: :refuse})}
+  scope :pending_by,  -> (user) {join_to_user(user).where(event_guests: {status: :pending})}
 
   def confirmed_guests
     User.accepted_by(self)
