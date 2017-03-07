@@ -5,7 +5,7 @@ class UsersController < ApplicationController
     response = { users: User.all.order(:first_name) }
     respond_for response
   end
-
+ 
   def respond_for response
     respond_to do |format|
       format.json { render json: response.to_json }
