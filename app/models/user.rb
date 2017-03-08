@@ -8,6 +8,8 @@ class User < ApplicationRecord
   has_many :events
   has_many :posts
   has_many :event_invitations, foreign_key: "guest_id", class_name: "EventGuest"
+  has_many :messages
+  has_many :conversations, foreign_key: :sender_id
 
   # VENDOR METHODS
 
