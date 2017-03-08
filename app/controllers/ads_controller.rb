@@ -1,6 +1,6 @@
 class AdsController < ApplicationController
   before_action :set_ad, only: [:show, :edit, :update, :destroy]
-
+  skip_before_filter :verify_authenticity_token
   # GET /ads
   # GET /ads.json
   def index
