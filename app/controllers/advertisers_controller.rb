@@ -77,10 +77,11 @@ class AdvertisersController < ApplicationController
   end
 
   def create_ad
-    @ad = Ad.new(ad_params)
+    ad = Ad.new(ad_params)
+    @advertiser.ads << ad
 
     respond_to do |format|
-      if @ad.save
+      if @advertiser.save
         format.html { redirect_to @ad, notice: 'Ad was successfully created.' }
         format.json { render json: @ad.to_json }
       else
