@@ -50,6 +50,18 @@ class UsersController < ApplicationController
     @events = @user.refused_events.order(:event_date)
   end
 
+  def my_pending_invitations
+    @invitations = @user.event_invitations.where(status: :pending).order(:created_at)
+  end
+
+  def my_confirmed_invitations
+    @invitations = @user.event_invitations.where(status: :accept).order(:created_at)
+  end
+
+  def my_refused_invitations
+    @invitations = @user.event_invitations.where(status: :refuse).order(:created_at)
+  end
+
   def accept_event
     event = Event.find(params[:event])
     @user.accept_event(event)

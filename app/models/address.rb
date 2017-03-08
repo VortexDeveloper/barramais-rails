@@ -1,5 +1,4 @@
 class Address < ApplicationRecord
-  belongs_to :advertiser
 
   belongs_to :city
   belongs_to :state

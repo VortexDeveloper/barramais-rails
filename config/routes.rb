@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   get "users/index"
   get 'users/friends'
   get 'users/my_events/:id' => 'users#my_events'
+  get 'users/my_pending_invitations/:id' => 'users#my_pending_invitations'
+  get 'users/my_refused_invitations/:id' => 'users#my_refused_invitations'
+  get 'users/my_confirmed_invitations/:id' => 'users#my_confirmed_invitations'
   get 'users/confirmed_events/:id' => 'users#confirmed_events'
   get 'users/refused_events/:id' => 'users#refused_events'
   get 'users/pending_events/:id' => 'users#pending_events'
