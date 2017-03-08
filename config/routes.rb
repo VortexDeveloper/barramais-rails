@@ -41,7 +41,7 @@ Rails.application.routes.draw do
       get 'cities_for_select/:id' => 'advertisers#cities_for_select'
       get 'states_for_select/:id' => 'advertisers#states_for_select'
       get 'all_ads/:id' => 'advertisers#all_ads'
-      post 'create_ad' => 'advertisers#create_ad'
+      post 'create_ad/:id' => 'advertisers#create_ad'
     end
   end
 
