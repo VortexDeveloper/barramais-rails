@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170302192927) do
+ActiveRecord::Schema.define(version: 20170308142036) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,10 +32,8 @@ ActiveRecord::Schema.define(version: 20170302192927) do
     t.integer  "state_id"
     t.integer  "country_id"
     t.string   "zip_code"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-    t.integer  "advertiser_id"
-    t.index ["advertiser_id"], name: "index_addresses_on_advertiser_id", using: :btree
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
     t.index ["city_id"], name: "index_addresses_on_city_id", using: :btree
     t.index ["country_id"], name: "index_addresses_on_country_id", using: :btree
     t.index ["state_id"], name: "index_addresses_on_state_id", using: :btree
@@ -220,7 +218,6 @@ ActiveRecord::Schema.define(version: 20170302192927) do
 
   add_foreign_key "address_relations", "addresses"
   add_foreign_key "address_relations", "advertisers"
-  add_foreign_key "addresses", "advertisers"
   add_foreign_key "addresses", "cities"
   add_foreign_key "addresses", "countries"
   add_foreign_key "addresses", "states"

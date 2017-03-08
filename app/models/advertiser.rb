@@ -1,7 +1,6 @@
 class Advertiser < ApplicationRecord
   belongs_to :user
-
-  has_one :address
+  belongs_to :address
 
   has_many :transactions
   has_many :ads, through: :transactions

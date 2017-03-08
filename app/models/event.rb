@@ -1,7 +1,7 @@
 class Event < ApplicationRecord
   belongs_to :user
   belongs_to :address
-  has_many :event_guests
+  has_many :event_guests, dependent: :destroy
   has_many :guests, through: :event_guests
 
   validates :name, :event_date, presence: true

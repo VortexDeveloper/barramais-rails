@@ -35,10 +35,6 @@ class AdvertisersController < ApplicationController
     @address = @advertiser.address
   end
 
-  def my_phones
-    @phones = @advertiser.phones
-  end
-
   # GET /advertisers
   # GET /advertisers.json
   def index
@@ -146,13 +142,6 @@ class AdvertisersController < ApplicationController
         :country_id,
         :zip_code,
         :advertiser_id
-      )
-    end
-
-    def phone_params
-      params.require(:phone).permit(
-        :type,
-        :number
       )
     end
 

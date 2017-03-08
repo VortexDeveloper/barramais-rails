@@ -115,7 +115,7 @@ class EventsController < ApplicationController
         current_user.accept_event @event
         save_cover_photo(@event)
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
-        format.json { render json: @event.to_json }
+        format.json { render @event }
       else
         format.html { render :new }
         format.json { render json: @event.errors, status: :unprocessable_entity }
