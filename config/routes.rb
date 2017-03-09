@@ -48,6 +48,10 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :ads
+  resources :ads do
+    collection do
+      get 'interest_list' => 'ads#interest_list'
+    end
+  end
 
 end

@@ -143,7 +143,8 @@ class AdvertisersController < ApplicationController
 
     def ad_params
       params.require(:ad).permit(
-        :description
+        :description,
+        :area
       )
     end
 end
