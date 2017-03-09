@@ -200,9 +200,6 @@ ActiveRecord::Schema.define(version: 20170308142036) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
-  add_foreign_key "address_relations", "addresses"
-  add_foreign_key "address_relations", "advertisers"
-  add_foreign_key "addresses", "advertisers"
   add_foreign_key "addresses", "cities"
   add_foreign_key "addresses", "countries"
   add_foreign_key "addresses", "states"
