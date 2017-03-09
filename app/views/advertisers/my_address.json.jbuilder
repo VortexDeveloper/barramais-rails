@@ -6,4 +6,3 @@ json.city_id address.city_id
 json.state_id address.state_id
 json.country_id address.country_id
 json.zip_code address.zip_code
-json.advertiser_id address.advertiser_id
