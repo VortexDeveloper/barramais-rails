@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170308142036) do
+ActiveRecord::Schema.define(version: 20170309125236) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,8 @@ ActiveRecord::Schema.define(version: 20170308142036) do
     t.integer  "user_id"
     t.string   "landline"
     t.string   "cell_phone"
+    t.integer  "address_id"
+    t.index ["address_id"], name: "index_advertisers_on_address_id", using: :btree
     t.index ["user_id"], name: "index_advertisers_on_user_id", using: :btree
   end
 
@@ -139,6 +141,13 @@ ActiveRecord::Schema.define(version: 20170308142036) do
     t.index ["user_id"], name: "index_groups_on_user_id", using: :btree
   end
 
+  create_table "plans", force: :cascade do |t|
+    t.string   "name"
+    t.float    "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "posts", force: :cascade do |t|
     t.text     "description"
     t.integer  "user_id"
@@ -203,6 +212,7 @@ ActiveRecord::Schema.define(version: 20170308142036) do
   add_foreign_key "addresses", "cities"
   add_foreign_key "addresses", "countries"
   add_foreign_key "addresses", "states"
+  add_foreign_key "advertisers", "addresses"
   add_foreign_key "advertisers", "users"
   add_foreign_key "areas", "ads"
   add_foreign_key "cities", "states"

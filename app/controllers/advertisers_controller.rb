@@ -48,10 +48,6 @@ class AdvertisersController < ApplicationController
 
   # GET /advertisers/new
   def new
-    @advertiser = Advertiser.new
-    @advertiser.address = Address.new
-    @advertiser.user_id = current_user.id
-
   end
 
   # GET /advertisers/1/edit
@@ -61,9 +57,10 @@ class AdvertisersController < ApplicationController
   # POST /advertisers
   # POST /advertisers.json
   def create
+
     @advertiser = Advertiser.new(advertiser_params)
     @advertiser.create_address(address_params)
-    @advertiser.user_id = current_user.id
+    @advertiser.user = current_user
 
     respond_to do |format|
       if @advertiser.save
@@ -140,8 +137,7 @@ class AdvertisersController < ApplicationController
         :city_id,
         :state_id,
         :country_id,
-        :zip_code,
-        :advertiser_id
+        :zip_code
       )
     end
 
