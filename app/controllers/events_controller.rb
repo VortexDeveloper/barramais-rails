@@ -178,8 +178,7 @@ class EventsController < ApplicationController
         :city_id,
         :state_id,
         :country_id,
-        :zip_code,
-        :event_id
+        :zip_code
       )
     end
 
