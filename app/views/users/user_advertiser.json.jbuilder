@@ -7,7 +7,7 @@ json.user_advertiser do
 
     json.ads do
       json.array!(@user.advertiser.ads) do |ad|
-        json.extract! ad, :id, :description, :created_at, :updated_at
+        json.extract! ad, :id, :description, :created_at, :updated_at, :area
         json.photo_url ad.photo.url
       end
     end

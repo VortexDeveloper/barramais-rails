@@ -7,6 +7,17 @@ class AdsController < ApplicationController
     @ads = Ad.all
   end
 
+  def respond_for response
+    respond_to do |format|
+      format.json { render json: response.to_json }
+    end
+  end
+
+  def interest_list
+    response = { interest_list: InterestArea.all.order(:id) }
+    respond_for response
+  end
+
   # GET /ads/1
   # GET /ads/1.json
   def show
