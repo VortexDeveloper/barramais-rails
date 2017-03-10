@@ -2,7 +2,9 @@ class UsersController < ApplicationController
   before_action :set_user, except: [:index, :friends]
 
   def friends
-    response = { users: User.all.order(:first_name) }
+    event = Event.find(params[:event])
+    response = { users: User.joins(:event_invitations).where(event_guests: {event_id: event.id}).where.not(id: event.all_guests) }
+    # response = { users: User.all.order(:first_name) }
     respond_for response
   end
 
@@ -14,8 +16,6 @@ class UsersController < ApplicationController
 
   def user_advertiser
     @user.advertiser
-    #response = { user_advertiser: @user.advertiser }
-    #respond_for response
   end
 
   def save_avatar
@@ -50,17 +50,17 @@ class UsersController < ApplicationController
     @events = @user.refused_events.order(:event_date)
   end
 
-  def my_pending_invitations
-    @invitations = @user.event_invitations.where(status: :pending).order(:created_at)
-  end
-
-  def my_confirmed_invitations
-    @invitations = @user.event_invitations.where(status: :accept).order(:created_at)
-  end
-
-  def my_refused_invitations
-    @invitations = @user.event_invitations.where(status: :refuse).order(:created_at)
-  end
+  # def my_pending_invitations
+  #   @invitations = @user.event_invitations.where(status: :pending).order(:created_at)
+  # end
+  #
+  # def my_confirmed_invitations
+  #   @invitations = @user.event_invitations.where(status: :accept).order(:created_at)
+  # end
+  #
+  # def my_refused_invitations
+  #   @invitations = @user.event_invitations.where(status: :refuse).order(:created_at)
+  # end
 
   def accept_event
     event = Event.find(params[:event])
@@ -108,6 +108,9 @@ class UsersController < ApplicationController
   end
 
   def avatar_params
-    params.require(:avatar).permit(:image, :filename)
+    params.require(:avatar).permit(
+    :image,
+    :filename
+    )
   end
 end
