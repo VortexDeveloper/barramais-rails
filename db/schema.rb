@@ -238,7 +238,6 @@ ActiveRecord::Schema.define(version: 20170308142036) do
 
   add_foreign_key "address_relations", "addresses"
   add_foreign_key "address_relations", "advertisers"
-  add_foreign_key "addresses", "advertisers"
   add_foreign_key "addresses", "cities"
   add_foreign_key "addresses", "countries"
   add_foreign_key "addresses", "states"
