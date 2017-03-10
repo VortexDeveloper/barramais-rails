@@ -101,6 +101,19 @@ class AdvertisersController < ApplicationController
     end
   end
 
+  def update_ad
+    ad = Ad.find(params[:id])
+    respond_to do |format|
+      if ad.update(ad_params)
+        format.html { redirect_to ad, notice: 'Ad was successfully updated.' }
+        format.json { render json: ad.to_json }
+      else
+        format.html { render :edit }
+        format.json { render json: ad.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # DELETE /advertisers/1
   # DELETE /advertisers/1.json
   def destroy
