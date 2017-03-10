@@ -40,7 +40,7 @@ class AdsController < ApplicationController
     respond_to do |format|
       if @ad.save
         format.html { redirect_to @ad, notice: 'Ad was successfully created.' }
-        format.json { render :show, status: :created, location: @ad }
+        format.json { render json: @ad.to_json }
       else
         format.html { render :new }
         format.json { render json: @ad.errors, status: :unprocessable_entity }
@@ -54,7 +54,7 @@ class AdsController < ApplicationController
     respond_to do |format|
       if @ad.update(ad_params)
         format.html { redirect_to @ad, notice: 'Ad was successfully updated.' }
-        format.json { render :show, status: :ok, location: @ad }
+        format.json { render json: @ad.to_json }
       else
         format.html { render :edit }
         format.json { render json: @ad.errors, status: :unprocessable_entity }
@@ -80,6 +80,9 @@ class AdsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def ad_params
-      params.fetch(:ad, {})
+      params.require(:ad).permit(
+        :description,
+        :area
+      )
     end
 end
