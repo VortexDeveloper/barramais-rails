@@ -3,8 +3,7 @@ class UsersController < ApplicationController
 
   def friends
     event = Event.find(params[:event])
-    response = { users: User.joins(:event_invitations).where(event_guests: {event_id: event.id}).where.not(id: event.all_guests) }
-    # response = { users: User.all.order(:first_name) }
+    response = { users: User.where.not(id: event.all_guests) }
     respond_for response
   end
 
