@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   put 'users/:id/save_avatar' => 'users#save_avatar', as: 'user_save_avatar'
   get "users/index"
-  get 'users/friends'
+  get 'users/friends/:event' => 'users#friends'
   get 'users/my_events/:id' => 'users#my_events'
   get 'users/my_pending_invitations/:id' => 'users#my_pending_invitations'
   get 'users/my_refused_invitations/:id' => 'users#my_refused_invitations'
