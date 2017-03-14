@@ -1,4 +1,5 @@
 class AdsController < ApplicationController
+  #O erro era um :interest_list no before action
   before_action :set_ad, only: [:show, :edit, :update, :destroy]
   skip_before_filter :verify_authenticity_token
   # GET /ads
