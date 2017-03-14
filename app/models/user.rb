@@ -58,4 +58,7 @@ class User < ApplicationRecord
     event_invitations.where(event: event).first.refuse!
   end
 
+  def initiated_conversations
+    Conversation.where("sender_id = :user_id OR recipient_id = :user_id", user_id: id)
+  end
 end

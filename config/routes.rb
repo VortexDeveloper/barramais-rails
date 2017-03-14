@@ -38,9 +38,12 @@ Rails.application.routes.draw do
   resources :coments
   resources :posts
   resources :messages, only: [:index]
-  resources :conversations, only: [:create] do
+  resources :conversations, only: [:index, :create] do
     member do
       post :close
+    end
+    collection do
+      get :conversations
     end
     resources :messages, only: [:create]
   end
