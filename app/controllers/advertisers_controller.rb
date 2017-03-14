@@ -13,6 +13,10 @@ class AdvertisersController < ApplicationController
     respond_for response
   end
 
+  def advertiser_area
+    @advertiser.ad.area
+  end
+
   #Seleção de países
   def country_for_select
     response = { countrys: Country.all }

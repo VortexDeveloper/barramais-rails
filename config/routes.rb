@@ -52,6 +52,7 @@ Rails.application.routes.draw do
   resources :ads do
     collection do
       get 'interest_list' => 'ads#interest_list'
+      get 'ads/ad_area/:id' => 'ads#ad_area'
     end
   end
 

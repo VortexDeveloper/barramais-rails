@@ -18,6 +18,10 @@ class AdsController < ApplicationController
     respond_for response
   end
 
+  def ad_area
+    @ad.area
+  end
+
   # GET /ads/1
   # GET /ads/1.json
   def show
