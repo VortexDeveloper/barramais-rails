@@ -22,4 +22,8 @@ class Conversation < ApplicationRecord
     return sender if user == recipient
     recipient
   end
+
+  def last_message
+    messages.last
+  end
 end
