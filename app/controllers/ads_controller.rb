@@ -56,6 +56,10 @@ class AdsController < ApplicationController
   # PATCH/PUT /ads/1
   # PATCH/PUT /ads/1.json
   def update
+    @ad.interest_areas = []
+    params[:interest_areas].each do |interest_area|
+      @ad.interest_areas << InterestArea.find(interest_area[:id])
+    end
     respond_to do |format|
       if @ad.update(ad_params)
         format.html { redirect_to @ad, notice: 'Ad was successfully updated.' }
@@ -88,6 +92,12 @@ class AdsController < ApplicationController
       params.require(:ad).permit(
         :description,
         :area
+      )
+    end
+
+    def interest_area_params
+      params.require(:interest_area).permit(
+        :name
       )
     end
 end
