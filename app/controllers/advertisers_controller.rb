@@ -79,6 +79,9 @@ class AdvertisersController < ApplicationController
 
   def create_ad
     ad = Ad.new(ad_params)
+    params[:interest_areas].each do |interest_area|
+      ad.interest_areas << InterestArea.find(interest_area[:id])
+    end
     @advertiser.ads << ad
     respond_to do |format|
       if @advertiser.save
@@ -106,9 +109,15 @@ class AdvertisersController < ApplicationController
   end
 
   def update_ad
-    ad = Ad.find(params[:id])
+    #Não está chegando aqui
+    ad_t = params[:ad]
+    ad = Ad.find(ad_t[:id])
+    ad.interest_areas = []
+    params[:interest_areas].each do |interest_area|
+      ad.interest_areas << InterestArea.find(interest_area[:id])
+    end
     respond_to do |format|
-      if ad.update(ad_params)
+      if ad.update
         format.html { redirect_to ad, notice: 'Ad was successfully updated.' }
         format.json { render json: ad.to_json }
       else
@@ -162,6 +171,12 @@ class AdvertisersController < ApplicationController
       params.require(:ad).permit(
         :description,
         :area
+      )
+    end
+
+    def interest_area_params
+      params.require(:interest_areas).permit(
+        :name
       )
     end
 end
