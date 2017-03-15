@@ -9,6 +9,13 @@ json.user_advertiser do
       json.array!(@user.advertiser.ads) do |ad|
         json.extract! ad, :id, :description, :created_at, :updated_at, :area
         json.photo_url ad.photo.url
+
+        json.interest_areas do
+          json.array!(ad.interest_areas) do |interest_area|
+            json.extract! interest_area, :id, :name
+            json.photo_url interest_area.photo.url
+          end
+        end
       end
     end
   end
