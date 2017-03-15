@@ -25,12 +25,17 @@ class ApplicationController < ActionController::Base
         :birthday,
         :sex,
         :nautical_professional,
+        :nautical_profession_description,
         :academic_profile,
         :relationship,
+        :user_id,
         :about,
         :has_embarcation,
-        :nautical_profession_description,
-        :naval_service
+        :nautical_work,
+        :naval_service,
+        :naval_service_patent,
+        :nautical_license,
+        :has_nautical_license
       ])
     devise_parameter_sanitizer.permit(:account_update, keys: [
         :first_name,
@@ -39,12 +44,17 @@ class ApplicationController < ActionController::Base
         :birthday,
         :sex,
         :nautical_professional,
+        :nautical_profession_description,
         :academic_profile,
         :relationship,
+        :user_id,
         :about,
         :has_embarcation,
-        :nautical_profession_description,
-        :naval_service
+        :nautical_work,
+        :naval_service,
+        :naval_service_patent,
+        :nautical_license,
+        :has_nautical_license
       ])
   end
 end
