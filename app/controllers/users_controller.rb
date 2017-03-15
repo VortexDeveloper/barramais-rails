@@ -102,7 +102,9 @@ class UsersController < ApplicationController
       :about,
       :has_embarcation,
       :nautical_work,
-      :naval_service
+      :naval_service,
+      :nautical_license,
+      :has_nautical_license
     )
   end
 
