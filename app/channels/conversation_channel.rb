@@ -12,6 +12,7 @@ class ConversationChannel < ApplicationCable::Channel
       param[elem.values.first] = elem.values.last
     end
 
-    Message.create message_params
+    current_user.messages.create(message_params)
+    # Message.create message_params
   end
 end

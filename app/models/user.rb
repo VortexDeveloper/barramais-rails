@@ -59,6 +59,11 @@ class User < ApplicationRecord
   end
 
   def initiated_conversations
-    Conversation.where("sender_id = :user_id OR recipient_id = :user_id", user_id: id)
+    conversations = Conversation.where("sender_id = :user_id OR recipient_id = :user_id", user_id: id).includes(:messages)
+    conversations.sort { |c| c.last_message.created_at }
+  end
+
+  def is_participant? conversation
+    conversation.sender == self || conversation.recipient == self
   end
 end

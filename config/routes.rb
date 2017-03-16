@@ -45,7 +45,7 @@ Rails.application.routes.draw do
     collection do
       get :conversations
     end
-    resources :messages, only: [:create]
+    resources :messages, only: [:create, :index]
   end
 
   resources :advertisers do

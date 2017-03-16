@@ -14,15 +14,23 @@ class MessageBroadcastJob < ApplicationJob
   def broadcast_to(user, message)
     ActionCable.server.broadcast(
       "conversations-#{user.id}",
-      message: render_message(message, user),
+      message_element: render_message_element(message, user),
+      message: render_message(message),
       conversation_id: message.conversation_id
     )
   end
 
-  def render_message(message, user)
+  def render_message_element(message, user)
     ApplicationController.render(
       partial: 'messages/message',
       locals: { message: message, user: user }
+    )
+  end
+
+  def render_message(message)
+    ApplicationController.render(
+      partial: 'messages/message.json',
+      locals: { message: message }
     )
   end
 end
