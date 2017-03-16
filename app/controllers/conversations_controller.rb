@@ -6,6 +6,7 @@ class ConversationsController < ApplicationController
   end
 
   def create
+    # byebug
     @conversation = Conversation.get(current_user.id, params[:user_id])
     add_to_conversations unless conversated?
 

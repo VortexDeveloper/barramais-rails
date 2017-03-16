@@ -7,7 +7,7 @@ App.conversation = App.cable.subscriptions.create "ConversationChannel",
 
   received: (data) ->
     conversation = $('#conversations-list [data-conversation-id="'+data['conversation_id']+'"]');
-    conversation.find('.messages-list ul').append(data['message']);
+    conversation.find('.messages-list ul').append(data['message_element']);
     messages_list = conversation.find '.messages-list';
     height = messages_list[0].scrollHeight;
     messages_list.scrollTop(height);

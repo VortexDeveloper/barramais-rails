@@ -8,27 +8,13 @@ module ApplicationCable
 
     protected
     def find_verified_user
-      logger.add_tags 'ActionCable'
       if request.params[:jwt].present?
-        logger.add_tags 'With JWT'
-      end
-
-      jwt_params = jwt_decode
-      logger.debug "JWT Params: #{jwt_params}"
-      if jwt_params
-        if jwt_params.keys.include? 'id'
-          current_user = User.find jwt_params['id']
-          logger.add_tags "User ID: #{jwt_params['id']}"
-        else
-          logger.debug 'Unauthorized for no id'
-          reject_unauthorized_connection
-        end
+        authenticate_with_jwt
+      elsif (current_user = env['warden'].user)
+        current_user
       else
-        logger.debug 'Unauthorized for failing to decode'
         reject_unauthorized_connection
       end
-
-      current_user
     end
 
     def jwt_decode
@@ -39,6 +25,16 @@ module ApplicationCable
         logger.debug e
         false
       end
+    end
+
+    def authenticate_with_jwt
+      logger.add_tags 'ActionCable', 'With JWT'
+
+      jwt_params = jwt_decode
+      reject_unauthorized_connection unless (jwt_params && jwt_params.keys.include?('id'))
+
+      logger.add_tags "User ID: #{jwt_params['id']}"
+      User.find jwt_params['id']
     end
   end
 end
