@@ -3,7 +3,7 @@ module Devise
   module Strategies
     class JsonWebToken < Base
       def valid?
-        request.headers['Authorization'].present? && (request.content_type == "application/json")
+        request.headers['Authorization'].present?
       end
 
       def authenticate!
