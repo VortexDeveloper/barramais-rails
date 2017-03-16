@@ -22,7 +22,7 @@ class MessageBroadcastJob < ApplicationJob
 
   def render_message_element(message, user)
     ApplicationController.render(
-      partial: 'messages/message',
+      partial: 'messages/message.html',
       locals: { message: message, user: user }
     )
   end

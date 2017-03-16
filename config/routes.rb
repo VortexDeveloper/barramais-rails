@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'barrachat/index'
+
   devise_for :users, controllers: {
         registrations: 'user/registrations', sessions: 'user/sessions'
   }
@@ -37,7 +39,7 @@ Rails.application.routes.draw do
 
   resources :coments
   resources :posts
-  resources :messages, only: [:index]
+  resources :barrachat, only: [:index]
   resources :conversations, only: [:index, :create] do
     member do
       post :close
