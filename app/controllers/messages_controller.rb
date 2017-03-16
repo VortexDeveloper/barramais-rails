@@ -5,11 +5,18 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.json
   def index
-    session[:conversations] ||= []
+    # This should go to conversations#index
+    # session[:conversations] ||= []
+    #
+    # @users = User.where.not(id: current_user)
+    # @conversations = Conversation.includes(:recipient, :messages)
+    #                                 .find(session[:conversations])
 
-    @users = User.where.not(id: current_user)
-    @conversations = Conversation.includes(:recipient, :messages)
-                                    .find(session[:conversations])
+
+    conversation = Conversation.find(params[:conversation_id])
+    if current_user.is_participant? conversation
+      @messages = conversation.messages
+    end
   end
 
   # GET /messages/1

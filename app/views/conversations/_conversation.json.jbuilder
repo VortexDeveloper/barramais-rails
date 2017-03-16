@@ -4,7 +4,7 @@ opposed = conversation.opposed_user(current_user)
 json.opposed do
   json.id opposed.id
   json.name "#{opposed.first_name} #{opposed.last_name}"
-  json.avatar opposed.avatar.url
+  json.avatar asset_url(opposed.avatar.url)
 end
 
 last = conversation.last_message
