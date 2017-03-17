@@ -1,10 +1,15 @@
 class UsersController < ApplicationController
-  before_action :set_user, except: [:index, :friends]
+  before_action :set_user, except: [:index, :friends, :user_friends]
+  before_action :authenticate_user!, only: [:user_friends]
 
   def friends
     event = Event.find(params[:event])
     response = { users: User.where.not(id: event.all_guests) }
     respond_for response
+  end
+
+  def user_friends
+    @friends = User.all
   end
 
   def respond_for response
