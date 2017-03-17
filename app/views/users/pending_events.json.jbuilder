@@ -7,6 +7,7 @@ json.pending_events do
     json.name event.name
     json.address event.address
     json.state event.address.state
+    json.cover_photo_url asset_url(event.cover_photo.url)
     json.city event.address.city
   end
 end

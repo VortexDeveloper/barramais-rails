@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :set_user, except: [:index, :friends, :user_friends]
-  before_action :authenticate_user!, only: [:user_friends]
+  before_action :authenticate_user!, only: [:confirmed_events, :user_friends]
+  before_action :set_user, except: [:index, :friends, :confirmed_events, :user_friends]
 
   def friends
     event = Event.find(params[:event])
@@ -43,7 +43,7 @@ class UsersController < ApplicationController
   end
 
   def confirmed_events
-    @events = @user.confirmed_events.order(:event_date)
+    @events = current_user.confirmed_events.order(:event_date)
   end
 
   def pending_events

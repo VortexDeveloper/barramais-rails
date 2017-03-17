@@ -69,4 +69,5 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :interest_areas
 end
