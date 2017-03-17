@@ -8,6 +8,8 @@ class User < ApplicationRecord
   has_many :events
   has_many :posts
   has_many :event_invitations, foreign_key: "guest_id", class_name: "EventGuest"
+  has_many :messages
+  has_many :conversations, foreign_key: :sender_id
 
   # VENDOR METHODS
 
@@ -94,6 +96,15 @@ class User < ApplicationRecord
     event_invitations.where(event: event).first.refuse!
   end
 
+  def initiated_conversations
+    conversations = Conversation.where("sender_id = :user_id OR recipient_id = :user_id", user_id: id).includes(:messages)
+    conversations.sort { |c| c.last_message.created_at }
+  end
+
+  def is_participant? conversation
+    conversation.sender == self || conversation.recipient == self
+  end
+
   private
 
   def single_word_last_name
@@ -107,5 +118,4 @@ class User < ApplicationRecord
       errors.add(:first_name, "deve conter apenas um nome e deve conter apenas letras")
     end
   end
-
 end
