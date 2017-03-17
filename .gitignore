@@ -67,7 +67,7 @@ platforms/*
 
 
 ### CoffeeScript ###
-*.js
+# *.js
 
 
 ### Git ###
