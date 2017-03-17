@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   put 'users/accept_event/:id' => 'users#accept_event'
   put 'users/refuse_event/:id' => 'users#refuse_event'
   get 'users/user_advertiser/:id' => 'users#user_advertiser'
+  get 'users/user_friends' => 'users#user_friends'
 
   resources :groups
 
