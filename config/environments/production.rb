@@ -43,6 +43,7 @@ Rails.application.configure do
     'https://barramais.herokuapp.com',
     'https://barramais.herokuapp.com'
   ]
+  config.action_cable.disable_request_forgery_protection = true
 
   # Force all access to the app over SSL, use Strict-Transport-Security,
   # and use secure cookies.
