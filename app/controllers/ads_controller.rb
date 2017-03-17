@@ -15,8 +15,7 @@ class AdsController < ApplicationController
   end
 
   def interest_list
-    response = { interest_list: InterestArea.all.order(:id) }
-    respond_for response
+    @interest_areas = InterestArea.all.order(:name)
   end
 
   def ad_area
