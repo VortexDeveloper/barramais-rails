@@ -35,7 +35,8 @@ class ApplicationController < ActionController::Base
         :naval_service,
         :naval_service_patent,
         :nautical_license,
-        :has_nautical_license
+        :has_nautical_license,
+        :work
       ])
     devise_parameter_sanitizer.permit(:account_update, keys: [
         :first_name,
@@ -54,7 +55,8 @@ class ApplicationController < ActionController::Base
         :naval_service,
         :naval_service_patent,
         :nautical_license,
-        :has_nautical_license
+        :has_nautical_license,
+        :work
       ])
   end
 end

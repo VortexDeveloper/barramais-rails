@@ -62,6 +62,7 @@ class User < ApplicationRecord
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\z/
   devise :database_authenticatable, :validatable, password_length: 8..128
   validate :single_word_last_name
+  validate :single_word_first_name
 
   #SCOPES
   scope :all_by,      ->(event) {joins(:event_invitations).where(event_guests: {event_id: event.id})}
@@ -97,7 +98,13 @@ class User < ApplicationRecord
 
   def single_word_last_name
     if last_name.split.size > 1 || last_name =~ /\d/
-      errors.add(:last_name, "deve conter apenas uma palavra e deve conter apenas letras")
+      errors.add(:last_name, "deve conter apenas um nome e deve conter apenas letras")
+    end
+  end
+
+  def single_word_first_name
+    if first_name.split.size > 1 || first_name =~ /\d/
+      errors.add(:first_name, "deve conter apenas um nome e deve conter apenas letras")
     end
   end
 
