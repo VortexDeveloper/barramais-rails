@@ -24,6 +24,15 @@ ActiveRecord::Schema.define(version: 20170315171210) do
     t.index ["interest_area_id"], name: "index_ad_interests_on_interest_area_id", using: :btree
   end
 
+  create_table "address_relations", force: :cascade do |t|
+    t.integer  "advertiser_id"
+    t.integer  "address_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["address_id"], name: "index_address_relations_on_address_id", using: :btree
+    t.index ["advertiser_id"], name: "index_address_relations_on_advertiser_id", using: :btree
+  end
+
   create_table "addresses", force: :cascade do |t|
     t.string   "street"
     t.string   "complement"
@@ -96,6 +105,16 @@ ActiveRecord::Schema.define(version: 20170315171210) do
     t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
   end
 
+  create_table "conversations", force: :cascade do |t|
+    t.integer  "recipient_id"
+    t.integer  "sender_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["recipient_id", "sender_id"], name: "index_conversations_on_recipient_id_and_sender_id", unique: true, using: :btree
+    t.index ["recipient_id"], name: "index_conversations_on_recipient_id", using: :btree
+    t.index ["sender_id"], name: "index_conversations_on_sender_id", using: :btree
+  end
+
   create_table "countries", force: :cascade do |t|
     t.string   "name"
     t.string   "code"
@@ -161,6 +180,16 @@ ActiveRecord::Schema.define(version: 20170315171210) do
     t.string   "photo_content_type"
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.text     "body"
+    t.integer  "user_id"
+    t.integer  "conversation_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.index ["conversation_id"], name: "index_messages_on_conversation_id", using: :btree
+    t.index ["user_id"], name: "index_messages_on_user_id", using: :btree
   end
 
   create_table "plans", force: :cascade do |t|
@@ -236,6 +265,8 @@ ActiveRecord::Schema.define(version: 20170315171210) do
 
   add_foreign_key "ad_interests", "ads"
   add_foreign_key "ad_interests", "interest_areas"
+  add_foreign_key "address_relations", "addresses"
+  add_foreign_key "address_relations", "advertisers"
   add_foreign_key "addresses", "cities"
   add_foreign_key "addresses", "countries"
   add_foreign_key "addresses", "states"
@@ -246,6 +277,8 @@ ActiveRecord::Schema.define(version: 20170315171210) do
   add_foreign_key "cities", "states"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
+  add_foreign_key "conversations", "users", column: "recipient_id"
+  add_foreign_key "conversations", "users", column: "sender_id"
   add_foreign_key "event_guests", "events"
   add_foreign_key "event_guests", "users", column: "guest_id"
   add_foreign_key "events", "addresses"
@@ -253,6 +286,8 @@ ActiveRecord::Schema.define(version: 20170315171210) do
   add_foreign_key "group_members", "groups"
   add_foreign_key "group_members", "users"
   add_foreign_key "groups", "users"
+  add_foreign_key "messages", "conversations"
+  add_foreign_key "messages", "users"
   add_foreign_key "posts", "users"
   add_foreign_key "states", "countries"
   add_foreign_key "transactions", "ads"
