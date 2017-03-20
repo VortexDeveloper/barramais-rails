@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_action :authenticate_user!, only: [:confirmed_events, :user_friends]
   before_action :set_user, except: [:index, :friends, :confirmed_events, :user_friends]
 
-  def friends
+  def event_friends
     event = Event.find(params[:event])
     response = { users: User.where.not(id: event.all_guests) }
     respond_for response
@@ -11,6 +11,10 @@ class UsersController < ApplicationController
   def user_friends
     @friends = User.all
   end
+  
+  # def pending_friends
+  #   @pending_friends = current_user.pending_friends.order(:first_name)
+  # end
 
   def respond_for response
     respond_to do |format|

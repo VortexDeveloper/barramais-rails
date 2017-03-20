@@ -11,6 +11,12 @@ class User < ApplicationRecord
   has_many :messages
   has_many :conversations, foreign_key: :sender_id
 
+  #FRIENDSHIP
+  has_many :friendships
+  has_many :friends, :through => :friendships
+  has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
+  has_many :inverse_friends, :through => :inverse_friendships, :source => :user
+
   # VENDOR METHODS
 
   # Include default devise modules. Others available are:
@@ -71,6 +77,19 @@ class User < ApplicationRecord
   scope :pending_by,  ->(event) {joins(:event_invitations).where(event_guests: {event_id: event.id, status: 0})}
   scope :accepted_by, ->(event) {joins(:event_invitations).where(event_guests: {event_id: event.id, status: 1})}
   scope :refused_by,  ->(event) {joins(:event_invitations).where(event_guests: {event_id: event.id, status: 2})}
+
+  # scope :all_friends, -> {joins(:friendships, :inverse_friendships).where(status: 0)}
+
+  # def my_friends
+  #   friendships.where(status: :accept) + inverse_friendships.where(status: :accept)
+  #
+  #   friends.joins(:friendships).where(friendships: {status: :accept})
+  #
+  # end
+
+  def pending_friends
+    inverse_friendships.where(status: :pending)
+  end
 
   def create_post(post_params)
     posts.create(post_params)
