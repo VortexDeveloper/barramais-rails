@@ -25,9 +25,8 @@ local: &local
   # username: vortex
   # password: vorteX20**
   username: arthur
-  password: bkur5etc10
-  # username: vortex
-  # password: vortex20**
+  # password: bkur5etc10
+  # username: thiago
 
 development:
   <<: *default
