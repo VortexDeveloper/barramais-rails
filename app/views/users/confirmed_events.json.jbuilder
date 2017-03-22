@@ -8,5 +8,6 @@ json.confirmed_events do
     json.address event.address
     json.state event.address.state
     json.city event.address.city
+    json.cover_photo_url asset_url(event.cover_photo.url)
   end
 end
