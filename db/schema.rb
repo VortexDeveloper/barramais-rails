@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170317183553) do
+ActiveRecord::Schema.define(version: 20170320133943) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,15 @@ ActiveRecord::Schema.define(version: 20170317183553) do
     t.datetime "updated_at",       null: false
     t.index ["ad_id"], name: "index_ad_interests_on_ad_id", using: :btree
     t.index ["interest_area_id"], name: "index_ad_interests_on_interest_area_id", using: :btree
+  end
+
+  create_table "address_relations", force: :cascade do |t|
+    t.integer  "advertiser_id"
+    t.integer  "address_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["address_id"], name: "index_address_relations_on_address_id", using: :btree
+    t.index ["advertiser_id"], name: "index_address_relations_on_advertiser_id", using: :btree
   end
 
   create_table "addresses", force: :cascade do |t|
@@ -138,6 +147,14 @@ ActiveRecord::Schema.define(version: 20170317183553) do
     t.text     "about"
     t.index ["address_id"], name: "index_events_on_address_id", using: :btree
     t.index ["user_id"], name: "index_events_on_user_id", using: :btree
+  end
+
+  create_table "friendships", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "friend_id"
+    t.integer  "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "group_members", force: :cascade do |t|
@@ -257,6 +274,8 @@ ActiveRecord::Schema.define(version: 20170317183553) do
 
   add_foreign_key "ad_interests", "ads"
   add_foreign_key "ad_interests", "interest_areas"
+  add_foreign_key "address_relations", "addresses"
+  add_foreign_key "address_relations", "advertisers"
   add_foreign_key "addresses", "cities"
   add_foreign_key "addresses", "countries"
   add_foreign_key "addresses", "states"

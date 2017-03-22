@@ -6,12 +6,12 @@ class ConversationsController < ApplicationController
   end
 
   def create
-    # byebug
     @conversation = Conversation.get(current_user.id, params[:user_id])
     add_to_conversations unless conversated?
 
     respond_to do |format|
       format.js
+      format.json
     end
   end
 
@@ -28,11 +28,11 @@ class ConversationsController < ApplicationController
   private
 
   def add_to_conversations
-    session[:conversations] ||= []
     session[:conversations] << @conversation.id
   end
 
   def conversated?
+    session[:conversations] ||= []
     session[:conversations].include? @conversation.id
   end
 end

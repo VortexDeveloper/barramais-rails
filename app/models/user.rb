@@ -11,6 +11,12 @@ class User < ApplicationRecord
   has_many :messages
   has_many :conversations, foreign_key: :sender_id
 
+  #FRIENDSHIP
+  has_many :friendships
+  has_many :friends, :through => :friendships
+  has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
+  has_many :inverse_friends, :through => :inverse_friendships, :source => :user
+
   # VENDOR METHODS
 
   # Include default devise modules. Others available are:
@@ -72,6 +78,7 @@ class User < ApplicationRecord
   scope :accepted_by, ->(event) {joins(:event_invitations).where(event_guests: {event_id: event.id, status: 1})}
   scope :refused_by,  ->(event) {joins(:event_invitations).where(event_guests: {event_id: event.id, status: 2})}
 
+
   def create_post(post_params)
     posts.create(post_params)
   end
@@ -105,6 +112,42 @@ class User < ApplicationRecord
     conversation.sender == self || conversation.recipient == self
   end
 
+  # FRIENDSHIP SEARCHES
+
+  def accepted_friendships
+    friends.where(friendships: { status: :accept })
+  end
+
+  def refused_friendships
+    friends.where(friendships: { status: :refuse })
+  end
+
+  def pending_friendships
+    Friendship.where(friend: self, status: :pending).map { |f| f.user }
+  end
+
+  def all_friends
+    friends
+  end
+
+  # FRIENDSHIP ACTIONS
+
+  def request_friendship_of friend
+    friends << friend
+  end
+
+  def accept_friendship_of friend
+    friendship_request_of(friend).accept!
+  end
+
+  def refuse_friendship_of friend
+    friendship_request_of(friend).refuse!
+  end
+
+  def friend_of? user
+    friends.include?(user) && friendship_between(user).accept?
+  end
+
   private
 
   def single_word_last_name
@@ -117,5 +160,13 @@ class User < ApplicationRecord
     if first_name.split.size > 1 || first_name =~ /\d/
       errors.add(:first_name, "deve conter apenas um nome e deve conter apenas letras")
     end
+  end
+
+  def friendship_request_of friend
+    Friendship.where(user: friend, friend: self).first
+  end
+
+  def friendship_between friend
+    friendships.where(friend: friend).first
   end
 end

@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   put 'users/:id/save_avatar' => 'users#save_avatar', as: 'user_save_avatar'
   get "users/index"
-  get 'users/friends/:event' => 'users#friends'
+  get 'users/event_friends/:event' => 'users#event_friends'
   get 'users/my_events/:id' => 'users#my_events'
   get 'users/my_pending_invitations/:id' => 'users#my_pending_invitations'
   get 'users/my_refused_invitations/:id' => 'users#my_refused_invitations'
@@ -20,6 +20,8 @@ Rails.application.routes.draw do
   put 'users/accept_event/:id' => 'users#accept_event'
   put 'users/refuse_event/:id' => 'users#refuse_event'
   get 'users/user_advertiser/:id' => 'users#user_advertiser'
+  get 'users/user_friends' => 'users#user_friends'
+  get 'users/pending_friends' => 'users#pending_friends'
 
   resources :groups
 
