@@ -9,9 +9,9 @@ class UsersController < ApplicationController
   end
 
   def user_friends
-    @friends = User.all
+    @friends = current_user.all_friends
   end
-  
+
   # def pending_friends
   #   @pending_friends = current_user.pending_friends.order(:first_name)
   # end
