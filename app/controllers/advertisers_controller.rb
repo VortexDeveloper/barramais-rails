@@ -151,7 +151,9 @@ class AdvertisersController < ApplicationController
         :email,
         :website,
         :facebook,
-        :instagram
+        :instagram,
+        :landline,
+        :cell_phone
       )
     end
 
