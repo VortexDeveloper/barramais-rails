@@ -7,21 +7,34 @@ Rails.application.routes.draw do
 
   root to: 'users#index'
 
-  put 'users/:id/save_avatar' => 'users#save_avatar', as: 'user_save_avatar'
-  get "users/index"
-  get 'users/event_friends/:event' => 'users#event_friends'
-  get 'users/my_events/:id' => 'users#my_events'
-  get 'users/my_pending_invitations/:id' => 'users#my_pending_invitations'
-  get 'users/my_refused_invitations/:id' => 'users#my_refused_invitations'
-  get 'users/my_confirmed_invitations/:id' => 'users#my_confirmed_invitations'
-  get 'users/confirmed_events/:id' => 'users#confirmed_events'
-  get 'users/refused_events/:id' => 'users#refused_events'
-  get 'users/pending_events/:id' => 'users#pending_events'
-  put 'users/accept_event/:id' => 'users#accept_event'
-  put 'users/refuse_event/:id' => 'users#refuse_event'
-  get 'users/user_advertiser/:id' => 'users#user_advertiser'
-  get 'users/user_friends' => 'users#user_friends'
-  get 'users/pending_friends' => 'users#pending_friends'
+  resources :users do
+    collection do
+      put ':id/save_avatar' => 'users#save_avatar', as: 'user_save_avatar'
+      get "index"
+      get 'event_friends/:event' => 'users#event_friends'
+      get 'my_events/:id' => 'users#my_events'
+      get 'my_pending_invitations/:id' => 'users#my_pending_invitations'
+      get 'my_refused_invitations/:id' => 'users#my_refused_invitations'
+      get 'my_confirmed_invitations/:id' => 'users#my_confirmed_invitations'
+      get 'confirmed_events/:id' => 'users#confirmed_events'
+      get 'refused_events/:id' => 'users#refused_events'
+      get 'pending_events/:id' => 'users#pending_events'
+      put 'accept_event/:id' => 'users#accept_event'
+      put 'refuse_event/:id' => 'users#refuse_event'
+      get 'user_advertiser/:id' => 'users#user_advertiser'
+      get 'user_friends/:id' => 'users#user_friends'
+      get 'pending_friends' => 'users#pending_friends'
+      get 'accept_friendship/:id' => 'users#accept_friendship'
+      get 'refuse_friendship/:id' => 'users#refuse_friendship'
+      get 'request_friendship/:id' => 'users#request_friendship'
+      get 'is_friend_of/:id' => 'users#is_friend_of'
+      get 'event_friends/:event' => 'users#event_friends'
+      get 'pending_friendships' => 'users#pending_friendships'
+      get 'unfriend/:id' => 'users#unfriend'
+    end
+  end
+
+
 
   resources :groups
 
