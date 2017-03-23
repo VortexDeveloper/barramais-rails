@@ -1,6 +1,17 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, only: [:confirmed_events, :user_friends]
-  before_action :set_user, except: [:index, :friends, :confirmed_events, :user_friends]
+  before_action :authenticate_user!, only: [
+    :confirmed_events,
+    :user_friends,
+    :accept_friendship,
+    :refuse_friendship,
+    :request_friendship,
+    :is_friend_of,
+    :pending_friendships,
+    :unfriend,
+    :index
+  ]
+
+  before_action :set_user, except: [:index, :friends, :confirmed_events, :event_friends, :pending_friendships]
 
   def event_friends
     event = Event.find(params[:event])
@@ -9,12 +20,45 @@ class UsersController < ApplicationController
   end
 
   def user_friends
-    @friends = current_user.all_friends
+    @friends = @user.accepted_friendships
   end
 
   # def pending_friends
   #   @pending_friends = current_user.pending_friends.order(:first_name)
   # end
+
+  def accept_friendship
+    current_user.accept_friendship_of @user
+    response = { status: "Você e " + @user.first_name + " agora são amigos na b+!" }
+    respond_for response
+  end
+
+  def refuse_friendship
+    current_user.refuse_friendship_of @user
+    response = { status: "Solicitação de amizade de " + @user.first_name + " recusado com sucesso!" }
+    respond_for response
+  end
+
+  def request_friendship
+    current_user.request_friendship_of @user
+    response = { status: "Solicitação de amizade enviada a " + @user.first_name + " com sucesso!" }
+    respond_for response
+  end
+
+  def is_friend_of
+    response = current_user.friend_of? @user
+    respond_for response
+  end
+
+  def pending_friendships
+    @pending_friendships = current_user.pending_friendships
+  end
+
+  def unfriend
+    current_user.unfriend @user
+    response = { status: "Você não é mais amigo de " + @user.first_name + " na b+!" }
+    respond_for response
+  end
 
   def respond_for response
     respond_to do |format|
@@ -84,11 +128,11 @@ class UsersController < ApplicationController
     respond_for response
   end
 
-  private
-
   def index
-    @users = User.all
+    @users = User.where.not(id: current_user.id)
   end
+
+  private
 
   # Use callbacks to share common setup or constraints between actions.
   def set_user
