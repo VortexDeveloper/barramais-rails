@@ -4,6 +4,7 @@ class Friendship < ApplicationRecord
 
   before_create :initialize_status
   after_save :reflect_friendship
+  after_destroy :reflect_unfriend
 
   enum status: [
     :pending,
@@ -28,5 +29,9 @@ class Friendship < ApplicationRecord
 
   def find_reflection
     Friendship.where(user: friend, friend: user).first
+  end
+
+  def reflect_unfriend
+    friend.friends.delete user
   end
 end
