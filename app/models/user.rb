@@ -149,6 +149,10 @@ class User < ApplicationRecord
     friends.include?(user) && friendship_between(user).accept?
   end
 
+  def unfriend friend
+    friends.destroy friend
+  end
+
   private
 
   def single_word_last_name
