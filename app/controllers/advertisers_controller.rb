@@ -99,6 +99,7 @@ class AdvertisersController < ApplicationController
   def update
     respond_to do |format|
       if @advertiser.update(advertiser_params)
+        @advertiser.address.update(address_params)
         format.html { redirect_to @advertiser, notice: 'Advertiser was successfully updated.' }
         format.json { render :show, status: :ok, location: @advertiser }
       else

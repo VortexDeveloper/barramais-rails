@@ -3,6 +3,7 @@ class User < ApplicationRecord
   belongs_to :partner, class_name: User, optional: true
 
   has_one :advertiser
+  has_many :classifieds
 
   has_many :groups
   has_many :events

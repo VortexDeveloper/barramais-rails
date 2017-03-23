@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170320133943) do
+ActiveRecord::Schema.define(version: 20170323175039) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "accessories", force: :cascade do |t|
+    t.integer  "accessory_type"
+    t.integer  "name"
+    t.integer  "classified_id"
+    t.integer  "vessel_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["classified_id"], name: "index_accessories_on_classified_id", using: :btree
+    t.index ["vessel_id"], name: "index_accessories_on_vessel_id", using: :btree
+  end
 
   create_table "ad_interests", force: :cascade do |t|
     t.integer  "ad_id"
@@ -78,12 +89,39 @@ ActiveRecord::Schema.define(version: 20170320133943) do
     t.index ["ad_id"], name: "index_areas_on_ad_id", using: :btree
   end
 
+  create_table "brands", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "cities", force: :cascade do |t|
     t.string   "name"
     t.integer  "state_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["state_id"], name: "index_cities_on_state_id", using: :btree
+  end
+
+  create_table "classifieds", force: :cascade do |t|
+    t.string   "title"
+    t.integer  "document_type"
+    t.string   "seller_name"
+    t.string   "email"
+    t.string   "landline"
+    t.string   "cell_phone"
+    t.text     "description"
+    t.float    "price"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_file_size"
+    t.datetime "photo_updated_at"
+    t.integer  "user_id"
+    t.string   "document_number"
+    t.boolean  "bonded"
+    t.index ["user_id"], name: "index_classifieds_on_user_id", using: :btree
   end
 
   create_table "comments", force: :cascade do |t|
@@ -191,6 +229,26 @@ ActiveRecord::Schema.define(version: 20170320133943) do
     t.index ["user_id"], name: "index_messages_on_user_id", using: :btree
   end
 
+  create_table "model_names", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "brand_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "vessel_id"
+    t.index ["brand_id"], name: "index_model_names_on_brand_id", using: :btree
+    t.index ["vessel_id"], name: "index_model_names_on_vessel_id", using: :btree
+  end
+
+  create_table "molds", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "brand_id"
+    t.integer  "vessel_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["brand_id"], name: "index_molds_on_brand_id", using: :btree
+    t.index ["vessel_id"], name: "index_molds_on_vessel_id", using: :btree
+  end
+
   create_table "plans", force: :cascade do |t|
     t.string   "name"
     t.float    "price"
@@ -263,6 +321,22 @@ ActiveRecord::Schema.define(version: 20170320133943) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  create_table "vessels", force: :cascade do |t|
+    t.integer  "vessel_type"
+    t.integer  "status"
+    t.string   "manufacturer"
+    t.string   "manufacturation_year"
+    t.string   "activation_year"
+    t.boolean  "alienated"
+    t.string   "chassis_number"
+    t.integer  "classified_id"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+    t.index ["classified_id"], name: "index_vessels_on_classified_id", using: :btree
+  end
+
+  add_foreign_key "accessories", "classifieds"
+  add_foreign_key "accessories", "vessels"
   add_foreign_key "ad_interests", "ads"
   add_foreign_key "ad_interests", "interest_areas"
   add_foreign_key "addresses", "cities"
@@ -273,6 +347,7 @@ ActiveRecord::Schema.define(version: 20170320133943) do
   add_foreign_key "advertisers", "users"
   add_foreign_key "areas", "ads"
   add_foreign_key "cities", "states"
+  add_foreign_key "classifieds", "users"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
   add_foreign_key "conversations", "users", column: "recipient_id"
@@ -286,9 +361,14 @@ ActiveRecord::Schema.define(version: 20170320133943) do
   add_foreign_key "groups", "users"
   add_foreign_key "messages", "conversations"
   add_foreign_key "messages", "users"
+  add_foreign_key "model_names", "brands"
+  add_foreign_key "model_names", "vessels"
+  add_foreign_key "molds", "brands"
+  add_foreign_key "molds", "vessels"
   add_foreign_key "posts", "users"
   add_foreign_key "states", "countries"
   add_foreign_key "transactions", "ads"
   add_foreign_key "transactions", "advertisers"
   add_foreign_key "users", "users", column: "partner_id"
+  add_foreign_key "vessels", "classifieds"
 end
