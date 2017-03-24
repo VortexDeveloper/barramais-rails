@@ -1,10 +1,11 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
+  before_action :set_post, only: [:show, :edit, :update, :destroy, :like, :comments, :comment]
 
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.all
+    @posts = Post.all.order(created_at: :desc)
   end
 
   # GET /posts/1
@@ -25,7 +26,7 @@ class PostsController < ApplicationController
   # POST /posts.json
   def create
     @post = current_user.create_post(post_params)
-    
+
     respond_to do |format|
       if @post.persisted?
         format.html { redirect_to @post, notice: 'Post was successfully created.' }
@@ -61,6 +62,36 @@ class PostsController < ApplicationController
     end
   end
 
+  def like
+    respond_to do |format|
+      if @post.liked_by current_user
+        # format.html { redirect_to @post, notice: 'Post was successfully updated.' }
+        format.json { render :show, status: :ok, location: @post }
+      else
+        # format.html { render :edit }
+        format.json { render json: @post.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def comment
+    @comment = Comment.build_from(@post, current_user.id, comment_params[:body])
+
+    respond_to do |format|
+      if @comment.save
+        # format.html { redirect_to @post, notice: 'Post was successfully updated.' }
+        format.json { render :comment, status: :ok }
+      else
+        # format.html { render :edit }
+        format.json { render json: @comment.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def comments
+    @comments = @post.root_comments.order(created_at: :asc)
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post
@@ -72,6 +103,12 @@ class PostsController < ApplicationController
       params.require(:post).permit(
       :description,
       :user_id
+      )
+    end
+
+    def comment_params
+      params.require(:comment).permit(
+      :body
       )
     end
 end

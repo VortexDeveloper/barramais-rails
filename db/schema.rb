@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170323175039) do
+ActiveRecord::Schema.define(version: 20170324004603) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,15 @@ ActiveRecord::Schema.define(version: 20170323175039) do
     t.datetime "updated_at",       null: false
     t.index ["ad_id"], name: "index_ad_interests_on_ad_id", using: :btree
     t.index ["interest_area_id"], name: "index_ad_interests_on_interest_area_id", using: :btree
+  end
+
+  create_table "address_relations", force: :cascade do |t|
+    t.integer  "advertiser_id"
+    t.integer  "address_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["address_id"], name: "index_address_relations_on_address_id", using: :btree
+    t.index ["advertiser_id"], name: "index_address_relations_on_advertiser_id", using: :btree
   end
 
   create_table "addresses", force: :cascade do |t|
@@ -125,12 +134,18 @@ ActiveRecord::Schema.define(version: 20170323175039) do
   end
 
   create_table "comments", force: :cascade do |t|
-    t.text     "description"
-    t.integer  "post_id"
-    t.integer  "user_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.index ["post_id"], name: "index_comments_on_post_id", using: :btree
+    t.integer  "commentable_id"
+    t.string   "commentable_type"
+    t.string   "title"
+    t.text     "body"
+    t.string   "subject"
+    t.integer  "user_id",          null: false
+    t.integer  "parent_id"
+    t.integer  "lft"
+    t.integer  "rgt"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type", using: :btree
     t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
   end
 
@@ -229,16 +244,6 @@ ActiveRecord::Schema.define(version: 20170323175039) do
     t.index ["user_id"], name: "index_messages_on_user_id", using: :btree
   end
 
-  create_table "model_names", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "brand_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "vessel_id"
-    t.index ["brand_id"], name: "index_model_names_on_brand_id", using: :btree
-    t.index ["vessel_id"], name: "index_model_names_on_vessel_id", using: :btree
-  end
-
   create_table "molds", force: :cascade do |t|
     t.string   "name"
     t.integer  "brand_id"
@@ -259,8 +264,24 @@ ActiveRecord::Schema.define(version: 20170323175039) do
   create_table "posts", force: :cascade do |t|
     t.text     "description"
     t.integer  "user_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.integer  "cached_votes_total",      default: 0
+    t.integer  "cached_votes_score",      default: 0
+    t.integer  "cached_votes_up",         default: 0
+    t.integer  "cached_votes_down",       default: 0
+    t.integer  "cached_weighted_score",   default: 0
+    t.integer  "cached_weighted_total",   default: 0
+    t.float    "cached_weighted_average", default: 0.0
+    t.integer  "domain",                  default: 0
+    t.integer  "domain_id"
+    t.index ["cached_votes_down"], name: "index_posts_on_cached_votes_down", using: :btree
+    t.index ["cached_votes_score"], name: "index_posts_on_cached_votes_score", using: :btree
+    t.index ["cached_votes_total"], name: "index_posts_on_cached_votes_total", using: :btree
+    t.index ["cached_votes_up"], name: "index_posts_on_cached_votes_up", using: :btree
+    t.index ["cached_weighted_average"], name: "index_posts_on_cached_weighted_average", using: :btree
+    t.index ["cached_weighted_score"], name: "index_posts_on_cached_weighted_score", using: :btree
+    t.index ["cached_weighted_total"], name: "index_posts_on_cached_weighted_total", using: :btree
     t.index ["user_id"], name: "index_posts_on_user_id", using: :btree
   end
 
@@ -335,10 +356,26 @@ ActiveRecord::Schema.define(version: 20170323175039) do
     t.index ["classified_id"], name: "index_vessels_on_classified_id", using: :btree
   end
 
+  create_table "votes", force: :cascade do |t|
+    t.string   "votable_type"
+    t.integer  "votable_id"
+    t.string   "voter_type"
+    t.integer  "voter_id"
+    t.boolean  "vote_flag"
+    t.string   "vote_scope"
+    t.integer  "vote_weight"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["votable_id", "votable_type", "vote_scope"], name: "index_votes_on_votable_id_and_votable_type_and_vote_scope", using: :btree
+    t.index ["voter_id", "voter_type", "vote_scope"], name: "index_votes_on_voter_id_and_voter_type_and_vote_scope", using: :btree
+  end
+
   add_foreign_key "accessories", "classifieds"
   add_foreign_key "accessories", "vessels"
   add_foreign_key "ad_interests", "ads"
   add_foreign_key "ad_interests", "interest_areas"
+  add_foreign_key "address_relations", "addresses"
+  add_foreign_key "address_relations", "advertisers"
   add_foreign_key "addresses", "cities"
   add_foreign_key "addresses", "countries"
   add_foreign_key "addresses", "states"
@@ -348,8 +385,6 @@ ActiveRecord::Schema.define(version: 20170323175039) do
   add_foreign_key "areas", "ads"
   add_foreign_key "cities", "states"
   add_foreign_key "classifieds", "users"
-  add_foreign_key "comments", "posts"
-  add_foreign_key "comments", "users"
   add_foreign_key "conversations", "users", column: "recipient_id"
   add_foreign_key "conversations", "users", column: "sender_id"
   add_foreign_key "event_guests", "events"
@@ -361,8 +396,6 @@ ActiveRecord::Schema.define(version: 20170323175039) do
   add_foreign_key "groups", "users"
   add_foreign_key "messages", "conversations"
   add_foreign_key "messages", "users"
-  add_foreign_key "model_names", "brands"
-  add_foreign_key "model_names", "vessels"
   add_foreign_key "molds", "brands"
   add_foreign_key "molds", "vessels"
   add_foreign_key "posts", "users"
