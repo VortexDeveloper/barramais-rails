@@ -1,4 +1,5 @@
 class Post < ApplicationRecord
+  include ActionView::Helpers::DateHelper
   belongs_to :user
 
   acts_as_votable
