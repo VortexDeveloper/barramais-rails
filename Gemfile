@@ -55,7 +55,7 @@ gem 'link_thumbnailer'
 gem 'paperclip-av-transcoder'
 gem 'acts_as_votable'
 gem 'acts_as_commentable_with_threading'
-# gem 'aws-sdk', '~> 2.3'
+gem 'aws-sdk'
 
 
 group :development, :test do

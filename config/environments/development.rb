@@ -57,4 +57,16 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   config.action_cable.disable_request_forgery_protection = true
+
+  # Amazon Web Services - S3
+  Paperclip::Attachment.default_options[:s3_host_name] = 's3-sa-east-1.amazonaws.com'
+  config.paperclip_defaults = {
+   :storage => :s3,
+   :s3_credentials => {
+     :bucket => 'mediabmais',
+     :access_key_id => 'AKIAJ4ZXC4HAX775CMAA',
+     :secret_access_key => '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',
+     :s3_region => 'sa-east-1'
+   }
+ }
 end
