@@ -40,7 +40,13 @@ Rails.application.routes.draw do
   end
 
   resources :coments
-  resources :posts
+  resources :posts do
+    member do
+      get :like
+      post :comment
+      get :comments
+    end
+  end
   resources :barrachat, only: [:index]
   resources :conversations, only: [:index, :create] do
     member do
