@@ -148,11 +148,19 @@ class User < ApplicationRecord
   end
 
   def friend_of? user
-    friends.include?(user) && friendship_between(user).accept?
+    if friends.include?(user) && friendship_between(user).pending?
+      "waiting"
+    else
+      friends.include?(user) && friendship_between(user).accept?
+    end
   end
 
   def unfriend friend
     friends.destroy friend
+  end
+
+  def friendship_request_sent? user
+    friends.include?(user) && friendship_between(user).pending?
   end
 
   private
