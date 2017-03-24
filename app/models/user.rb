@@ -7,7 +7,7 @@ class User < ApplicationRecord
 
   has_many :groups
   has_many :events
-  has_many :posts
+  has_many :posts, dependent: :destroy
   has_many :event_invitations, foreign_key: "guest_id", class_name: "EventGuest"
   has_many :messages
   has_many :conversations, foreign_key: :sender_id
@@ -24,6 +24,8 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
           :recoverable, :rememberable, :trackable, :validatable
+
+  acts_as_voter
 
   has_attached_file :avatar, styles: {
     medium: "300x300>",
