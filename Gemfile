@@ -51,6 +51,12 @@ gem 'simplecov', require: false, group: :test
 gem 'validates_timeliness', '~> 4.0'
 gem 'paperclip', '~> 5.0.0'
 gem 'rails-controller-testing'
+gem 'link_thumbnailer'
+gem 'paperclip-av-transcoder'
+gem 'acts_as_votable'
+gem 'acts_as_commentable_with_threading'
+# gem 'aws-sdk', '~> 2.3'
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to
