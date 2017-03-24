@@ -229,16 +229,6 @@ ActiveRecord::Schema.define(version: 20170323175039) do
     t.index ["user_id"], name: "index_messages_on_user_id", using: :btree
   end
 
-  create_table "model_names", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "brand_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "vessel_id"
-    t.index ["brand_id"], name: "index_model_names_on_brand_id", using: :btree
-    t.index ["vessel_id"], name: "index_model_names_on_vessel_id", using: :btree
-  end
-
   create_table "molds", force: :cascade do |t|
     t.string   "name"
     t.integer  "brand_id"
@@ -361,8 +351,6 @@ ActiveRecord::Schema.define(version: 20170323175039) do
   add_foreign_key "groups", "users"
   add_foreign_key "messages", "conversations"
   add_foreign_key "messages", "users"
-  add_foreign_key "model_names", "brands"
-  add_foreign_key "model_names", "vessels"
   add_foreign_key "molds", "brands"
   add_foreign_key "molds", "vessels"
   add_foreign_key "posts", "users"
