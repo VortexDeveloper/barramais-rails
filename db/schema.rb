@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170324004603) do
+ActiveRecord::Schema.define(version: 20170327043004) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,15 @@ ActiveRecord::Schema.define(version: 20170324004603) do
     t.datetime "updated_at",       null: false
     t.index ["ad_id"], name: "index_ad_interests_on_ad_id", using: :btree
     t.index ["interest_area_id"], name: "index_ad_interests_on_interest_area_id", using: :btree
+  end
+
+  create_table "address_relations", force: :cascade do |t|
+    t.integer  "advertiser_id"
+    t.integer  "address_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["address_id"], name: "index_address_relations_on_address_id", using: :btree
+    t.index ["advertiser_id"], name: "index_address_relations_on_advertiser_id", using: :btree
   end
 
   create_table "addresses", force: :cascade do |t|
@@ -252,6 +261,17 @@ ActiveRecord::Schema.define(version: 20170324004603) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "post_images", force: :cascade do |t|
+    t.integer  "post_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+    t.index ["post_id"], name: "index_post_images_on_post_id", using: :btree
+  end
+
   create_table "posts", force: :cascade do |t|
     t.text     "description"
     t.integer  "user_id"
@@ -365,6 +385,8 @@ ActiveRecord::Schema.define(version: 20170324004603) do
   add_foreign_key "accessories", "vessels"
   add_foreign_key "ad_interests", "ads"
   add_foreign_key "ad_interests", "interest_areas"
+  add_foreign_key "address_relations", "addresses"
+  add_foreign_key "address_relations", "advertisers"
   add_foreign_key "addresses", "cities"
   add_foreign_key "addresses", "countries"
   add_foreign_key "addresses", "states"
@@ -387,6 +409,7 @@ ActiveRecord::Schema.define(version: 20170324004603) do
   add_foreign_key "messages", "users"
   add_foreign_key "molds", "brands"
   add_foreign_key "molds", "vessels"
+  add_foreign_key "post_images", "posts"
   add_foreign_key "posts", "users"
   add_foreign_key "states", "countries"
   add_foreign_key "transactions", "ads"

@@ -1,6 +1,7 @@
 class Post < ApplicationRecord
   include ActionView::Helpers::DateHelper
   belongs_to :user
+  has_many :post_images
 
   acts_as_votable
   acts_as_commentable
