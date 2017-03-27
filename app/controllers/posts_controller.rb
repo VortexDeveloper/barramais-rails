@@ -29,7 +29,7 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       if @post.persisted?
-        @post.save_post_images if media_params.present?
+        save_post_images(@post) if media_params.present?
         format.html { redirect_to @post, notice: 'Post was successfully created.' }
         format.json { render :show, status: :created, location: @post }
       else
@@ -95,13 +95,13 @@ class PostsController < ApplicationController
 
   private
     def save_post_images(post)
-      post_images = []
-      media_params.each do |mparam|
+      media_params[:medias].each do |mparam|
         image = Paperclip.io_adapters.for(mparam[:image])
-        image.original_filename = "#{current_user.id}#{avatar_params[:filename]}"
-        post_images << image
+        image.original_filename = "#{current_user.id}#{mparam[:filename]}"
+        post_image = PostImage.new
+        post_image.image = image
+        post.post_images << post_image
       end
-      post.create_post_images(post_images)
     end
 
     # Use callbacks to share common setup or constraints between actions.
@@ -124,8 +124,6 @@ class PostsController < ApplicationController
     end
 
     def media_params
-      params.require(:post).permit(
-        :media
-      )
+      params.permit(medias: [:image, :filename])
     end
 end
