@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170327043004) do
+ActiveRecord::Schema.define(version: 20170327194229) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,15 +33,6 @@ ActiveRecord::Schema.define(version: 20170327043004) do
     t.datetime "updated_at",       null: false
     t.index ["ad_id"], name: "index_ad_interests_on_ad_id", using: :btree
     t.index ["interest_area_id"], name: "index_ad_interests_on_interest_area_id", using: :btree
-  end
-
-  create_table "address_relations", force: :cascade do |t|
-    t.integer  "advertiser_id"
-    t.integer  "address_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-    t.index ["address_id"], name: "index_address_relations_on_address_id", using: :btree
-    t.index ["advertiser_id"], name: "index_address_relations_on_advertiser_id", using: :btree
   end
 
   create_table "addresses", force: :cascade do |t|
@@ -202,13 +193,13 @@ ActiveRecord::Schema.define(version: 20170327043004) do
   end
 
   create_table "group_members", force: :cascade do |t|
-    t.integer  "user_id"
+    t.integer  "member_id"
     t.integer  "group_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer  "accepted"
+    t.integer  "status"
     t.index ["group_id"], name: "index_group_members_on_group_id", using: :btree
-    t.index ["user_id"], name: "index_group_members_on_user_id", using: :btree
+    t.index ["member_id"], name: "index_group_members_on_member_id", using: :btree
   end
 
   create_table "groups", force: :cascade do |t|
@@ -244,14 +235,22 @@ ActiveRecord::Schema.define(version: 20170327043004) do
     t.index ["user_id"], name: "index_messages_on_user_id", using: :btree
   end
 
+  create_table "model_names", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "brand_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "vessel_id"
+    t.index ["brand_id"], name: "index_model_names_on_brand_id", using: :btree
+    t.index ["vessel_id"], name: "index_model_names_on_vessel_id", using: :btree
+  end
+
   create_table "molds", force: :cascade do |t|
     t.string   "name"
     t.integer  "brand_id"
-    t.integer  "vessel_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["brand_id"], name: "index_molds_on_brand_id", using: :btree
-    t.index ["vessel_id"], name: "index_molds_on_vessel_id", using: :btree
   end
 
   create_table "plans", force: :cascade do |t|
@@ -356,7 +355,6 @@ ActiveRecord::Schema.define(version: 20170327043004) do
   create_table "vessels", force: :cascade do |t|
     t.integer  "vessel_type"
     t.integer  "status"
-    t.string   "manufacturer"
     t.string   "manufacturation_year"
     t.string   "activation_year"
     t.boolean  "alienated"
@@ -364,7 +362,11 @@ ActiveRecord::Schema.define(version: 20170327043004) do
     t.integer  "classified_id"
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
+    t.integer  "mold_id"
+    t.integer  "brand_id"
+    t.index ["brand_id"], name: "index_vessels_on_brand_id", using: :btree
     t.index ["classified_id"], name: "index_vessels_on_classified_id", using: :btree
+    t.index ["mold_id"], name: "index_vessels_on_mold_id", using: :btree
   end
 
   create_table "votes", force: :cascade do |t|
@@ -385,8 +387,6 @@ ActiveRecord::Schema.define(version: 20170327043004) do
   add_foreign_key "accessories", "vessels"
   add_foreign_key "ad_interests", "ads"
   add_foreign_key "ad_interests", "interest_areas"
-  add_foreign_key "address_relations", "addresses"
-  add_foreign_key "address_relations", "advertisers"
   add_foreign_key "addresses", "cities"
   add_foreign_key "addresses", "countries"
   add_foreign_key "addresses", "states"
@@ -403,17 +403,20 @@ ActiveRecord::Schema.define(version: 20170327043004) do
   add_foreign_key "events", "addresses"
   add_foreign_key "events", "users"
   add_foreign_key "group_members", "groups"
-  add_foreign_key "group_members", "users"
+  add_foreign_key "group_members", "users", column: "member_id"
   add_foreign_key "groups", "users"
   add_foreign_key "messages", "conversations"
   add_foreign_key "messages", "users"
+  add_foreign_key "model_names", "brands"
+  add_foreign_key "model_names", "vessels"
   add_foreign_key "molds", "brands"
-  add_foreign_key "molds", "vessels"
   add_foreign_key "post_images", "posts"
   add_foreign_key "posts", "users"
   add_foreign_key "states", "countries"
   add_foreign_key "transactions", "ads"
   add_foreign_key "transactions", "advertisers"
   add_foreign_key "users", "users", column: "partner_id"
+  add_foreign_key "vessels", "brands"
   add_foreign_key "vessels", "classifieds"
+  add_foreign_key "vessels", "molds"
 end
