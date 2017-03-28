@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :events
   has_many :posts, dependent: :destroy
   has_many :event_invitations, foreign_key: "guest_id", class_name: "EventGuest"
+  has_many :group_invitations, foreign_key: "member_id", class_name: "GroupMember"
   has_many :messages
   has_many :conversations, foreign_key: :sender_id
 
@@ -86,6 +87,8 @@ class User < ApplicationRecord
     posts.create(post_params)
   end
 
+  #Event Actions
+
   def confirmed_events
     Event.accepted_by(self)
   end
@@ -105,6 +108,35 @@ class User < ApplicationRecord
   def refuse_event event
     event_invitations.where(event: event).first.refuse!
   end
+
+  #Group Actions
+
+  #Eventos em que este usuário está na lista de membros com o status aceito
+  def confirmed_groups
+    GroupMember.where(member: self, status: 1).map { |f| f.group }
+  end
+
+  #Eventos em que este usuário está na lista de membros com o status recusado
+  def refused_groups
+    GroupMember.where(member: self, status: 2).map { |f| f.group }
+  end
+
+  #Eventos em que este usuário está na lista de membros com o status pendente
+  def pending_groups
+    GroupMember.where(member: self, status: 0).map { |f| f.group }
+  end
+
+  #Aceitar convite do grupo passado por parametro
+  def accept_group group
+    group_invitations.where(group: group).first.accept!
+  end
+
+  #Recusar convite do grupo passado por parametro
+  def refuse_group group
+    group_invitations.where(group: group).first.refuse!
+  end
+
+  #Conversations Actions
 
   def initiated_conversations
     conversations = Conversation.where("sender_id = :user_id OR recipient_id = :user_id", user_id: id).includes(:messages)
