@@ -1,5 +1,12 @@
 class GroupMember < ApplicationRecord
-  belongs_to :user
+  before_save :initialize_status
+  belongs_to :member, class_name: 'User'
   belongs_to :group
-  enum accepted: [:s, :n]
+  enum status: [:pending, :accept, :refuse]
+  validates :member, uniqueness: {scope: :group_id}
+
+  def initialize_status
+    self.status = :pending if self.status.nil?
+  end
+  
 end

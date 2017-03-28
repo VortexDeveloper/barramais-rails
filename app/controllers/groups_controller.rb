@@ -1,26 +1,77 @@
 class GroupsController < ApplicationController
-  before_action :set_group, only: [:show, :edit, :update, :destroy, :save_cover_photo]
+  before_action :set_group, only: [
+    :show,
+    :edit,
+    :update,
+    :destroy,
+    :save_cover_photo,
+    :all_members,
+    :confirmed_members,
+    :pending_members,
+    :refused_members
+  ]
+  before_action :authenticate_user!, only: [:create]
 
-  def save_cover_photo
+  #Resposta JSON Padrão
+  def respond_for response, status=200
+    respond_to do |format|
+      format.json { render json: response.to_json, status: status }
+    end
+  end
+
+  def all_members
+    response = { all_members: @group.members }
+    respond_for response
+  end
+
+  def confirmed_members
+    response = { confirmed_members: @group.confirmed_members }
+    respond_for response
+  end
+
+  def pending_members
+    response = { pending_members: @group.pending_members }
+    respond_for response
+  end
+
+  def refused_members
+    response = { refused_members: @group.refused_members }
+    respond_for response
+  end
+
+  #Convida usuário e retorna lista de convidados atualizada
+  def invitation
+    begin
+      params[:members].each do |member|
+        @group.members << User.find(member[:id])
+      end
+      response = { members: @group.members.order(:first_name) }
+      respond_for response
+    rescue ActiveRecord::RecordInvalid => e
+      response = { error: e.message }
+      respond_for response, 409
+    rescue e
+      response = { error: e.message }
+      respond_for response
+    end
+  end
+
+  #Salvar imagem de capa
+  def save_cover_photo group
     image = Paperclip.io_adapters.for(cover_photo_params[:image])
     image.original_filename = "#{cover_photo_params[:filename]}"
-    @group.cover_photo = image
-
-    respond_to do |format|
-      if @group.save
-        format.html {}
-        format.json { render json: @group }
-      else
-        format.html {}
-        format.json { render json: {errors: {cover_photo: ['não foi possível salvar']}}.to_json }
-      end
-    end
+    group.cover_photo = image
+    group.save
   end
 
   # GET /groups
   # GET /groups.json
   def index
-    @groups = Group.all
+    response = { groups: Group.all }
+    respond_to do |format|
+      format.json { render json: response.to_json }
+      format.html { render :index }
+    end
   end
 
   # GET /groups/1
@@ -41,11 +92,13 @@ class GroupsController < ApplicationController
   # POST /groups.json
   def create
     @group = Group.new(group_params)
-
     respond_to do |format|
       if @group.save
+        @group.members << current_user
+        current_user.accept_group @group
+        save_cover_photo(@group)
         format.html { redirect_to @group, notice: 'Group was successfully created.' }
-        format.json { render :show, status: :created, location: @group }
+        format.json { render @group }
       else
         format.html { render :new }
         format.json { render json: @group.errors, status: :unprocessable_entity }
@@ -94,7 +147,18 @@ class GroupsController < ApplicationController
     end
 
     def cover_photo_params
-      params.require(:cover_photo).permit(:image, :filename)
+      params.require(:cover_photo).permit(
+        :image,
+        :filename
+      )
     end
+
+    def user_params
+      params.require(:user).permit(
+        :user_id
+      )
+    end
+
+
 
 end

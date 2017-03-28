@@ -8,14 +8,35 @@ class UsersController < ApplicationController
     :is_friend_of,
     :pending_friendships,
     :unfriend,
-    :index
+    :index,
+    :my_groups,
+    :confirmed_groups,
+    :pending_groups,
+    :refused_groups
   ]
 
-  before_action :set_user, except: [:index, :friends, :confirmed_events, :event_friends, :pending_friendships]
+  before_action :set_user, except: [
+    :index,
+    :friends,
+    :confirmed_events,
+    :event_friends,
+    :group_friends,
+    :pending_friendships,
+    :my_groups,
+    :confirmed_groups,
+    :pending_groups,
+    :refused_groups
+  ]
 
   def event_friends
     event = Event.find(params[:event])
     response = { users: User.where.not(id: event.all_guests) }
+    respond_for response
+  end
+
+  def group_friends
+    group = Group.find(params[:group])
+    response = { users: User.where.not(id: group.all_members) }
     respond_for response
   end
 
@@ -86,6 +107,7 @@ class UsersController < ApplicationController
     end
   end
 
+  #Event Actions
   def my_events
     @events = @user.events.order(:event_date)
   end
@@ -102,18 +124,6 @@ class UsersController < ApplicationController
     @events = @user.refused_events.order(:event_date)
   end
 
-  # def my_pending_invitations
-  #   @invitations = @user.event_invitations.where(status: :pending).order(:created_at)
-  # end
-  #
-  # def my_confirmed_invitations
-  #   @invitations = @user.event_invitations.where(status: :accept).order(:created_at)
-  # end
-  #
-  # def my_refused_invitations
-  #   @invitations = @user.event_invitations.where(status: :refuse).order(:created_at)
-  # end
-
   def accept_event
     event = Event.find(params[:event])
     @user.accept_event(event)
@@ -124,6 +134,37 @@ class UsersController < ApplicationController
   def refuse_event
     event = Event.find(params[:event])
     @user.refuse_event(event)
+    response = { sucess: "Convite recusado!" }
+    respond_for response
+  end
+
+  #Group Actions
+  def my_groups
+    @groups = current_user.groups
+  end
+
+  def confirmed_groups
+    @groups = current_user.confirmed_groups
+  end
+
+  def pending_groups
+    @groups = current_user.pending_groups
+  end
+
+  def refused_groups
+    @groups = current_user.refused_groups
+  end
+
+  def accept_group
+    group = Group.find(params[:group])
+    current_user.accept_group(group)
+    response = { sucess: "Convite aceito!" }
+    respond_for response
+  end
+
+  def refuse_group
+    group = Group.find(params[:group])
+    current_user.refuse_group(group)
     response = { sucess: "Convite recusado!" }
     respond_for response
   end

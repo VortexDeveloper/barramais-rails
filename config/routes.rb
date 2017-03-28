@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       put ':id/save_avatar' => 'users#save_avatar', as: 'user_save_avatar'
       get "index"
       get 'event_friends/:event' => 'users#event_friends'
+      get 'group_friends/:group' => 'users#group_friends'
       get 'my_events/:id' => 'users#my_events'
       get 'my_pending_invitations/:id' => 'users#my_pending_invitations'
       get 'my_refused_invitations/:id' => 'users#my_refused_invitations'
@@ -19,8 +20,8 @@ Rails.application.routes.draw do
       get 'confirmed_events/:id' => 'users#confirmed_events'
       get 'refused_events/:id' => 'users#refused_events'
       get 'pending_events/:id' => 'users#pending_events'
-      put 'accept_event/:id' => 'users#accept_event'
-      put 'refuse_event/:id' => 'users#refuse_event'
+      put 'accept_event/:event' => 'users#accept_event'
+      put 'refuse_event/:event' => 'users#refuse_event'
       get 'user_advertiser/:id' => 'users#user_advertiser'
       get 'user_friends/:id' => 'users#user_friends'
       get 'pending_friends' => 'users#pending_friends'
@@ -31,12 +32,26 @@ Rails.application.routes.draw do
       get 'event_friends/:event' => 'users#event_friends'
       get 'pending_friendships' => 'users#pending_friendships'
       get 'unfriend/:id' => 'users#unfriend'
+      put 'accept_group' => 'users#accept_group'
+      put 'refuse_group/:group' => 'users#refuse_group'
+      get 'confirmed_groups' => 'users#confirmed_groups'
+      get 'refused_groups' => 'users#refused_groups'
+      get 'pending_groups' => 'users#pending_groups'
+      get 'my_groups' => 'users#my_groups'
     end
   end
 
 
 
-  resources :groups
+  resources :groups do
+    collection do
+      get 'all_members/:id' => 'groups#all_members'
+      get 'confirmed_members/:id' => 'groups#confirmed_members'
+      get 'pending_members/:id' => 'groups#pending_members'
+      get 'refused_members/:id' => 'groups#refused_members'
+      put 'invitation/:id' => 'groups#invitation'
+    end
+  end
 
   resources :events do
     collection do
