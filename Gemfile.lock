@@ -29,6 +29,8 @@ GEM
       activemodel (>= 4.1, < 6)
       case_transform (>= 0.2)
       jsonapi-renderer (>= 0.1.1.beta1, < 0.2)
+    active_record_union (1.2.0)
+      activerecord (>= 4.0)
     activejob (5.0.2)
       activesupport (= 5.0.2)
       globalid (>= 0.3.6)
@@ -327,6 +329,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers
+  active_record_union
   acts_as_commentable_with_threading
   acts_as_votable
   awesome_print
