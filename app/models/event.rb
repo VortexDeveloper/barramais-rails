@@ -13,7 +13,6 @@ class Event < ApplicationRecord
   # scope :refused_by,  -> (user) {join_to_user(user).where(event_guests: {status: :refuse})}
   # scope :pending_by,  -> (user) {join_to_user(user).where(event_guests: {status: :pending})}
 
-
   scope :accepted_by, -> (user) {join_to_user.where(event_guests: {guest_id: user.id, status: :accept})}
   scope :refused_by,  -> (user) {join_to_user.where(event_guests: {guest_id: user.id, status: :refuse})}
   scope :pending_by,  -> (user) {join_to_user.where(event_guests: {guest_id: user.id, status: :pending})}

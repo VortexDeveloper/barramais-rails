@@ -7,5 +7,5 @@ class Classified < ApplicationRecord
   has_one :vessel
   has_one :accessory
 
-  enum document_type: [:cpf, :cnpj]
+  # enum document_type: [:cpf, :cnpj]
 end

@@ -5,7 +5,7 @@ class Advertiser < ApplicationRecord
   has_many :transactions
   has_many :ads, through: :transactions
 
-  enum document_type: [:cpf, :cnpj]
+  # enum document_type: [:cpf, :cnpj]
 
   def address_street
     address.street
