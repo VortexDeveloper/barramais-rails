@@ -19,7 +19,7 @@ class User::SessionsController < Devise::SessionsController
       format.json do
         user_hash = resource.as_json
         user_hash.merge!({avatar_url: helpers.asset_url(resource.avatar.url)})
-        render json: {user: JWTWrapper.encode(user_hash), token: JWTWrapper.encode({id: resource.id})} 
+        render json: {user: JWTWrapper.encode(user_hash), token: JWTWrapper.encode({id: resource.id})}
       end
     end
   end

@@ -103,7 +103,11 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.save
         format.html {}
-        format.json { render json: @user }
+        format.json do
+          user_hash = @user.as_json
+          user_hash.merge!({avatar_url: helpers.asset_url(@user.avatar.url)})
+          render json: {user: JWTWrapper.encode(user_hash.as_json) }
+        end
       else
         format.html {}
         format.json { render json: {errors: {avatar: ['não foi possível salvar']}}.to_json }
