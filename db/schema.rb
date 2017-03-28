@@ -193,13 +193,13 @@ ActiveRecord::Schema.define(version: 20170327194229) do
   end
 
   create_table "group_members", force: :cascade do |t|
-    t.integer  "user_id"
+    t.integer  "member_id"
     t.integer  "group_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer  "accepted"
+    t.integer  "status"
     t.index ["group_id"], name: "index_group_members_on_group_id", using: :btree
-    t.index ["user_id"], name: "index_group_members_on_user_id", using: :btree
+    t.index ["member_id"], name: "index_group_members_on_member_id", using: :btree
   end
 
   create_table "groups", force: :cascade do |t|
@@ -403,7 +403,7 @@ ActiveRecord::Schema.define(version: 20170327194229) do
   add_foreign_key "events", "addresses"
   add_foreign_key "events", "users"
   add_foreign_key "group_members", "groups"
-  add_foreign_key "group_members", "users"
+  add_foreign_key "group_members", "users", column: "member_id"
   add_foreign_key "groups", "users"
   add_foreign_key "messages", "conversations"
   add_foreign_key "messages", "users"
