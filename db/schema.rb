@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170324004603) do
+ActiveRecord::Schema.define(version: 20170327194229) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -248,11 +248,9 @@ ActiveRecord::Schema.define(version: 20170324004603) do
   create_table "molds", force: :cascade do |t|
     t.string   "name"
     t.integer  "brand_id"
-    t.integer  "vessel_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["brand_id"], name: "index_molds_on_brand_id", using: :btree
-    t.index ["vessel_id"], name: "index_molds_on_vessel_id", using: :btree
   end
 
   create_table "plans", force: :cascade do |t|
@@ -260,6 +258,17 @@ ActiveRecord::Schema.define(version: 20170324004603) do
     t.float    "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "post_images", force: :cascade do |t|
+    t.integer  "post_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+    t.index ["post_id"], name: "index_post_images_on_post_id", using: :btree
   end
 
   create_table "posts", force: :cascade do |t|
@@ -346,7 +355,6 @@ ActiveRecord::Schema.define(version: 20170324004603) do
   create_table "vessels", force: :cascade do |t|
     t.integer  "vessel_type"
     t.integer  "status"
-    t.string   "manufacturer"
     t.string   "manufacturation_year"
     t.string   "activation_year"
     t.boolean  "alienated"
@@ -354,7 +362,11 @@ ActiveRecord::Schema.define(version: 20170324004603) do
     t.integer  "classified_id"
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
+    t.integer  "mold_id"
+    t.integer  "brand_id"
+    t.index ["brand_id"], name: "index_vessels_on_brand_id", using: :btree
     t.index ["classified_id"], name: "index_vessels_on_classified_id", using: :btree
+    t.index ["mold_id"], name: "index_vessels_on_mold_id", using: :btree
   end
 
   create_table "votes", force: :cascade do |t|
@@ -398,11 +410,13 @@ ActiveRecord::Schema.define(version: 20170324004603) do
   add_foreign_key "model_names", "brands"
   add_foreign_key "model_names", "vessels"
   add_foreign_key "molds", "brands"
-  add_foreign_key "molds", "vessels"
+  add_foreign_key "post_images", "posts"
   add_foreign_key "posts", "users"
   add_foreign_key "states", "countries"
   add_foreign_key "transactions", "ads"
   add_foreign_key "transactions", "advertisers"
   add_foreign_key "users", "users", column: "partner_id"
+  add_foreign_key "vessels", "brands"
   add_foreign_key "vessels", "classifieds"
+  add_foreign_key "vessels", "molds"
 end

@@ -1,6 +1,23 @@
 class ClassifiedsController < ApplicationController
   before_action :set_classified, only: [:show, :edit, :update, :destroy]
 
+  #Resposta JSON Padrão
+  def respond_for response, status=200
+    respond_to do |format|
+      format.json { render json: response.to_json, status: status }
+    end
+  end
+
+  def brands_for_select
+    response = { brands: Brand.all }
+    respond_for response
+  end
+
+  def molds_for_select
+    response = { molds: Mold.where(brand_id: params[:id]).order(:name) }
+    respond_for response
+  end
+
   # GET /classifieds
   # GET /classifieds.json
   def index
