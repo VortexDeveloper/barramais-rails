@@ -35,6 +35,7 @@ class ApplicationController < ActionController::Base
         :naval_service,
         :naval_service_patent,
         :nautical_license,
+        :license_interest,
         :has_nautical_license,
         :work
       ])
@@ -55,6 +56,7 @@ class ApplicationController < ActionController::Base
         :naval_service,
         :naval_service_patent,
         :nautical_license,
+        :license_interest,
         :has_nautical_license,
         :work
       ])
