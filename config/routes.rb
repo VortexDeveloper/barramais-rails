@@ -33,7 +33,7 @@ Rails.application.routes.draw do
       get 'pending_friendships' => 'users#pending_friendships'
       get 'unfriend/:id' => 'users#unfriend'
       put 'accept_group' => 'users#accept_group'
-      put 'refuse_group/:group' => 'users#refuse_group'
+      put 'refuse_group' => 'users#refuse_group'
       get 'confirmed_groups' => 'users#confirmed_groups'
       get 'refused_groups' => 'users#refused_groups'
       get 'pending_groups' => 'users#pending_groups'

@@ -12,7 +12,9 @@ class UsersController < ApplicationController
     :my_groups,
     :confirmed_groups,
     :pending_groups,
-    :refused_groups
+    :refused_groups,
+    :accept_group,
+    :refuse_group
   ]
 
   before_action :set_user, except: [
@@ -25,7 +27,9 @@ class UsersController < ApplicationController
     :my_groups,
     :confirmed_groups,
     :pending_groups,
-    :refused_groups
+    :refused_groups,
+    :accept_group,
+    :refuse_group
   ]
 
   def event_friends

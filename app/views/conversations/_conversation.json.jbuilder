@@ -7,8 +7,9 @@ json.opposed do
   json.avatar asset_url(opposed.avatar.url)
 end
 
-last = conversation.last_message
-json.last_message do
-  json.body last.body
-  json.sent_date last.sent_date_format
+if last = conversation.last_message
+  json.last_message do
+    json.body last.body
+    json.sent_date last.sent_date_format
+  end
 end
