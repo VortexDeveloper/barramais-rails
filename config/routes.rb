@@ -90,4 +90,10 @@ Rails.application.routes.draw do
   end
 
   resources :interest_areas
+
+  resources :classifieds do
+    collection do
+      get 'brands_for_select' => 'classifieds#brands_for_select'
+    end
+  end
 end
