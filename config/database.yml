@@ -29,6 +29,7 @@ local: &local
   # username: vortex
   # password: vortex20**
 
+
 development:
   <<: *default
   database: barramais_development

@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170328203801) do
+ActiveRecord::Schema.define(version: 20170329163145) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "accessories", force: :cascade do |t|
     t.integer  "accessory_type"
-    t.integer  "name"
+    t.string   "name"
     t.integer  "classified_id"
     t.integer  "vessel_id"
     t.datetime "created_at",     null: false
@@ -112,8 +112,8 @@ ActiveRecord::Schema.define(version: 20170328203801) do
     t.string   "cell_phone"
     t.text     "description"
     t.float    "price"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
     t.string   "photo_file_name"
     t.string   "photo_content_type"
     t.integer  "photo_file_size"
@@ -121,6 +121,14 @@ ActiveRecord::Schema.define(version: 20170328203801) do
     t.integer  "user_id"
     t.string   "document_number"
     t.boolean  "bonded"
+    t.string   "photo_a_file_name"
+    t.string   "photo_a_content_type"
+    t.integer  "photo_a_file_size"
+    t.datetime "photo_a_updated_at"
+    t.string   "photo_b_file_name"
+    t.string   "photo_b_content_type"
+    t.integer  "photo_b_file_size"
+    t.datetime "photo_b_updated_at"
     t.index ["user_id"], name: "index_classifieds_on_user_id", using: :btree
   end
 
