@@ -43,7 +43,8 @@ class User < ApplicationRecord
     :motonauta,
     :arrais_amador,
     :mestre_amador,
-    :capitao_amador
+    :capitao_amador,
+    :sem_interesse
   ]
   enum naval_service_patent: [
     :marinheiro,

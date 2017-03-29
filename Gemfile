@@ -56,6 +56,7 @@ gem 'paperclip-av-transcoder'
 gem 'acts_as_votable'
 gem 'acts_as_commentable_with_threading'
 gem 'aws-sdk'
+gem 'active_record_union'
 
 
 group :development, :test do
