@@ -1,5 +1,5 @@
 class ClassifiedsController < ApplicationController
-  before_action :set_classified, only: [:show, :edit, :update, :destroy]
+  before_action :set_classified, only: [:show, :edit, :update, :destroy, :molds_for_select]
 
   #Resposta JSON Padrão
   def respond_for response, status=200
@@ -16,6 +16,18 @@ class ClassifiedsController < ApplicationController
   def molds_for_select
     response = { molds: Mold.where(brand_id: params[:id]).order(:name) }
     respond_for response
+  end
+
+  def accessories_for_select
+    @accessories = Accessory.where(accessory_type: 0)
+  end
+
+  def communications_for_select
+    @accessories = Accessory.where(accessory_type: 1)
+  end
+
+  def eletronics_for_select
+    @accessories = Accessory.where(accessory_type: 2)
   end
 
   # GET /classifieds
