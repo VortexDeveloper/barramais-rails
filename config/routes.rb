@@ -109,6 +109,10 @@ Rails.application.routes.draw do
   resources :classifieds do
     collection do
       get 'brands_for_select' => 'classifieds#brands_for_select'
+      get 'molds_for_select/:id' => 'classifieds#molds_for_select'
+      get 'accessories_for_select' => 'classifieds#accessories_for_select'
+      get 'communications_for_select' => 'classifieds#communications_for_select'
+      get 'eletronics_for_select' => 'classifieds#eletronics_for_select'
     end
   end
 end
