@@ -8,7 +8,8 @@ class GroupsController < ApplicationController
     :all_members,
     :confirmed_members,
     :pending_members,
-    :refused_members
+    :refused_members,
+    :invitation
   ]
   before_action :authenticate_user!, only: [:create]
 

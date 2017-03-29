@@ -12,7 +12,9 @@ class UsersController < ApplicationController
     :my_groups,
     :confirmed_groups,
     :pending_groups,
-    :refused_groups
+    :refused_groups,
+    :accept_group,
+    :refuse_group
   ]
 
   before_action :set_user, except: [
@@ -25,7 +27,9 @@ class UsersController < ApplicationController
     :my_groups,
     :confirmed_groups,
     :pending_groups,
-    :refused_groups
+    :refused_groups,
+    :accept_group,
+    :refuse_group
   ]
 
   def event_friends
@@ -99,7 +103,11 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.save
         format.html {}
-        format.json { render json: @user }
+        format.json do
+          user_hash = @user.as_json
+          user_hash.merge!({avatar_url: helpers.asset_url(@user.avatar.url)})
+          render json: {user: JWTWrapper.encode(user_hash.as_json) }
+        end
       else
         format.html {}
         format.json { render json: {errors: {avatar: ['não foi possível salvar']}}.to_json }

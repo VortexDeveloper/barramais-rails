@@ -35,7 +35,11 @@ class User::RegistrationsController < Devise::RegistrationsController
       # respond_with resource, location: after_update_path_for(resource)
       respond_with resource do |format|
         format.html { redirect_to after_update_path_for(resource) }
-        format.json { render json: {user: JWTWrapper.encode(resource.as_json) } }
+        format.json do
+          user_hash = resource.as_json
+          user_hash.merge!({avatar_url: helpers.asset_url(resource.avatar.url)})
+          render json: {user: JWTWrapper.encode(user_hash.as_json) }
+        end
       end
     else
       clean_up_passwords resource
