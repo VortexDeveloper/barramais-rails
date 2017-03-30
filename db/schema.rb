@@ -35,15 +35,6 @@ ActiveRecord::Schema.define(version: 20170329163145) do
     t.index ["interest_area_id"], name: "index_ad_interests_on_interest_area_id", using: :btree
   end
 
-  create_table "address_relations", force: :cascade do |t|
-    t.integer  "advertiser_id"
-    t.integer  "address_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-    t.index ["address_id"], name: "index_address_relations_on_address_id", using: :btree
-    t.index ["advertiser_id"], name: "index_address_relations_on_advertiser_id", using: :btree
-  end
-
   create_table "addresses", force: :cascade do |t|
     t.string   "street"
     t.string   "complement"
@@ -252,6 +243,16 @@ ActiveRecord::Schema.define(version: 20170329163145) do
     t.index ["user_id"], name: "index_messages_on_user_id", using: :btree
   end
 
+  create_table "model_names", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "brand_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "vessel_id"
+    t.index ["brand_id"], name: "index_model_names_on_brand_id", using: :btree
+    t.index ["vessel_id"], name: "index_model_names_on_vessel_id", using: :btree
+  end
+
   create_table "molds", force: :cascade do |t|
     t.string   "name"
     t.integer  "brand_id"
@@ -397,8 +398,6 @@ ActiveRecord::Schema.define(version: 20170329163145) do
   add_foreign_key "accessories", "vessels"
   add_foreign_key "ad_interests", "ads"
   add_foreign_key "ad_interests", "interest_areas"
-  add_foreign_key "address_relations", "addresses"
-  add_foreign_key "address_relations", "advertisers"
   add_foreign_key "addresses", "cities"
   add_foreign_key "addresses", "countries"
   add_foreign_key "addresses", "states"
@@ -419,6 +418,8 @@ ActiveRecord::Schema.define(version: 20170329163145) do
   add_foreign_key "groups", "users"
   add_foreign_key "messages", "conversations"
   add_foreign_key "messages", "users"
+  add_foreign_key "model_names", "brands"
+  add_foreign_key "model_names", "vessels"
   add_foreign_key "molds", "brands"
   add_foreign_key "post_images", "posts"
   add_foreign_key "posts", "users"
