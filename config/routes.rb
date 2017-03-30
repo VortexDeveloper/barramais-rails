@@ -109,6 +109,7 @@ Rails.application.routes.draw do
   resources :classifieds do
     collection do
       post 'create_vessel' => 'classifieds#create_vessel'
+      get 'get_classifieds_by_user/:id' => 'classifieds#get_classifieds_by_user'
       get 'get_brand_by_id/:id' => 'classifieds#get_brand_by_id'
       get 'get_mold_by_id/:id' => 'classifieds#get_mold_by_id'
       get 'brands_for_select' => 'classifieds#brands_for_select'
