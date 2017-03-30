@@ -35,15 +35,6 @@ ActiveRecord::Schema.define(version: 20170329163145) do
     t.index ["interest_area_id"], name: "index_ad_interests_on_interest_area_id", using: :btree
   end
 
-  create_table "address_relations", force: :cascade do |t|
-    t.integer  "advertiser_id"
-    t.integer  "address_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-    t.index ["address_id"], name: "index_address_relations_on_address_id", using: :btree
-    t.index ["advertiser_id"], name: "index_address_relations_on_advertiser_id", using: :btree
-  end
-
   create_table "addresses", force: :cascade do |t|
     t.string   "street"
     t.string   "complement"
@@ -397,8 +388,6 @@ ActiveRecord::Schema.define(version: 20170329163145) do
   add_foreign_key "accessories", "vessels"
   add_foreign_key "ad_interests", "ads"
   add_foreign_key "ad_interests", "interest_areas"
-  add_foreign_key "address_relations", "addresses"
-  add_foreign_key "address_relations", "advertisers"
   add_foreign_key "addresses", "cities"
   add_foreign_key "addresses", "countries"
   add_foreign_key "addresses", "states"
