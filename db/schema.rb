@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170329163145) do
+ActiveRecord::Schema.define(version: 20170330165214) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,12 +18,8 @@ ActiveRecord::Schema.define(version: 20170329163145) do
   create_table "accessories", force: :cascade do |t|
     t.integer  "accessory_type"
     t.string   "name"
-    t.integer  "classified_id"
-    t.integer  "vessel_id"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
-    t.index ["classified_id"], name: "index_accessories_on_classified_id", using: :btree
-    t.index ["vessel_id"], name: "index_accessories_on_vessel_id", using: :btree
   end
 
   create_table "ad_interests", force: :cascade do |t|
@@ -363,6 +359,15 @@ ActiveRecord::Schema.define(version: 20170329163145) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  create_table "vessel_accessories", force: :cascade do |t|
+    t.integer  "vessel_id"
+    t.integer  "accessory_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["accessory_id"], name: "index_vessel_accessories_on_accessory_id", using: :btree
+    t.index ["vessel_id"], name: "index_vessel_accessories_on_vessel_id", using: :btree
+  end
+
   create_table "vessels", force: :cascade do |t|
     t.integer  "vessel_type"
     t.integer  "status"
@@ -394,8 +399,6 @@ ActiveRecord::Schema.define(version: 20170329163145) do
     t.index ["voter_id", "voter_type", "vote_scope"], name: "index_votes_on_voter_id_and_voter_type_and_vote_scope", using: :btree
   end
 
-  add_foreign_key "accessories", "classifieds"
-  add_foreign_key "accessories", "vessels"
   add_foreign_key "ad_interests", "ads"
   add_foreign_key "ad_interests", "interest_areas"
   add_foreign_key "addresses", "cities"
@@ -427,6 +430,8 @@ ActiveRecord::Schema.define(version: 20170329163145) do
   add_foreign_key "transactions", "ads"
   add_foreign_key "transactions", "advertisers"
   add_foreign_key "users", "users", column: "partner_id"
+  add_foreign_key "vessel_accessories", "accessories"
+  add_foreign_key "vessel_accessories", "vessels"
   add_foreign_key "vessels", "brands"
   add_foreign_key "vessels", "classifieds"
   add_foreign_key "vessels", "molds"
