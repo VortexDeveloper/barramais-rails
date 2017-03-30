@@ -39,6 +39,7 @@ Rails.application.routes.draw do
       get 'pending_groups' => 'users#pending_groups'
       get 'my_groups' => 'users#my_groups'
     end
+    resources :own_vessels
   end
 
 

@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_many :group_invitations, foreign_key: "member_id", class_name: "GroupMember"
   has_many :messages
   has_many :conversations, foreign_key: :sender_id
+  has_many :own_vessels
 
   #FRIENDSHIP
   has_many :friendships

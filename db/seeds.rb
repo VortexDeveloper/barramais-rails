@@ -5530,3 +5530,7 @@ InterestArea.find_or_create_by("name"=>"Esportes Náuticos")
 InterestArea.find_or_create_by("name"=>"Turismo")
 InterestArea.find_or_create_by("name"=>"Cruzeiros")
 InterestArea.find_or_create_by("name"=>"Eventos Náuticos")
+
+%w(Lanchas Veleiros Jet\ Skis Barcos\ Pesca).each do |type_name|
+  VesselType.find_or_create_by(name: type_name)
+end
