@@ -8,6 +8,11 @@ class ClassifiedsController < ApplicationController
     end
   end
 
+  def get_classifieds_by_user
+    response = { classifieds: Classified.where(user_id: params[:id]).order(:title) }
+    respond_for response
+  end
+
   def get_brand_by_id
     response = { brand: Brand.find(params[:id]) }
     respond_for response
