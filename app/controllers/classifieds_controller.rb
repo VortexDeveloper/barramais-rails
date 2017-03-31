@@ -1,5 +1,5 @@
 class ClassifiedsController < ApplicationController
-  before_action :set_classified, only: [:show, :edit, :update, :destroy, :molds_for_select]
+  before_action :set_classified, only: [:show, :edit, :update, :destroy]
 
   #Resposta JSON Padrão
   def respond_for response, status=200
