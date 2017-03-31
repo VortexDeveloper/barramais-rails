@@ -45,6 +45,16 @@ class ClassifiedsController < ApplicationController
     @accessories = Accessory.where(accessory_type: 2)
   end
 
+  def fishing_categories_for_select
+    response = { fishing_categories: FishingCategory.all }
+    respond_for response
+  end
+
+  def fishing_sub_categories_for_select
+    response = { fishing_sub_categories: FishingSubCategory.where(fishing_category_id: params[:id]).order(:name) }
+    respond_for response
+  end
+
   # GET /classifieds
   # GET /classifieds.json
   def index
