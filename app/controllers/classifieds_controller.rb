@@ -1,5 +1,5 @@
 class ClassifiedsController < ApplicationController
-  before_action :set_classified, only: [:show, :edit, :update, :destroy, :molds_for_select]
+  before_action :set_classified, only: [:show, :edit, :update, :destroy]
 
   #Resposta JSON Padrão
   def respond_for response, status=200
@@ -43,6 +43,16 @@ class ClassifiedsController < ApplicationController
 
   def eletronics_for_select
     @accessories = Accessory.where(accessory_type: 2)
+  end
+
+  def fishing_categories_for_select
+    response = { fishing_categories: FishingCategory.all }
+    respond_for response
+  end
+
+  def fishing_sub_categories_for_select
+    response = { fishing_sub_categories: FishingSubCategory.where(fishing_category_id: params[:id]).order(:name) }
+    respond_for response
   end
 
   # GET /classifieds
