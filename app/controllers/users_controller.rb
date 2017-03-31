@@ -14,7 +14,8 @@ class UsersController < ApplicationController
     :pending_groups,
     :refused_groups,
     :accept_group,
-    :refuse_group
+    :refuse_group,
+    :show
   ]
 
   before_action :set_user, except: [
@@ -179,6 +180,10 @@ class UsersController < ApplicationController
 
   def index
     @users = User.where.not(id: current_user.id)
+  end
+
+  def show
+
   end
 
   private
