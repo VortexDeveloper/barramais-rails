@@ -10,8 +10,7 @@ class Classified < ApplicationRecord
 
   belongs_to :user
 
-  has_one :vessel
-  has_one :accessory
+  has_one :vessel, dependent: :destroy
 
   # enum document_type: [:cpf, :cnpj]
 end

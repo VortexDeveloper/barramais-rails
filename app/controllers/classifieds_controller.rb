@@ -8,6 +8,21 @@ class ClassifiedsController < ApplicationController
     end
   end
 
+  def get_classifieds_by_user
+    response = { classifieds: Classified.where(user_id: params[:id]).order(:title) }
+    respond_for response
+  end
+
+  def get_brand_by_id
+    response = { brand: Brand.find(params[:id]) }
+    respond_for response
+  end
+
+  def get_mold_by_id
+    response = { mold: Mold.find(params[:id]) }
+    respond_for response
+  end
+
   def brands_for_select
     response = { brands: Brand.all }
     respond_for response
@@ -54,7 +69,23 @@ class ClassifiedsController < ApplicationController
   # POST /classifieds.json
   def create
     @classified = Classified.new(classified_params)
+    respond_to do |format|
+      if @classified.save
+        format.html { redirect_to @classified, notice: 'Classified was successfully created.' }
+        format.json { render :show, status: :created, location: @classified }
+      else
+        format.html { render :new }
+        format.json { render json: @classified.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
+  def create_vessel
+    @classified = Classified.new(classified_params)
+    @classified.vessel = Vessel.create(vessel_params)
+    params[:accessories].each do |accessory|
+      @classified.vessel.accessories << Accessory.find(accessory[:id])
+    end
     respond_to do |format|
       if @classified.save
         format.html { redirect_to @classified, notice: 'Classified was successfully created.' }
@@ -109,6 +140,20 @@ class ClassifiedsController < ApplicationController
         :description,
         :price,
         :user_id
+      )
+    end
+
+    def vessel_params
+      params.require(:vessel).permit(
+        :vessel_type,
+        :status,
+        :manufacturation_year,
+        :activation_year,
+        :alienated,
+        :chassis_number,
+        :classified_id,
+        :mold_id,
+        :brand_id
       )
     end
 end
