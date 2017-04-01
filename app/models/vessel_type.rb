@@ -1,0 +1,2 @@
+class VesselType < ApplicationRecord
+end
