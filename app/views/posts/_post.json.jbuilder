@@ -8,7 +8,10 @@ json.user do
   json.avatar_url asset_url(post.user.avatar.url)
 end
 
-json.comments post.root_comments
+json.comments do
+  json.array! post.root_comments, partial: 'posts/comment', as: :comment
+end
+
 json.likes do
   json.size post.get_likes.size
   json.didILiked current_user.voted_for? post

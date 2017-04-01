@@ -1,4 +1,5 @@
 class Comment < ActiveRecord::Base
+  include ActionView::Helpers::DateHelper
   acts_as_nested_set :scope => [:commentable_id, :commentable_type]
 
   validates :body, :presence => true
@@ -45,4 +46,13 @@ class Comment < ActiveRecord::Base
   def self.find_commentable(commentable_str, commentable_id)
     commentable_str.constantize.find(commentable_id)
   end
+
+  def sent_date_format
+    if created_at.today?
+      time_ago_in_words(created_at)
+    else
+      created_at.strftime("%b, %d %Y - %H:%M")
+    end
+  end
+
 end
