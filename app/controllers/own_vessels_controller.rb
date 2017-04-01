@@ -24,7 +24,7 @@ class OwnVesselsController < ApplicationController
   # POST /own_vessels
   # POST /own_vessels.json
   def create
-    @own_vessel = OwnVessel.new(own_vessel_params)
+    current_user.own_vessels.create(vessel_type_id: params[:vessel_type_id])
 
     respond_to do |format|
       if @own_vessel.save
