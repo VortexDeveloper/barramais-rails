@@ -1,8 +1,4 @@
 class Accessory < ApplicationRecord
-  belongs_to :classified
-  belongs_to :vessel
-
-  def accessory_price
-    classified.price
-  end
+  has_many :vessel_accessories, dependent: :destroy
+  has_many :vessels, through: :vessel_accessories
 end
