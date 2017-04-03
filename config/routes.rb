@@ -110,6 +110,7 @@ Rails.application.routes.draw do
   resources :classifieds do
     collection do
       post 'create_vessel' => 'classifieds#create_vessel'
+      post 'create_fishing' => 'classifieds#create_fishing'
       get 'get_classifieds_by_user/:id' => 'classifieds#get_classifieds_by_user'
       get 'get_brand_by_id/:id' => 'classifieds#get_brand_by_id'
       get 'get_mold_by_id/:id' => 'classifieds#get_mold_by_id'
@@ -118,6 +119,8 @@ Rails.application.routes.draw do
       get 'accessories_for_select' => 'classifieds#accessories_for_select'
       get 'communications_for_select' => 'classifieds#communications_for_select'
       get 'eletronics_for_select' => 'classifieds#eletronics_for_select'
+      get 'get_fishing_category_by_id/:id' => 'classifieds#get_fishing_category_by_id'
+      get 'get_fishing_sub_category_by_id/:id' => 'classifieds#get_fishing_sub_category_by_id'
       get 'fishing_categories_for_select' => 'classifieds#fishing_categories_for_select'
       get 'fishing_sub_categories_for_select/:id' => 'classifieds#fishing_sub_categories_for_select'
     end
