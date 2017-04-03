@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_many :group_invitations, foreign_key: "member_id", class_name: "GroupMember"
   has_many :messages
   has_many :conversations, foreign_key: :sender_id
+  has_many :own_vessels
 
   #FRIENDSHIP
   has_many :friendships
@@ -194,6 +195,25 @@ class User < ApplicationRecord
 
   def friendship_request_sent? user
     friends.include?(user) && friendship_between(user).pending?
+  end
+
+  def user_hash
+    user_h ||= self.as_json
+    user_h.merge!({avatar_url: ApplicationController.helpers.asset_url(avatar.url)})
+    own_vessels_hash = own_vessels.reload.map do |own_vessel|
+      {id: own_vessel.vessel_type.id}.merge!({vessel_type_name: own_vessel.vessel_type.name})
+    end
+    user_h[:own_vessels] = own_vessels_hash
+    user_h
+  end
+
+  def save_own_vessels(new_own_vessels_id)
+    own_vessels.each do |ov|
+      ov.destroy unless new_own_vessels_id.include?(ov.vessel_type_id)
+    end
+    new_own_vessels_id.each do |new_own_vessel_id|
+      own_vessels.create(vessel_type_id: new_own_vessel_id)
+    end
   end
 
   private
