@@ -45,6 +45,16 @@ class ClassifiedsController < ApplicationController
     @accessories = Accessory.where(accessory_type: 2)
   end
 
+  def get_fishing_category_by_id
+    response = { fishing_category: FishingCategory.find(params[:id]) }
+    respond_for response
+  end
+
+  def get_fishing_sub_category_by_id
+    response = { fishing_sub_category: FishingSubCategory.find(params[:id]) }
+    respond_for response
+  end
+
   def fishing_categories_for_select
     response = { fishing_categories: FishingCategory.all }
     respond_for response
@@ -96,6 +106,20 @@ class ClassifiedsController < ApplicationController
     params[:accessories].each do |accessory|
       @classified.vessel.accessories << Accessory.find(accessory[:id])
     end
+    respond_to do |format|
+      if @classified.save
+        format.html { redirect_to @classified, notice: 'Classified was successfully created.' }
+        format.json { render :show, status: :created, location: @classified }
+      else
+        format.html { render :new }
+        format.json { render json: @classified.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def create_fishing
+    @classified = Classified.new(classified_params)
+    @classified.fishing = Fishing.create(fishing_params)
     respond_to do |format|
       if @classified.save
         format.html { redirect_to @classified, notice: 'Classified was successfully created.' }
@@ -164,6 +188,16 @@ class ClassifiedsController < ApplicationController
         :classified_id,
         :mold_id,
         :brand_id
+      )
+    end
+
+    def fishing_params
+      params.require(:fishing).permit(
+        :fishing_category_id,
+        :fishing_sub_category_id,
+        :provisional_category,
+        :status,
+        :classified_id
       )
     end
 end
