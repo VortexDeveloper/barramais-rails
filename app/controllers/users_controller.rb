@@ -30,8 +30,13 @@ class UsersController < ApplicationController
     :pending_groups,
     :refused_groups,
     :accept_group,
-    :refuse_group
+    :refuse_group,
+    :load_nautical_sports
   ]
+
+  def load_nautical_sports
+    @nautical_sports = NauticalSport.all
+  end
 
   def event_friends
     event = Event.find(params[:event])
@@ -218,6 +223,7 @@ class UsersController < ApplicationController
     params.require(:user).permit(
       :first_name,
       :last_name,
+      :nickname,
       :cellphone,
       :birthday,
       :sex,
