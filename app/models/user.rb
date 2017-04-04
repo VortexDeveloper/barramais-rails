@@ -19,6 +19,8 @@ class User < ApplicationRecord
   has_many :friends, :through => :friendships
   has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
   has_many :inverse_friends, :through => :inverse_friendships, :source => :user
+  has_many :user_nautical_sports
+  has_many :nautical_sports, :through => :user_nautical_sports
 
   # VENDOR METHODS
 
@@ -43,7 +45,10 @@ class User < ApplicationRecord
   enum relationship: [
     :single,
     :serious_relationship,
-    :married
+    :married,
+    :open_relationship,
+    :divorced,
+    :widow
   ]
   enum nautical_license: [
     :motonauta,
@@ -68,6 +73,27 @@ class User < ApplicationRecord
     :contra_almirante,
     :vice_almirante,
     :almirante_esquadra
+  ]
+
+  enum fishing_type: [
+    :pesca_tradicional,
+    :pesca_profissional
+  ]
+
+  enum water_sport: [
+    :kitesurf,
+    :windsurf,
+    :surfboard,
+    :bodyboard,
+    :caiaque,
+    :standup,
+    :paddle,
+    :vela,
+    :wakeboard,
+    :remo,
+    :canoa,
+    :rafting,
+    :outro
   ]
 
 
