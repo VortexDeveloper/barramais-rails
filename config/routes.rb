@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :users do
     collection do
       put ':id/save_avatar' => 'users#save_avatar', as: 'user_save_avatar'
+      put ':id/save_cover_photo' => 'users#save_cover_photo', as: 'user_save_cover_photo'
       get "index"
       get 'event_friends/:event' => 'users#event_friends'
       get 'group_friends/:group' => 'users#group_friends'
@@ -38,6 +39,7 @@ Rails.application.routes.draw do
       get 'refused_groups' => 'users#refused_groups'
       get 'pending_groups' => 'users#pending_groups'
       get 'my_groups' => 'users#my_groups'
+
     end
     resources :own_vessels
   end
