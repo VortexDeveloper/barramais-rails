@@ -59,7 +59,6 @@ Rails.application.configure do
   config.action_cable.disable_request_forgery_protection = true
 
   config.action_controller.asset_host = 'http://localhost:3000'
-
   # Amazon Web Services - S3
   Paperclip::Attachment.default_options[:s3_host_name] = 's3-sa-east-1.amazonaws.com'
   config.paperclip_defaults = {

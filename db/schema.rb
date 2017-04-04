@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170331181701) do
+
+ActiveRecord::Schema.define(version: 20170404185525) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -284,6 +285,12 @@ ActiveRecord::Schema.define(version: 20170331181701) do
     t.index ["brand_id"], name: "index_molds_on_brand_id", using: :btree
   end
 
+  create_table "nautical_sports", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "own_vessels", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "vessel_type_id"
@@ -354,6 +361,15 @@ ActiveRecord::Schema.define(version: 20170331181701) do
     t.index ["advertiser_id"], name: "index_transactions_on_advertiser_id", using: :btree
   end
 
+  create_table "user_nautical_sports", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "nautical_sport_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.index ["nautical_sport_id"], name: "index_user_nautical_sports_on_nautical_sport_id", using: :btree
+    t.index ["user_id"], name: "index_user_nautical_sports_on_user_id", using: :btree
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "first_name"
     t.string   "last_name"
@@ -391,6 +407,32 @@ ActiveRecord::Schema.define(version: 20170331181701) do
     t.integer  "license_interest"
     t.integer  "fishing",                         default: 0
     t.integer  "nautical_tour",                   default: 0
+<<<<<<< HEAD
+    t.string   "cover_photo_file_name"
+    t.string   "cover_photo_content_type"
+    t.integer  "cover_photo_file_size"
+    t.datetime "cover_photo_updated_at"
+=======
+    t.string   "nickname"
+    t.string   "facebook"
+    t.string   "instagram"
+    t.string   "linkedin"
+    t.string   "twitter"
+    t.string   "website"
+    t.string   "profession"
+    t.string   "mobile_operator"
+    t.string   "alternative_email"
+    t.text     "language"
+    t.text     "nautical_literature"
+    t.text     "nautical_application"
+    t.text     "nautical_brand"
+    t.text     "cruise_trips"
+    t.boolean  "water_sportsman"
+    t.integer  "fishing_type"
+    t.text     "tourist_places"
+    t.boolean  "fishing_tourist"
+    t.integer  "water_sport"
+>>>>>>> c64147115b65067e6034e8ab41ffc60f2c023b50
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["partner_id"], name: "index_users_on_partner_id", using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
@@ -478,6 +520,8 @@ ActiveRecord::Schema.define(version: 20170331181701) do
   add_foreign_key "states", "countries"
   add_foreign_key "transactions", "ads"
   add_foreign_key "transactions", "advertisers"
+  add_foreign_key "user_nautical_sports", "nautical_sports"
+  add_foreign_key "user_nautical_sports", "users"
   add_foreign_key "users", "users", column: "partner_id"
   add_foreign_key "vessel_accessories", "accessories"
   add_foreign_key "vessel_accessories", "vessels"

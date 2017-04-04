@@ -19,6 +19,8 @@ class User < ApplicationRecord
   has_many :friends, :through => :friendships
   has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
   has_many :inverse_friends, :through => :inverse_friendships, :source => :user
+  has_many :user_nautical_sports
+  has_many :nautical_sports, :through => :user_nautical_sports
 
   # VENDOR METHODS
 
@@ -32,13 +34,21 @@ class User < ApplicationRecord
   has_attached_file :avatar, styles: {
     medium: "300x300>",
     thumb: "100x100>"
-  }, default_url: "/images/:style/usermissing.png"
+  }, default_url: '/images/user.jpg'
+
+  has_attached_file :cover_photo, styles: {
+    medium: "300x300>",
+    thumb: "100x100>"
+  }, default_url: '/images/user_cover.jpg'
 
   # ENUMS
   enum relationship: [
     :single,
     :serious_relationship,
-    :married
+    :married,
+    :open_relationship,
+    :divorced,
+    :widow
   ]
   enum nautical_license: [
     :motonauta,
@@ -63,6 +73,27 @@ class User < ApplicationRecord
     :contra_almirante,
     :vice_almirante,
     :almirante_esquadra
+  ]
+
+  enum fishing_type: [
+    :pesca_tradicional,
+    :pesca_profissional
+  ]
+
+  enum water_sport: [
+    :kitesurf,
+    :windsurf,
+    :surfboard,
+    :bodyboard,
+    :caiaque,
+    :standup,
+    :paddle,
+    :vela,
+    :wakeboard,
+    :remo,
+    :canoa,
+    :rafting,
+    :outro
   ]
 
 
@@ -199,7 +230,9 @@ class User < ApplicationRecord
 
   def user_hash
     user_h ||= self.as_json
+    #corrigir isso não está chamando o asse_url corretamente.
     user_h.merge!({avatar_url: ApplicationController.helpers.asset_url(avatar.url)})
+    user_h.merge!({cover_photo_url: ApplicationController.helpers.asset_url(cover_photo.url)})
     own_vessels_hash = own_vessels.reload.map do |own_vessel|
       {id: own_vessel.vessel_type.id}.merge!({vessel_type_name: own_vessel.vessel_type.name})
     end

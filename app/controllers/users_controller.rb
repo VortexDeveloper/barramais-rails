@@ -30,8 +30,13 @@ class UsersController < ApplicationController
     :pending_groups,
     :refused_groups,
     :accept_group,
-    :refuse_group
+    :refuse_group,
+    :load_nautical_sports
   ]
+
+  def load_nautical_sports
+    @nautical_sports = NauticalSport.all
+  end
 
   def event_friends
     event = Event.find(params[:event])
@@ -112,6 +117,26 @@ class UsersController < ApplicationController
       else
         format.html {}
         format.json { render json: {errors: {avatar: ['não foi possível salvar']}}.to_json }
+      end
+    end
+  end
+
+  def save_cover_photo
+    image = Paperclip.io_adapters.for(cover_photo_params[:image])
+    image.original_filename = "#{cover_photo_params[:filename]}"
+    @user.cover_photo = image
+
+    respond_to do |format|
+      if @user.save
+        format.html {}
+        format.json do
+          user_hash = @user.as_json
+          user_hash.merge!({cover_photo_url: helpers.asset_url(@user.cover_photo.url)})
+          render json: {user: JWTWrapper.encode(user_hash.as_json) }
+        end
+      else
+        format.html {}
+        format.json { render json: {errors: {cover_photo: ['não foi possível salvar']}}.to_json }
       end
     end
   end
@@ -198,6 +223,7 @@ class UsersController < ApplicationController
     params.require(:user).permit(
       :first_name,
       :last_name,
+      :nickname,
       :cellphone,
       :birthday,
       :sex,
@@ -217,6 +243,13 @@ class UsersController < ApplicationController
 
   def avatar_params
     params.require(:avatar).permit(
+    :image,
+    :filename
+    )
+  end
+
+  def cover_photo_params
+    params.require(:cover_photo).permit(
     :image,
     :filename
     )
