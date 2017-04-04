@@ -38,6 +38,7 @@ Rails.application.routes.draw do
       get 'refused_groups' => 'users#refused_groups'
       get 'pending_groups' => 'users#pending_groups'
       get 'my_groups' => 'users#my_groups'
+      get 'load_nautical_sports' => 'users#load_nautical_sports'
     end
     resources :own_vessels
   end
