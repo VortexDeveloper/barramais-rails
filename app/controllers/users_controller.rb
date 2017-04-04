@@ -116,6 +116,26 @@ class UsersController < ApplicationController
     end
   end
 
+  def save_cover_photo
+    image = Paperclip.io_adapters.for(cover_photo_params[:image])
+    image.original_filename = "#{cover_photo_params[:filename]}"
+    @user.cover_photo = image
+
+    respond_to do |format|
+      if @user.save
+        format.html {}
+        format.json do
+          user_hash = @user.as_json
+          user_hash.merge!({cover_photo_url: helpers.asset_url(@user.cover_photo.url)})
+          render json: {user: JWTWrapper.encode(user_hash.as_json) }
+        end
+      else
+        format.html {}
+        format.json { render json: {errors: {cover_photo: ['não foi possível salvar']}}.to_json }
+      end
+    end
+  end
+
   #Event Actions
   def my_events
     @events = @user.events.order(:event_date)
@@ -217,6 +237,13 @@ class UsersController < ApplicationController
 
   def avatar_params
     params.require(:avatar).permit(
+    :image,
+    :filename
+    )
+  end
+
+  def cover_photo_params
+    params.require(:cover_photo).permit(
     :image,
     :filename
     )

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170331181701) do
+ActiveRecord::Schema.define(version: 20170403124705) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,15 +29,6 @@ ActiveRecord::Schema.define(version: 20170331181701) do
     t.datetime "updated_at",       null: false
     t.index ["ad_id"], name: "index_ad_interests_on_ad_id", using: :btree
     t.index ["interest_area_id"], name: "index_ad_interests_on_interest_area_id", using: :btree
-  end
-
-  create_table "address_relations", force: :cascade do |t|
-    t.integer  "advertiser_id"
-    t.integer  "address_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-    t.index ["address_id"], name: "index_address_relations_on_address_id", using: :btree
-    t.index ["advertiser_id"], name: "index_address_relations_on_advertiser_id", using: :btree
   end
 
   create_table "addresses", force: :cascade do |t|
@@ -390,6 +381,10 @@ ActiveRecord::Schema.define(version: 20170331181701) do
     t.integer  "license_interest"
     t.integer  "fishing",                         default: 0
     t.integer  "nautical_tour",                   default: 0
+    t.string   "cover_photo_file_name"
+    t.string   "cover_photo_content_type"
+    t.integer  "cover_photo_file_size"
+    t.datetime "cover_photo_updated_at"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["partner_id"], name: "index_users_on_partner_id", using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
@@ -443,8 +438,6 @@ ActiveRecord::Schema.define(version: 20170331181701) do
 
   add_foreign_key "ad_interests", "ads"
   add_foreign_key "ad_interests", "interest_areas"
-  add_foreign_key "address_relations", "addresses"
-  add_foreign_key "address_relations", "advertisers"
   add_foreign_key "addresses", "cities"
   add_foreign_key "addresses", "countries"
   add_foreign_key "addresses", "states"
