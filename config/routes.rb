@@ -40,6 +40,8 @@ Rails.application.routes.draw do
       get 'pending_groups' => 'users#pending_groups'
       get 'my_groups' => 'users#my_groups'
       get 'load_nautical_sports' => 'users#load_nautical_sports'
+      get 'load_state_for_travels' => 'users#load_state_for_travels'
+      get 'load_country_for_travels' => 'users#load_country_for_travels'
     end
     resources :own_vessels
   end

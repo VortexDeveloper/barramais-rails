@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170404185525) do
+ActiveRecord::Schema.define(version: 20170405133910) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -157,6 +157,12 @@ ActiveRecord::Schema.define(version: 20170404185525) do
   create_table "countries", force: :cascade do |t|
     t.string   "name"
     t.string   "code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "country_for_travels", force: :cascade do |t|
+    t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -342,6 +348,12 @@ ActiveRecord::Schema.define(version: 20170404185525) do
     t.index ["user_id"], name: "index_posts_on_user_id", using: :btree
   end
 
+  create_table "state_for_travels", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "states", force: :cascade do |t|
     t.string   "name"
     t.string   "uf"
@@ -358,6 +370,24 @@ ActiveRecord::Schema.define(version: 20170404185525) do
     t.datetime "updated_at",    null: false
     t.index ["ad_id"], name: "index_transactions_on_ad_id", using: :btree
     t.index ["advertiser_id"], name: "index_transactions_on_advertiser_id", using: :btree
+  end
+
+  create_table "traveled_countries", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "country_for_travel_id"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.index ["country_for_travel_id"], name: "index_traveled_countries_on_country_for_travel_id", using: :btree
+    t.index ["user_id"], name: "index_traveled_countries_on_user_id", using: :btree
+  end
+
+  create_table "traveled_states", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "state_for_travel_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.index ["state_for_travel_id"], name: "index_traveled_states_on_state_for_travel_id", using: :btree
+    t.index ["user_id"], name: "index_traveled_states_on_user_id", using: :btree
   end
 
   create_table "user_nautical_sports", force: :cascade do |t|
@@ -516,6 +546,10 @@ ActiveRecord::Schema.define(version: 20170404185525) do
   add_foreign_key "states", "countries"
   add_foreign_key "transactions", "ads"
   add_foreign_key "transactions", "advertisers"
+  add_foreign_key "traveled_countries", "country_for_travels"
+  add_foreign_key "traveled_countries", "users"
+  add_foreign_key "traveled_states", "state_for_travels"
+  add_foreign_key "traveled_states", "users"
   add_foreign_key "user_nautical_sports", "nautical_sports"
   add_foreign_key "user_nautical_sports", "users"
   add_foreign_key "users", "users", column: "partner_id"
