@@ -12,6 +12,7 @@ class Classified < ApplicationRecord
 
   has_one :vessel, dependent: :destroy
   has_one :fishing, dependent: :destroy
+  has_one :product, dependent: :destroy
 
   # enum document_type: [:cpf, :cnpj]
 end
