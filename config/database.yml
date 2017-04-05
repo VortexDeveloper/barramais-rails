@@ -24,7 +24,7 @@ default: &default
 local: &local
   # username: vortex
   # password: vorteX20**
-  username: arthur
+  # username: arthur
   # password: bkur5etc10
   username: vortex
   password: vortex20**
