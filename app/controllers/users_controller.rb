@@ -31,7 +31,9 @@ class UsersController < ApplicationController
     :refused_groups,
     :accept_group,
     :refuse_group,
-    :load_nautical_sports
+    :load_nautical_sports,
+    :load_state_for_travels,
+    :load_country_for_travels
   ]
 
   def load_nautical_sports
