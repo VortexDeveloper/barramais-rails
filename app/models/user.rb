@@ -21,6 +21,10 @@ class User < ApplicationRecord
   has_many :inverse_friends, :through => :inverse_friendships, :source => :user
   has_many :user_nautical_sports
   has_many :nautical_sports, :through => :user_nautical_sports
+  has_many :traveled_states
+  has_many :state_for_travels, :through => :traveled_states
+  has_many :traveled_countries
+  has_many :country_for_travels, :through => :traveled_countries
 
   # VENDOR METHODS
 

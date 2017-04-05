@@ -38,6 +38,14 @@ class UsersController < ApplicationController
     @nautical_sports = NauticalSport.all
   end
 
+  def load_state_for_travels
+    @state_for_travels = StateForTravel.all
+  end
+
+  def load_country_for_travels
+    @country_for_travels = CountryForTravel.all
+  end
+
   def event_friends
     event = Event.find(params[:event])
     response = { users: User.where.not(id: event.all_guests) }
