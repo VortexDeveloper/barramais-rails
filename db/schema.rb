@@ -10,7 +10,6 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
 ActiveRecord::Schema.define(version: 20170404185525) do
 
   # These are extensions that must be enabled in order to support this database
@@ -407,12 +406,6 @@ ActiveRecord::Schema.define(version: 20170404185525) do
     t.integer  "license_interest"
     t.integer  "fishing",                         default: 0
     t.integer  "nautical_tour",                   default: 0
-<<<<<<< HEAD
-    t.string   "cover_photo_file_name"
-    t.string   "cover_photo_content_type"
-    t.integer  "cover_photo_file_size"
-    t.datetime "cover_photo_updated_at"
-=======
     t.string   "nickname"
     t.string   "facebook"
     t.string   "instagram"
@@ -432,7 +425,10 @@ ActiveRecord::Schema.define(version: 20170404185525) do
     t.text     "tourist_places"
     t.boolean  "fishing_tourist"
     t.integer  "water_sport"
->>>>>>> c64147115b65067e6034e8ab41ffc60f2c023b50
+    t.string   "cover_photo_file_name"
+    t.string   "cover_photo_content_type"
+    t.integer  "cover_photo_file_size"
+    t.datetime "cover_photo_updated_at"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["partner_id"], name: "index_users_on_partner_id", using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
