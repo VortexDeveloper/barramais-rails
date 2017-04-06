@@ -25,6 +25,7 @@ class User < ApplicationRecord
   has_many :state_for_travels, :through => :traveled_states
   has_many :traveled_countries
   has_many :country_for_travels, :through => :traveled_countries
+  has_many :album_photos
 
   # VENDOR METHODS
 

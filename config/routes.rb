@@ -129,4 +129,11 @@ Rails.application.routes.draw do
       get 'fishing_sub_categories_for_select/:id' => 'classifieds#fishing_sub_categories_for_select'
     end
   end
+
+  resources :album_photos do
+    collection do
+      get 'get_user_album/:id' => 'album_photos#get_user_album'
+    end
+  end
+  
 end

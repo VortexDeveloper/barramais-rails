@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170405194246) do
+ActiveRecord::Schema.define(version: 20170406150254) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,6 +74,17 @@ ActiveRecord::Schema.define(version: 20170405194246) do
     t.integer  "address_id"
     t.index ["address_id"], name: "index_advertisers_on_address_id", using: :btree
     t.index ["user_id"], name: "index_advertisers_on_user_id", using: :btree
+  end
+
+  create_table "album_photos", force: :cascade do |t|
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.integer  "user_id"
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_file_size"
+    t.datetime "photo_updated_at"
+    t.index ["user_id"], name: "index_album_photos_on_user_id", using: :btree
   end
 
   create_table "areas", force: :cascade do |t|
@@ -272,6 +283,16 @@ ActiveRecord::Schema.define(version: 20170405194246) do
     t.index ["user_id"], name: "index_messages_on_user_id", using: :btree
   end
 
+  create_table "model_names", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "brand_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "vessel_id"
+    t.index ["brand_id"], name: "index_model_names_on_brand_id", using: :btree
+    t.index ["vessel_id"], name: "index_model_names_on_vessel_id", using: :btree
+  end
+
   create_table "molds", force: :cascade do |t|
     t.string   "name"
     t.integer  "brand_id"
@@ -452,10 +473,6 @@ ActiveRecord::Schema.define(version: 20170405194246) do
     t.integer  "license_interest"
     t.integer  "fishing",                         default: 0
     t.integer  "nautical_tour",                   default: 0
-    t.string   "cover_photo_file_name"
-    t.string   "cover_photo_content_type"
-    t.integer  "cover_photo_file_size"
-    t.datetime "cover_photo_updated_at"
     t.string   "nickname"
     t.string   "facebook"
     t.string   "instagram"
@@ -540,6 +557,7 @@ ActiveRecord::Schema.define(version: 20170405194246) do
   add_foreign_key "ads", "interest_areas"
   add_foreign_key "advertisers", "addresses"
   add_foreign_key "advertisers", "users"
+  add_foreign_key "album_photos", "users"
   add_foreign_key "areas", "ads"
   add_foreign_key "cities", "states"
   add_foreign_key "classifieds", "users"
@@ -558,6 +576,8 @@ ActiveRecord::Schema.define(version: 20170405194246) do
   add_foreign_key "groups", "users"
   add_foreign_key "messages", "conversations"
   add_foreign_key "messages", "users"
+  add_foreign_key "model_names", "brands"
+  add_foreign_key "model_names", "vessels"
   add_foreign_key "molds", "brands"
   add_foreign_key "own_vessels", "users"
   add_foreign_key "own_vessels", "vessel_types"
