@@ -93,6 +93,8 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
+  config.action_controller.asset_host = 'https://barramais.herokuapp.com'
+
   # Amazon Web Services - S3
   Paperclip::Attachment.default_options[:s3_host_name] = 's3-sa-east-1.amazonaws.com'
   config.paperclip_defaults = {
