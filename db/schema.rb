@@ -492,10 +492,6 @@ ActiveRecord::Schema.define(version: 20170406150254) do
     t.text     "tourist_places"
     t.boolean  "fishing_tourist"
     t.integer  "water_sport"
-    t.string   "cover_photo_file_name"
-    t.string   "cover_photo_content_type"
-    t.integer  "cover_photo_file_size"
-    t.datetime "cover_photo_updated_at"
     t.text     "national_trips"
     t.text     "international_trips"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
