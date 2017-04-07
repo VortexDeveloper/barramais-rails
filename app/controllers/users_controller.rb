@@ -15,7 +15,8 @@ class UsersController < ApplicationController
     :refused_groups,
     :accept_group,
     :refuse_group,
-    :show
+    :show,
+    :update_user_interests
   ]
 
   before_action :set_user, except: [
@@ -33,7 +34,7 @@ class UsersController < ApplicationController
     :refuse_group,
     :load_nautical_sports,
     :load_state_for_travels,
-    :load_country_for_travels
+    :load_country_for_travels,
   ]
 
   def load_nautical_sports
@@ -62,6 +63,14 @@ class UsersController < ApplicationController
 
   def user_friends
     @friends = @user.accepted_friendships
+  end
+
+  # Updating user interests
+  def update_user_interests
+    @user.interests = []
+    params[:user_interests].each do |interest|
+      @user.interests << Interest.find(interest[:id])
+    end
   end
 
   # def pending_friends

@@ -42,6 +42,7 @@ Rails.application.routes.draw do
       get 'load_nautical_sports' => 'users#load_nautical_sports'
       get 'load_state_for_travels' => 'users#load_state_for_travels'
       get 'load_country_for_travels' => 'users#load_country_for_travels'
+      put 'update_user_interests/:id' => 'users#update_user_interests'
     end
     resources :own_vessels
   end
