@@ -26,6 +26,8 @@ class User < ApplicationRecord
   has_many :traveled_countries
   has_many :country_for_travels, :through => :traveled_countries
   has_many :album_photos
+  has_many :user_interests, dependent: :destroy
+  has_many :interests, :through => :user_interests
 
   # VENDOR METHODS
 

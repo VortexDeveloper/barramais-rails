@@ -135,5 +135,11 @@ Rails.application.routes.draw do
       get 'get_user_album/:id' => 'album_photos#get_user_album'
     end
   end
-  
+
+  resources :interests do
+    collection do
+      get 'get_interests_by_user/:id' => 'interests#get_interests_by_user'
+    end
+  end
+
 end

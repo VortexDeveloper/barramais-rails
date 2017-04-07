@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170406150254) do
+ActiveRecord::Schema.define(version: 20170407142152) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -273,6 +273,16 @@ ActiveRecord::Schema.define(version: 20170406150254) do
     t.datetime "photo_updated_at"
   end
 
+  create_table "interests", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_file_size"
+    t.datetime "photo_updated_at"
+  end
+
   create_table "messages", force: :cascade do |t|
     t.text     "body"
     t.integer  "user_id"
@@ -425,6 +435,15 @@ ActiveRecord::Schema.define(version: 20170406150254) do
     t.datetime "updated_at",          null: false
     t.index ["state_for_travel_id"], name: "index_traveled_states_on_state_for_travel_id", using: :btree
     t.index ["user_id"], name: "index_traveled_states_on_user_id", using: :btree
+  end
+
+  create_table "user_interests", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "interest_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["interest_id"], name: "index_user_interests_on_interest_id", using: :btree
+    t.index ["user_id"], name: "index_user_interests_on_user_id", using: :btree
   end
 
   create_table "user_nautical_sports", force: :cascade do |t|
@@ -594,6 +613,8 @@ ActiveRecord::Schema.define(version: 20170406150254) do
   add_foreign_key "traveled_countries", "users"
   add_foreign_key "traveled_states", "state_for_travels"
   add_foreign_key "traveled_states", "users"
+  add_foreign_key "user_interests", "interests"
+  add_foreign_key "user_interests", "users"
   add_foreign_key "user_nautical_sports", "nautical_sports"
   add_foreign_key "user_nautical_sports", "users"
   add_foreign_key "users", "users", column: "partner_id"
