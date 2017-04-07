@@ -120,8 +120,8 @@ class UsersController < ApplicationController
       if @user.save
         format.html {}
         format.json do
-          user_hash = @user.as_json
-          user_hash.merge!({avatar_url: helpers.asset_url(@user.avatar.url)})
+          user_hash = @user.user_hash
+          # user_hash.merge!({avatar_url: helpers.asset_url(@user.avatar.url)})
           render json: {user: JWTWrapper.encode(user_hash.as_json) }
         end
       else
@@ -140,8 +140,8 @@ class UsersController < ApplicationController
       if @user.save
         format.html {}
         format.json do
-          user_hash = @user.as_json
-          user_hash.merge!({cover_photo_url: helpers.asset_url(@user.cover_photo.url)})
+          user_hash = @user.user_hash
+          # user_hash.merge!({cover_photo_url: helpers.asset_url(@user.cover_photo.url)})
           render json: {user: JWTWrapper.encode(user_hash.as_json) }
         end
       else
