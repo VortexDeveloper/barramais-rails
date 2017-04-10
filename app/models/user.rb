@@ -19,7 +19,7 @@ class User < ApplicationRecord
   has_many :friends, :through => :friendships
   has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
   has_many :inverse_friends, :through => :inverse_friendships, :source => :user
-  has_many :user_nautical_sports
+  has_many :user_nautical_sports, dependent: :destroy
   has_many :nautical_sports, :through => :user_nautical_sports
   has_many :traveled_states
   has_many :state_for_travels, :through => :traveled_states
@@ -80,11 +80,6 @@ class User < ApplicationRecord
     :contra_almirante,
     :vice_almirante,
     :almirante_esquadra
-  ]
-
-  enum fishing_type: [
-    :pesca_tradicional,
-    :pesca_profissional
   ]
 
   enum water_sport: [
