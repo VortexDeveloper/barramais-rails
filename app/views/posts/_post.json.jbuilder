@@ -25,4 +25,20 @@ json.post_images do
   end
 end
 
+if post.rich_url.present?
+  json.rich_url do
+    rich = JSON.parse(post.rich_url.first)
+    json.title rich['title']
+    json.description rich['description']
+    json.favicon rich['favicon']
+    json.images do
+      json.array!(rich['images']) do |image|
+        json.src image['src']
+        json.size image['size']
+        json.type image['type']
+      end
+    end
+  end
+end
+
 json.url post_url(post, format: :json)

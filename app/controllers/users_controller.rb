@@ -16,7 +16,9 @@ class UsersController < ApplicationController
     :accept_group,
     :refuse_group,
     :show,
-    :update_user_interests
+    :update_user_interests,
+    :update_user_nautical_sports,
+    :get_nautical_sports_by_user
   ]
 
   before_action :set_user, except: [
@@ -71,7 +73,27 @@ class UsersController < ApplicationController
     params[:user_interests].each do |interest|
       @user.interests << Interest.find(interest[:id])
     end
+    respond_to do |format|
+      format.html {}
+      format.json do
+        user_hash = @user.user_hash
+        render json: {user: JWTWrapper.encode(user_hash.as_json) }
+      end
+    end
   end
+
+  # Updating user nautical sports
+  def update_user_nautical_sports
+    @user.nautical_sports = []
+    params[:user_nautical_sports].each do |nautical_sport|
+      @user.nautical_sports << NauticalSport.find(nautical_sport[:id])
+    end
+  end
+
+  # Get nautical sports by user
+  # def get_nautical_sports_by_user
+  #   @nautical_sports = NauticalSport.where(user_id: params[:id]).map { |f| f.nautical_sport }
+  # end
 
   # def pending_friends
   #   @pending_friends = current_user.pending_friends.order(:first_name)
@@ -256,7 +278,29 @@ class UsersController < ApplicationController
       :nautical_work,
       :naval_service,
       :nautical_license,
-      :has_nautical_license
+      :has_nautical_license,
+      :profession,
+      :work,
+      :nautical_tour,
+      :fishing,
+      :facebook,
+      :instagram,
+      :twitter,
+      :linkedin,
+      :website,
+      :language,
+      :mobile_operator,
+      :alternative_email,
+      :national_trips,
+      :international_trips,
+      :cruise_trips,
+      :nautical_literature,
+      :nautical_application,
+      :nautical_brand,
+      :fishing_tourist,
+      :tourist_places,
+      :water_sportsman,
+      :fishing_type
     )
   end
 

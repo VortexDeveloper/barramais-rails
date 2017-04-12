@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:enrich_link]
   before_action :set_post, only: [:show, :edit, :update, :destroy, :like, :comments, :comment]
 
   # GET /posts
@@ -26,10 +26,12 @@ class PostsController < ApplicationController
   # POST /posts.json
   def create
     @post = current_user.create_post(post_params)
+    @post.rich_url = rich_url_params[:medias][:rich_url] if rich_url_params[:medias][:rich_url].present?
+    @post.save
 
     respond_to do |format|
       if @post.persisted?
-        save_post_images(@post) if media_params.present?
+        save_post_images(@post) if media_params[:images].present?
         format.html { redirect_to @post, notice: 'Post was successfully created.' }
         format.json { render :show, status: :created, location: @post }
       else
@@ -93,6 +95,27 @@ class PostsController < ApplicationController
     @comments = @post.root_comments.order(created_at: :asc)
   end
 
+  def enrich_link
+    begin
+      url = params[:url]
+      unless url[/\Ahttp:\/\//] || url[/\Ahttps:\/\//]
+        url = "http://#{url}"
+      end
+      @site_metadata = LinkThumbnailer.generate(url)
+    rescue Net::OpenTimeout => e
+      respond_to do |format|
+        format.html {}
+        format.json { render json: {errors: {message: e.get_message}} }
+      end
+    rescue LinkThumbnailer::Exceptions => e
+      byebug
+      respond_to do |format|
+        format.html {}
+        format.json { render json: {errors: {message: e.get_message}} }
+      end
+    end
+  end
+
   private
     def save_post_images(post)
       media_params[:medias].each do |mparam|
@@ -123,7 +146,11 @@ class PostsController < ApplicationController
       )
     end
 
+    def rich_url_params
+      params.permit(medias: {rich_url: []})
+    end
+
     def media_params
-      params.permit(medias: [:image, :filename])
+      params.permit(medias: {images: [:image, :filename]})
     end
 end

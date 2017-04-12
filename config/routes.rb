@@ -43,6 +43,7 @@ Rails.application.routes.draw do
       get 'load_state_for_travels' => 'users#load_state_for_travels'
       get 'load_country_for_travels' => 'users#load_country_for_travels'
       put 'update_user_interests/:id' => 'users#update_user_interests'
+      put 'update_user_nautical_sports/:id' => 'users#update_user_nautical_sports'
     end
     resources :own_vessels
   end
@@ -79,6 +80,9 @@ Rails.application.routes.draw do
       get :like
       post :comment
       get :comments
+    end
+    collection do
+      get :enrich_link
     end
   end
   resources :barrachat, only: [:index]
@@ -140,6 +144,12 @@ Rails.application.routes.draw do
   resources :interests do
     collection do
       get 'get_interests_by_user/:id' => 'interests#get_interests_by_user'
+    end
+  end
+
+  resources :nautical_sports do
+    collection do
+      get 'get_nautical_sports_by_user/:id' => 'nautical_sports#get_nautical_sports_by_user'
     end
   end
 

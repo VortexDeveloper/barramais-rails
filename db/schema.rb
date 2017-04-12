@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170407142152) do
+ActiveRecord::Schema.define(version: 20170411222319) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,15 @@ ActiveRecord::Schema.define(version: 20170407142152) do
     t.datetime "updated_at",       null: false
     t.index ["ad_id"], name: "index_ad_interests_on_ad_id", using: :btree
     t.index ["interest_area_id"], name: "index_ad_interests_on_interest_area_id", using: :btree
+  end
+
+  create_table "address_relations", force: :cascade do |t|
+    t.integer  "advertiser_id"
+    t.integer  "address_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["address_id"], name: "index_address_relations_on_address_id", using: :btree
+    t.index ["advertiser_id"], name: "index_address_relations_on_advertiser_id", using: :btree
   end
 
   create_table "addresses", force: :cascade do |t|
@@ -349,6 +358,7 @@ ActiveRecord::Schema.define(version: 20170407142152) do
     t.float    "cached_weighted_average", default: 0.0
     t.integer  "domain",                  default: 0
     t.integer  "domain_id"
+    t.json     "rich_url"
     t.index ["cached_votes_down"], name: "index_posts_on_cached_votes_down", using: :btree
     t.index ["cached_votes_score"], name: "index_posts_on_cached_votes_score", using: :btree
     t.index ["cached_votes_total"], name: "index_posts_on_cached_votes_total", using: :btree
@@ -560,6 +570,8 @@ ActiveRecord::Schema.define(version: 20170407142152) do
 
   add_foreign_key "ad_interests", "ads"
   add_foreign_key "ad_interests", "interest_areas"
+  add_foreign_key "address_relations", "addresses"
+  add_foreign_key "address_relations", "advertisers"
   add_foreign_key "addresses", "cities"
   add_foreign_key "addresses", "countries"
   add_foreign_key "addresses", "states"
