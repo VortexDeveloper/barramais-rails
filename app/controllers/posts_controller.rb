@@ -99,16 +99,15 @@ class PostsController < ApplicationController
     begin
       url = params[:url]
       unless url[/\Ahttp:\/\//] || url[/\Ahttps:\/\//]
-        url = "http://#{url}"
+        @url = "http://#{url}"
       end
-      @site_metadata = LinkThumbnailer.generate(url)
+      @site_metadata = LinkThumbnailer.generate(@url)
     rescue Net::OpenTimeout => e
       respond_to do |format|
         format.html {}
         format.json { render json: {errors: {message: e.get_message}} }
       end
     rescue LinkThumbnailer::Exceptions => e
-      byebug
       respond_to do |format|
         format.html {}
         format.json { render json: {errors: {message: e.get_message}} }
