@@ -42,6 +42,8 @@ Rails.application.routes.draw do
       get 'load_nautical_sports' => 'users#load_nautical_sports'
       get 'load_state_for_travels' => 'users#load_state_for_travels'
       get 'load_country_for_travels' => 'users#load_country_for_travels'
+      put 'update_user_interests/:id' => 'users#update_user_interests'
+      put 'update_user_nautical_sports/:id' => 'users#update_user_nautical_sports'
     end
     resources :own_vessels
   end
@@ -132,4 +134,23 @@ Rails.application.routes.draw do
       get 'fishing_sub_categories_for_select/:id' => 'classifieds#fishing_sub_categories_for_select'
     end
   end
+
+  resources :album_photos do
+    collection do
+      get 'get_user_album/:id' => 'album_photos#get_user_album'
+    end
+  end
+
+  resources :interests do
+    collection do
+      get 'get_interests_by_user/:id' => 'interests#get_interests_by_user'
+    end
+  end
+
+  resources :nautical_sports do
+    collection do
+      get 'get_nautical_sports_by_user/:id' => 'nautical_sports#get_nautical_sports_by_user'
+    end
+  end
+
 end

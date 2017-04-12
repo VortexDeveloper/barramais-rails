@@ -19,12 +19,15 @@ class User < ApplicationRecord
   has_many :friends, :through => :friendships
   has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
   has_many :inverse_friends, :through => :inverse_friendships, :source => :user
-  has_many :user_nautical_sports
+  has_many :user_nautical_sports, dependent: :destroy
   has_many :nautical_sports, :through => :user_nautical_sports
   has_many :traveled_states
   has_many :state_for_travels, :through => :traveled_states
   has_many :traveled_countries
   has_many :country_for_travels, :through => :traveled_countries
+  has_many :album_photos
+  has_many :user_interests, dependent: :destroy
+  has_many :interests, :through => :user_interests
 
   # VENDOR METHODS
 
@@ -79,11 +82,6 @@ class User < ApplicationRecord
     :almirante_esquadra
   ]
 
-  enum fishing_type: [
-    :pesca_tradicional,
-    :pesca_profissional
-  ]
-
   enum water_sport: [
     :kitesurf,
     :windsurf,
@@ -106,12 +104,17 @@ class User < ApplicationRecord
     with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, on: :create
   }
 
+  validates :alternative_email, format: {
+    with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, on: :update
+  }
+
   validates :first_name, :last_name, presence: true
   validates_date :birthday, on_or_before: 18.years.ago, on: :create
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\z/
   devise :database_authenticatable, :validatable, password_length: 8..128
   validate :single_word_last_name
   validate :single_word_first_name
+  validates :birthday, presence: true
 
   #SCOPES
   scope :all_by,      ->(event) {joins(:event_invitations).where(event_guests: {event_id: event.id})}

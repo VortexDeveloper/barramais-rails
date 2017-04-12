@@ -85,6 +85,17 @@ ActiveRecord::Schema.define(version: 20170411222319) do
     t.index ["user_id"], name: "index_advertisers_on_user_id", using: :btree
   end
 
+  create_table "album_photos", force: :cascade do |t|
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.integer  "user_id"
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_file_size"
+    t.datetime "photo_updated_at"
+    t.index ["user_id"], name: "index_album_photos_on_user_id", using: :btree
+  end
+
   create_table "areas", force: :cascade do |t|
     t.string   "name"
     t.float    "price"
@@ -271,6 +282,16 @@ ActiveRecord::Schema.define(version: 20170411222319) do
     t.datetime "photo_updated_at"
   end
 
+  create_table "interests", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_file_size"
+    t.datetime "photo_updated_at"
+  end
+
   create_table "messages", force: :cascade do |t|
     t.text     "body"
     t.integer  "user_id"
@@ -416,6 +437,15 @@ ActiveRecord::Schema.define(version: 20170411222319) do
     t.index ["user_id"], name: "index_traveled_states_on_user_id", using: :btree
   end
 
+  create_table "user_interests", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "interest_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["interest_id"], name: "index_user_interests_on_interest_id", using: :btree
+    t.index ["user_id"], name: "index_user_interests_on_user_id", using: :btree
+  end
+
   create_table "user_nautical_sports", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "nautical_sport_id"
@@ -548,6 +578,7 @@ ActiveRecord::Schema.define(version: 20170411222319) do
   add_foreign_key "ads", "interest_areas"
   add_foreign_key "advertisers", "addresses"
   add_foreign_key "advertisers", "users"
+  add_foreign_key "album_photos", "users"
   add_foreign_key "areas", "ads"
   add_foreign_key "cities", "states"
   add_foreign_key "classifieds", "users"
@@ -582,6 +613,8 @@ ActiveRecord::Schema.define(version: 20170411222319) do
   add_foreign_key "traveled_countries", "users"
   add_foreign_key "traveled_states", "state_for_travels"
   add_foreign_key "traveled_states", "users"
+  add_foreign_key "user_interests", "interests"
+  add_foreign_key "user_interests", "users"
   add_foreign_key "user_nautical_sports", "nautical_sports"
   add_foreign_key "user_nautical_sports", "users"
   add_foreign_key "users", "users", column: "partner_id"
