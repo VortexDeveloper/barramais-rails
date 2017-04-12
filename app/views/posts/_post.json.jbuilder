@@ -38,6 +38,7 @@ if post.rich_url.present?
         json.type image['type']
       end
     end
+    json.url rich['url'] if rich['url'].present?
   end
 end
 
