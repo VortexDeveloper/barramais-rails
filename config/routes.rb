@@ -81,6 +81,9 @@ Rails.application.routes.draw do
       post :comment
       get :comments
     end
+    collection do
+      get :enrich_link
+    end
   end
   resources :barrachat, only: [:index]
   resources :conversations, only: [:index, :create] do
