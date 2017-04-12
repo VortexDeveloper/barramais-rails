@@ -1,4 +1,4 @@
-json.extract! comment, :body, :parent_id, :created_at, :updated_at
+json.extract! comment, :id, :body, :parent_id, :created_at, :updated_at
 
 json.sent_date_format comment.sent_date_format
 

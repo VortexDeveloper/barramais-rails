@@ -117,7 +117,7 @@ class PostsController < ApplicationController
 
   private
     def save_post_images(post)
-      media_params[:medias].each do |mparam|
+      media_params[:images].each do |mparam|
         image = Paperclip.io_adapters.for(mparam[:image])
         image.original_filename = "#{current_user.id}#{mparam[:filename]}"
         post_image = PostImage.new
@@ -150,6 +150,6 @@ class PostsController < ApplicationController
     end
 
     def media_params
-      params.permit(medias: {images: [:image, :filename]})
+      params.require(:medias).permit(images: [:image, :filename])
     end
 end

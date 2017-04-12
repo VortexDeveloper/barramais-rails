@@ -74,7 +74,8 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :coments
+  resources :comments, only: [:destroy]
+
   resources :posts do
     member do
       get :like
