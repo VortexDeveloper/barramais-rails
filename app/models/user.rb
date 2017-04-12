@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+  # TARGET FOR NOTIFICATIONS
+  acts_as_target
+
   # ASSOCIATIONS
   belongs_to :partner, class_name: User, optional: true
 

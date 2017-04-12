@@ -154,4 +154,6 @@ Rails.application.routes.draw do
     end
   end
 
+  notify_to :users,                       controllers: 'users/notifications'
+  notify_to :admins, with_devise: :users, controllers: 'admins/notifications_with_devise'
 end
