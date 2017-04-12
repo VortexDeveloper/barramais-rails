@@ -73,6 +73,13 @@ class UsersController < ApplicationController
     params[:user_interests].each do |interest|
       @user.interests << Interest.find(interest[:id])
     end
+    respond_to do |format|
+      format.html {}
+      format.json do
+        user_hash = @user.user_hash
+        render json: {user: JWTWrapper.encode(user_hash.as_json) }
+      end
+    end
   end
 
   # Updating user nautical sports
