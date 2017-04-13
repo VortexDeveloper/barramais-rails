@@ -64,8 +64,4 @@ class Users::NotificationsController < ActivityNotification::NotificationsContro
   # def return_back_or_ajax
   #   super
   # end
-
-  def index
-    @notifications = @target.notifications
-  end
 end
