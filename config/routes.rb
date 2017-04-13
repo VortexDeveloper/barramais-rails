@@ -57,6 +57,7 @@ Rails.application.routes.draw do
       get 'pending_members/:id' => 'groups#pending_members'
       get 'refused_members/:id' => 'groups#refused_members'
       put 'invitation/:id' => 'groups#invitation'
+      put 'save_cover_photo/:id' => 'groups#save_cover_photo'
     end
   end
 
@@ -74,7 +75,8 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :coments
+  resources :comments, only: [:destroy]
+
   resources :posts do
     member do
       get :like

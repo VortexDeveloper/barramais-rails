@@ -11,7 +11,7 @@ class GroupsController < ApplicationController
     :refused_members,
     :invitation
   ]
-  before_action :authenticate_user!, only: [:create]
+  before_action :authenticate_user!, only: [:create, :update]
 
   #Resposta JSON Padrão
   def respond_for response, status=200
@@ -57,12 +57,22 @@ class GroupsController < ApplicationController
     end
   end
 
-  #Salvar imagem de capa
-  def save_cover_photo group
+  def save_cover_photo
     image = Paperclip.io_adapters.for(cover_photo_params[:image])
     image.original_filename = "#{cover_photo_params[:filename]}"
-    group.cover_photo = image
-    group.save
+    @group.cover_photo = image
+
+    respond_to do |format|
+      if @group.save
+        format.html {}
+        format.json do
+          render json: @group
+        end
+      else
+        format.html {}
+        format.json { render json: {errors: {cover_photo: ['não foi possível salvar']}}.to_json }
+      end
+    end
   end
 
   # GET /groups
@@ -93,11 +103,14 @@ class GroupsController < ApplicationController
   # POST /groups.json
   def create
     @group = Group.new(group_params)
+    @group.user = current_user
     respond_to do |format|
       if @group.save
         @group.members << current_user
         current_user.accept_group @group
-        save_cover_photo(@group)
+        image = Paperclip.io_adapters.for(cover_photo_params[:image])
+        image.original_filename = "#{cover_photo_params[:filename]}"
+        @group.cover_photo = image
         format.html { redirect_to @group, notice: 'Group was successfully created.' }
         format.json { render @group }
       else
@@ -113,7 +126,7 @@ class GroupsController < ApplicationController
     respond_to do |format|
       if @group.update(group_params)
         format.html { redirect_to @group, notice: 'Group was successfully updated.' }
-        format.json { render :show, status: :ok, location: @group }
+        format.json { render @group }
       else
         format.html { render :edit }
         format.json { render json: @group.errors, status: :unprocessable_entity }
@@ -139,7 +152,6 @@ class GroupsController < ApplicationController
 
     def group_params
       params.require(:group).permit(
-        :user_id,
         :name,
         :event_date,
         :about,

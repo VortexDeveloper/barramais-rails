@@ -31,13 +31,23 @@ if post.rich_url.present?
     json.title rich['title']
     json.description rich['description']
     json.favicon rich['favicon']
-    json.images do
-      json.array!(rich['images']) do |image|
-        json.src image['src']
-        json.size image['size']
-        json.type image['type']
+    if rich['images'].present?
+      json.images do
+        json.array!(rich['images']) do |image|
+          json.src image['src']
+          json.size image['size']
+          json.type image['type']
+        end
       end
     end
+    if rich['videos'].present?
+      json.videos do
+        json.array!(rich['videos']) do |video|
+          json.embed_code video['embed_code']
+        end
+      end
+    end
+
     json.url rich['url'] if rich['url'].present?
   end
 end
