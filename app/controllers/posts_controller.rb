@@ -97,9 +97,9 @@ class PostsController < ApplicationController
 
   def enrich_link
     begin
-      url = params[:url]
-      unless url[/\Ahttp:\/\//] || url[/\Ahttps:\/\//]
-        @url = "http://#{url}"
+      @url = params[:url]
+      unless @url[/\Ahttp:\/\//] || @url[/\Ahttps:\/\//]
+        @url = "http://#{@url}"
       end
       @site_metadata = LinkThumbnailer.generate(@url)
     rescue Net::OpenTimeout => e
