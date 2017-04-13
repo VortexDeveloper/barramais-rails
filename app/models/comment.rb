@@ -63,7 +63,7 @@ class Comment < ActiveRecord::Base
     # Notification targets as :targets is a necessary option
     # Set to notify to author and users commented to the post, except comment owner self
     targets: ->(comment, key) {
-      ([comment.commentable.user] - [comment.user]).uniq
+      ([comment.commentable.user] + comment.commentable.commented_users.to_a - [comment.user]).uniq
     }
 
   def notify_users
