@@ -19,6 +19,15 @@ class Users::NotificationsController < ActivityNotification::NotificationsContro
   #   super
   # end
 
+  # Método do Arthur
+  # def openAll
+  #   data = Now
+  #   list.each do |notification|
+  #     notification.opened_at = data
+  #     notification.save!
+  #   end
+  # end
+
   # POST /:target_type/:target_id/notifications/:id/open
   # def open
   #   super
