@@ -44,6 +44,7 @@ Rails.application.routes.draw do
       get 'load_country_for_travels' => 'users#load_country_for_travels'
       put 'update_user_interests/:id' => 'users#update_user_interests'
       put 'update_user_nautical_sports/:id' => 'users#update_user_nautical_sports'
+      get 'open_all_user_notifications/:id' => 'users#open_all_user_notifications'
     end
     resources :own_vessels
   end
@@ -158,4 +159,6 @@ Rails.application.routes.draw do
 
   notify_to :users,                       controllers: 'users/notifications'
   notify_to :admins, with_devise: :users, controllers: 'admins/notifications_with_devise'
+
+  # get '/users/:id/notifications/check_notifications' => 'users/notifications#check_notifications'
 end
