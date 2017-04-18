@@ -54,7 +54,8 @@ Rails.application.routes.draw do
     collection do
       get 'all_members/:id' => 'groups#all_members'
       get 'confirmed_members/:id' => 'groups#confirmed_members'
-      get 'pending_members/:id' => 'groups#pending_members'
+      get 'pending_by_admin/:id' => 'groups#pending_by_admin'
+      get 'pending_by_user/:id' => 'groups#pending_by_user'
       get 'refused_members/:id' => 'groups#refused_members'
       put 'invitation/:id' => 'groups#invitation'
       put 'save_cover_photo/:id' => 'groups#save_cover_photo'

@@ -180,7 +180,6 @@ class User < ApplicationRecord
   end
 
   #Conversations Actions
-
   def initiated_conversations
     conversations = Conversation.where("sender_id = :user_id OR recipient_id = :user_id", user_id: id).includes(:messages)
     conversations.sort { |c| c.last_message.created_at }

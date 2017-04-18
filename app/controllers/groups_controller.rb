@@ -7,7 +7,8 @@ class GroupsController < ApplicationController
     :save_cover_photo,
     :all_members,
     :confirmed_members,
-    :pending_members,
+    :pending_by_user,
+    :pending_by_admin,
     :refused_members,
     :invitation
   ]
@@ -21,37 +22,40 @@ class GroupsController < ApplicationController
   end
 
   def all_members
-    response = { all_members: @group.members }
-    respond_for response
+    @all_members = @group.members
   end
 
   def confirmed_members
-    response = { confirmed_members: @group.confirmed_members }
-    respond_for response
+    @confirmed_members = @group.confirmed_members
   end
 
-  def pending_members
-    response = { pending_members: @group.pending_members }
-    respond_for response
+  def pending_by_user
+    @pending_by_user = @group.pending_by_user
+  end
+
+  def pending_by_admin
+    @pending_by_admin = @group.pending_by_admin
   end
 
   def refused_members
-    response = { refused_members: @group.refused_members }
-    respond_for response
+    @refused_members = @group.refused_members
   end
 
   #Convida usuário e retorna lista de convidados atualizada
   def invitation
     begin
       params[:members].each do |member|
-        @group.members << User.find(member[:id])
+        user = User.find(member[:id])
+        @group.members << user
+        group_member = GroupMember.where(member_id: user.id, group_id: @group.id).first
+        group_member.group_member!
       end
       response = { members: @group.members.order(:first_name) }
       respond_for response
     rescue ActiveRecord::RecordInvalid => e
       response = { error: e.message }
       respond_for response, 409
-    rescue e
+    rescue => e
       response = { error: e.message }
       respond_for response
     end

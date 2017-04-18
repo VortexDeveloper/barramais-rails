@@ -53,14 +53,12 @@ class UsersController < ApplicationController
 
   def event_friends
     event = Event.find(params[:event])
-    response = { users: User.where.not(id: event.all_guests) }
-    respond_for response
+    @event_friends = User.where.not(id: event.all_guests)
   end
 
   def group_friends
     group = Group.find(params[:group])
-    response = { users: User.where.not(id: group.all_members) }
-    respond_for response
+    @group_friends = User.where.not(id: group.all_members)
   end
 
   def user_friends

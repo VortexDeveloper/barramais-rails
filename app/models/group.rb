@@ -12,9 +12,13 @@ class Group < ApplicationRecord
   def confirmed_members
     members.where(group_members: {status: 1})
   end
-  #Todos os membros pendentes deste grupo
-  def pending_members
-    members.where(group_members: {status: 0})
+  #Todos os membros pendentes de aceitação do admin deste grupo
+  def pending_by_user
+    members.where(group_members: {status: 0, who_started: 0})
+  end
+  #Todos os membros pendentes de aceitação do admin deste grupo
+  def pending_by_admin
+    members.where(group_members: {status: 0, who_started: 1})
   end
   #Todos os membros que rejeitaram o convite deste grupo
   def refused_members
