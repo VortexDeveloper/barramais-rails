@@ -39,6 +39,10 @@ class UsersController < ApplicationController
     :load_country_for_travels,
   ]
 
+  def open_all_user_notifications
+    @user.open_all_notifications
+  end
+
   def load_nautical_sports
     @nautical_sports = NauticalSport.all
   end

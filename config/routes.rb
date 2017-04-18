@@ -44,6 +44,7 @@ Rails.application.routes.draw do
       get 'load_country_for_travels' => 'users#load_country_for_travels'
       put 'update_user_interests/:id' => 'users#update_user_interests'
       put 'update_user_nautical_sports/:id' => 'users#update_user_nautical_sports'
+      get 'open_all_user_notifications/:id' => 'users#open_all_user_notifications'
     end
     resources :own_vessels
   end
