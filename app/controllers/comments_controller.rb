@@ -75,5 +75,5 @@ class CommentsController < ApplicationController
       :post_id
       )
     end
-    
+
 end

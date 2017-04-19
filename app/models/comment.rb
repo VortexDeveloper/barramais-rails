@@ -65,6 +65,14 @@ class Comment < ActiveRecord::Base
     targets: ->(comment, key) {
       ([comment.commentable.user] - [comment.user]).uniq
     }
+    #,
+    # Path to move when the notification is opened by the target user
+    # This is an optional configuration since activity_notification uses polymorphic_path as default
+  #   notifiable_path: :article_notifiable_path
+  #
+  # def article_notifiable_path
+  #   article_path(commentable)
+  # end
 
   def notify_users
     notify :users

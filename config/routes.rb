@@ -77,7 +77,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :comments, only: [:destroy]
+  resources :comments
 
   resources :posts do
     member do
