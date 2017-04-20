@@ -10,9 +10,10 @@ class GroupsController < ApplicationController
     :pending_by_user,
     :pending_by_admin,
     :refused_members,
-    :invitation
+    :invitation,
+    :apply_group
   ]
-  before_action :authenticate_user!, only: [:create, :update]
+  before_action :authenticate_user!, only: [:create, :update, :apply_group]
 
   #Resposta JSON Padrão
   def respond_for response, status=200
@@ -50,6 +51,22 @@ class GroupsController < ApplicationController
         group_member = GroupMember.where(member_id: user.id, group_id: @group.id).first
         group_member.group_member!
       end
+      response = { members: @group.members.order(:first_name) }
+      respond_for response
+    rescue ActiveRecord::RecordInvalid => e
+      response = { error: e.message }
+      respond_for response, 409
+    rescue => e
+      response = { error: e.message }
+      respond_for response
+    end
+  end
+
+  def apply_group
+    begin
+      @group.members << current_user
+      group_member = GroupMember.where(member_id: current_user.id, group_id: @group.id).first
+      group_member.myself!
       response = { members: @group.members.order(:first_name) }
       respond_for response
     rescue ActiveRecord::RecordInvalid => e
