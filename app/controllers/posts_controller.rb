@@ -1,11 +1,17 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user!, except: [:enrich_link]
+  # before_action :authenticate_user!, except: [:enrich_link]
   before_action :set_post, only: [:show, :edit, :update, :destroy, :like, :comments, :comment]
 
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.all.order(created_at: :desc)
+    @posts = Post.for_feed(current_user)
+  end
+
+  # GET /posts/:domain/domain_id
+  # GET /posts/:domain/domain_id.json
+  def posts_with_domain
+    @posts = Post.with_domain(params[:domain], params[:domain_id])
   end
 
   # GET /posts/1
@@ -136,7 +142,9 @@ class PostsController < ApplicationController
     def post_params
       params.require(:post).permit(
         :description,
-        :user_id
+        :user_id,
+        :domain,
+        :domain_id
       )
     end
 
