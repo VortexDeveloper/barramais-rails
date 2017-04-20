@@ -14,11 +14,11 @@ class Group < ApplicationRecord
   end
   #Todos os membros pendentes de aceitação do admin deste grupo
   def pending_by_user
-    members.where(group_members: {status: 0, who_started: 0})
+    members.where(group_members: {status: 0, who_started: 1})
   end
   #Todos os membros pendentes de aceitação do admin deste grupo
   def pending_by_admin
-    members.where(group_members: {status: 0, who_started: 1})
+    members.where(group_members: {status: 0, who_started: 0})
   end
   #Todos os membros que rejeitaram o convite deste grupo
   def refused_members

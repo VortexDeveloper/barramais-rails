@@ -176,7 +176,7 @@ class User < ApplicationRecord
 
   #Recusar convite do grupo passado por parametro
   def refuse_group group
-    group_invitations.where(group: group).first.refuse!
+    group_invitations.where(group: group).first.destroy
   end
 
   #Conversations Actions
@@ -258,6 +258,30 @@ class User < ApplicationRecord
     end
   end
 
+  def is_member_of? group
+    if group_invitations.where(group: group, status: "accept").first
+      return true
+    else
+      return false
+    end
+  end
+
+  def send_request_to? group
+    if group_invitations.where(group: group, status: "pending", who_started: :myself).first
+      return true
+    else
+      return false
+    end
+  end
+
+  def i_was_invited_to? group
+    if group_invitations.where(group: group, status: "pending", who_started: :group_member).first
+      return true
+    else
+      return false
+    end
+  end
+
   private
 
   def single_word_last_name
@@ -279,4 +303,6 @@ class User < ApplicationRecord
   def friendship_between friend
     friendships.where(friend: friend).first
   end
+
+
 end

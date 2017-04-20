@@ -3,4 +3,8 @@ class AlbumPhoto < ApplicationRecord
   validates_attachment_content_type :photo, content_type: /\Aimage\/.*\z/
 
   belongs_to :user
+
+  acts_as_votable
+  acts_as_commentable
+
 end
