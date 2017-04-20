@@ -36,6 +36,7 @@ Rails.application.routes.draw do
       put 'accept_group' => 'users#accept_group'
       put 'refuse_group' => 'users#refuse_group'
       get 'confirmed_groups' => 'users#confirmed_groups'
+      get 'all_groups' => 'users#all_groups'
       get 'refused_groups' => 'users#refused_groups'
       get 'pending_groups' => 'users#pending_groups'
       get 'my_groups' => 'users#my_groups'
@@ -45,6 +46,9 @@ Rails.application.routes.draw do
       put 'update_user_interests/:id' => 'users#update_user_interests'
       put 'update_user_nautical_sports/:id' => 'users#update_user_nautical_sports'
       get 'open_all_user_notifications/:id' => 'users#open_all_user_notifications'
+      get 'is_member_of/:group' => 'users#is_member_of'
+      get 'send_request_to/:group' => 'users#send_request_to'
+      get 'i_was_invited_to/:group' => 'users#i_was_invited_to'
     end
     resources :own_vessels
   end
@@ -59,6 +63,7 @@ Rails.application.routes.draw do
       get 'pending_by_user/:id' => 'groups#pending_by_user'
       get 'refused_members/:id' => 'groups#refused_members'
       put 'invitation/:id' => 'groups#invitation'
+      get 'apply_group/:id' => 'groups#apply_group'
       put 'save_cover_photo/:id' => 'groups#save_cover_photo'
     end
   end

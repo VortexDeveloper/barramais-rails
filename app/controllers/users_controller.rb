@@ -18,7 +18,16 @@ class UsersController < ApplicationController
     :show,
     :update_user_interests,
     :update_user_nautical_sports,
-    :get_nautical_sports_by_user
+    :get_nautical_sports_by_user,
+    :send_request_to,
+    :is_member_of,
+    :i_was_invited_to
+  ]
+
+  before_action :set_group, only: [
+    :send_request_to,
+    :is_member_of,
+    :i_was_invited_to
   ]
 
   before_action :set_user, except: [
@@ -30,6 +39,7 @@ class UsersController < ApplicationController
     :group_friends,
     :pending_friendships,
     :my_groups,
+    :all_groups,
     :confirmed_groups,
     :pending_groups,
     :refused_groups,
@@ -38,6 +48,10 @@ class UsersController < ApplicationController
     :load_nautical_sports,
     :load_state_for_travels,
     :load_country_for_travels,
+    :send_request_to,
+    :is_member_of,
+    :i_was_invited_to,
+    :set_group
   ]
 
   def open_all_user_notifications
@@ -231,6 +245,32 @@ class UsersController < ApplicationController
 
   def refused_groups
     @groups = current_user.refused_groups
+  end
+
+  def all_groups
+    @groups = Group.all
+  end
+
+  def is_member_of
+    response = current_user.is_member_of? @group
+    @response = { response: response }
+    respond_for @response
+  end
+
+  def i_was_invited_to
+    response = current_user.i_was_invited_to? @group
+    @response = { response: response }
+    respond_for @response
+  end
+
+  def send_request_to
+    response = current_user.send_request_to? @group
+    @response = { response: response }
+    respond_for @response
+  end
+
+  def set_group
+    @group = Group.find(params[:group])
   end
 
   def accept_group

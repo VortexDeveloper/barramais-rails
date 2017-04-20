@@ -1,5 +1,6 @@
 class AlbumPhotosController < ApplicationController
   before_action :set_album_photo, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:create]
 
   # GET /album_photos
   # GET /album_photos.json
@@ -29,17 +30,21 @@ class AlbumPhotosController < ApplicationController
   # POST /album_photos
   # POST /album_photos.json
   def create
-    @album_photo = AlbumPhoto.new(album_photo_params)
-
-    respond_to do |format|
-      if @album_photo.save
-        format.html { redirect_to @album_photo, notice: 'Album photo was successfully created.' }
-        format.json { render :show, status: :created, location: @album_photo }
-      else
-        format.html { render :new }
-        format.json { render json: @album_photo.errors, status: :unprocessable_entity }
-      end
-    end
+    @album_photo = AlbumPhoto.new
+    @album_photo.user = current_user
+    image = Paperclip.io_adapters.for(photo_params[:image])
+    image.original_filename = "#{photo_params[:filename]}"
+    @album_photo.photo = image
+    @album_photo.save
+    # respond_to do |format|
+    #   if @album_photo.save
+    #     format.html { redirect_to @album_photo, notice: 'Album photo was successfully created.' }
+    #     format.json { render json: @album_photo }
+    #   else
+    #     format.html { render :new }
+    #     format.json { render json: @album_photo.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   # PATCH/PUT /album_photos/1
@@ -75,7 +80,16 @@ class AlbumPhotosController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def album_photo_params
       params.require(:album_photo).permit(
-        :user_id
+        :photo
       )
     end
+
+    def photo_params
+      params.require(:photo).permit(
+        :image,
+        :filename
+      )
+    end
+
+
 end
