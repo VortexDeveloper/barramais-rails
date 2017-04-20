@@ -82,7 +82,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :comments, only: [:destroy]
+  resources :comments
 
   resources :posts do
     member do
@@ -92,6 +92,7 @@ Rails.application.routes.draw do
     end
     collection do
       get :enrich_link
+      get ':domain/:domain_id' => 'posts#posts_with_domain'
     end
   end
   resources :barrachat, only: [:index]

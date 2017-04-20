@@ -34,6 +34,7 @@ class UsersController < ApplicationController
     :index,
     :friends,
     :confirmed_events,
+    :accept_event,
     :event_friends,
     :group_friends,
     :pending_friendships,
@@ -217,7 +218,7 @@ class UsersController < ApplicationController
 
   def accept_event
     event = Event.find(params[:event])
-    @user.accept_event(event)
+    current_user.accept_event(event)
     response = { sucess: "Convite aceito!" }
     respond_for response
   end

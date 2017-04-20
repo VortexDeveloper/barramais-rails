@@ -52,4 +52,7 @@ if post.rich_url.present?
   end
 end
 
+json.domain_type post.domain
+json.domain post.domain_instance.as_json
+
 json.url post_url(post, format: :json)

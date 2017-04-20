@@ -159,6 +159,10 @@ class User < ApplicationRecord
     GroupMember.where(member: self, status: 1).map { |f| f.group }
   end
 
+  def confirmed_groups_ids
+    GroupMember.where(member: self, status: 1).ids
+  end
+
   #Eventos em que este usuário está na lista de membros com o status recusado
   def refused_groups
     GroupMember.where(member: self, status: 2).map { |f| f.group }
