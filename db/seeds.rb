@@ -5537,6 +5537,11 @@ Interest.find_or_create_by("name"=>"Pesca")
 Interest.find_or_create_by("name"=>"Produtos")
 Interest.find_or_create_by("name"=>"Serviços")
 Interest.find_or_create_by("name"=>"Turismo")
+NauticalSport.find_or_create_by("name"=>"Caiaque")
+NauticalSport.find_or_create_by("name"=>"Kitesurf")
+NauticalSport.find_or_create_by("name"=>"Paddle")
+NauticalSport.find_or_create_by("name"=>"Veleiro")
+NauticalSport.find_or_create_by("name"=>"Windsurf")
 
 %w(Lanchas Veleiros Jet\ Skis Barcos\ Pesca).each do |type_name|
   VesselType.find_or_create_by(name: type_name)
