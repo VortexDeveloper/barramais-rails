@@ -51,7 +51,8 @@ class UsersController < ApplicationController
     :send_request_to,
     :is_member_of,
     :i_was_invited_to,
-    :set_group
+    :set_group,
+    :refuse_event
   ]
 
   def open_all_user_notifications
@@ -224,8 +225,9 @@ class UsersController < ApplicationController
   end
 
   def refuse_event
+    byebug
     event = Event.find(params[:event])
-    @user.refuse_event(event)
+    current_user.refuse_event(event)
     response = { sucess: "Convite recusado!" }
     respond_for response
   end
