@@ -24,5 +24,6 @@ module BarramaisRails
     end
 
     config.autoload_paths << Rails.root.join('lib/jwt_wrapper.rb')
+    config.i18n.default_locale = 'pt-BR'
   end
 end

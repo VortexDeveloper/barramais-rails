@@ -59,7 +59,6 @@ gem 'aws-sdk'
 gem 'active_record_union'
 gem 'activity_notification'
 
-
 group :development, :test do
   # Call 'byebug' anywhere in the code to
   # stop execution and get a debugger console
