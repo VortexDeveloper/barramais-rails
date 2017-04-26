@@ -167,7 +167,6 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        byebug
         format.html {}
         format.json do
           user_hash = @user.user_hash
@@ -175,7 +174,6 @@ class UsersController < ApplicationController
           render json: {user: JWTWrapper.encode(user_hash.as_json) }
         end
       else
-        byebug
         format.html {}
         format.json { render json: {errors: {avatar: ['não foi possível salvar']}}.to_json }
       end
