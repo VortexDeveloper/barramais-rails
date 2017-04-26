@@ -66,6 +66,7 @@ Rails.application.routes.draw do
       get 'refused_members/:id' => 'groups#refused_members'
       put 'invitation/:id' => 'groups#invitation'
       get 'apply_group/:id' => 'groups#apply_group'
+      put 'accept_member/:id' => 'groups#accept_member'
       put 'save_cover_photo/:id' => 'groups#save_cover_photo'
     end
   end
@@ -81,6 +82,7 @@ Rails.application.routes.draw do
       get 'pending_guests/:id' => 'events#pending_guests'
       get 'refused_guests/:id' => 'events#refused_guests'
       put 'invitation/:id' => 'events#invitation'
+      get 'is_on_event/:id' => 'events#is_on_event'
     end
   end
 

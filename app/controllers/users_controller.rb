@@ -226,7 +226,6 @@ class UsersController < ApplicationController
   end
 
   def refuse_event
-    byebug
     event = Event.find(params[:event])
     current_user.refuse_event(event)
     response = { sucess: "Convite recusado!" }

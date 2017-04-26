@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: [:show, :edit, :update, :destroy, :save_cover_photo, :invitation, :all_guests, :confirmed_guests, :pending_guests, :refused_guests]
+  before_action :set_event, only: [:show, :edit, :update, :destroy, :save_cover_photo, :invitation, :all_guests, :confirmed_guests, :pending_guests, :refused_guests, :is_on_event]
   before_action :authenticate_user!, only: [:create]
 
 
@@ -17,6 +17,12 @@ class EventsController < ApplicationController
 
   def confirmed_guests
     response = { confirmed_guests: @event.confirmed_guests }
+    respond_for response
+  end
+
+  def is_on_event
+    is_on_event = @event.confirmed_guests.include? current_user
+    response = { is_on_event: is_on_event }
     respond_for response
   end
 

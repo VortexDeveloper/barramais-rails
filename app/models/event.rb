@@ -43,4 +43,6 @@ class Event < ApplicationRecord
     joins(:event_guests)
   end
 
+
+  # validates_date :event_date, on_or_after: Date.today, on: :create
 end
