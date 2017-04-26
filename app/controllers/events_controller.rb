@@ -109,18 +109,23 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(event_params)
     @event.create_address(address_params)
-    respond_to do |format|
-      if @event.save
-        @event.guests << current_user
-        current_user.accept_event @event
-        save_cover_photo(@event)
-        format.html { redirect_to @event, notice: 'Event was successfully created.' }
-        format.json { render @event }
-      else
-        format.html { render :new }
-        format.json { render json: @event.errors, status: :unprocessable_entity }
-      end
-    end
+    @event.save
+    @event.guests << current_user
+    current_user.accept_event @event
+    save_cover_photo(@event)
+    @event
+    # respond_to do |format|
+    #   if @event.save
+    #     @event.guests << current_user
+    #     current_user.accept_event @event
+    #     save_cover_photo(@event)
+    #     format.html { redirect_to @event, notice: 'Event was successfully created.' }
+    #     format.json { render @event }
+    #   else
+    #     format.html { render :new }
+    #     format.json { render json: @event.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   # PATCH/PUT /events/
