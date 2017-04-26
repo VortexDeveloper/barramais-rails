@@ -5,7 +5,16 @@ class ApplicationController < ActionController::Base
   before_action :verified_request?
   before_action :configure_permitted_parameters, if: :devise_controller?
   respond_to :html, :json
+  before_action :authenticate_user!, only: [:devise_token]
 
+  def devise_token
+    raw, enc = Devise.token_generator.generate(current_user.class, :reset_password_token)
+    current_user.reset_password_token = enc
+    current_user.reset_password_sent_at = Time.now.utc
+    current_user.save(validate: false)
+
+    render json: {devise_token: JWTWrapper.encode({raw: raw})}
+  end
 
   private
 
@@ -16,6 +25,7 @@ class ApplicationController < ActionController::Base
       super
     end
   end
+
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [

@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   get 'barrachat/index'
 
   devise_for :users, controllers: {
-        registrations: 'user/registrations', sessions: 'user/sessions'
+        registrations: 'user/registrations', sessions: 'user/sessions', passwords: 'user/passwords'
   }
 
   root to: 'users#index'
@@ -164,6 +164,7 @@ Rails.application.routes.draw do
   end
 
   get 'search/look_for'
+  get 'devise_token' => 'application#devise_token'
 
   notify_to :users,                       controllers: 'users/notifications'
   notify_to :admins, with_devise: :users, controllers: 'admins/notifications_with_devise'
