@@ -49,7 +49,9 @@ Rails.application.routes.draw do
       get 'is_member_of/:group' => 'users#is_member_of'
       get 'send_request_to/:group' => 'users#send_request_to'
       get 'i_was_invited_to/:group' => 'users#i_was_invited_to'
+      get 'send_support_email'
     end
+
     resources :own_vessels
   end
 

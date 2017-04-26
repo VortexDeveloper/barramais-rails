@@ -52,7 +52,8 @@ class UsersController < ApplicationController
     :is_member_of,
     :i_was_invited_to,
     :set_group,
-    :refuse_event
+    :refuse_event,
+    :send_support_email
   ]
 
   def open_all_user_notifications
@@ -295,6 +296,19 @@ class UsersController < ApplicationController
 
   def show
 
+  end
+
+  def send_support_email
+    byebug
+    begin
+      UserMailer.send_support_email(current_user, params[:message]).deliver
+      head :no_content
+    rescue => e
+      respond_to do |format|
+        format.html {}
+        format.json { render json: e.message, status: 422 }
+      end
+    end
   end
 
   private
