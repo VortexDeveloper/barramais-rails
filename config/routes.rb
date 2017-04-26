@@ -49,7 +49,9 @@ Rails.application.routes.draw do
       get 'is_member_of/:group' => 'users#is_member_of'
       get 'send_request_to/:group' => 'users#send_request_to'
       get 'i_was_invited_to/:group' => 'users#i_was_invited_to'
+      get 'send_support_email'
     end
+
     resources :own_vessels
   end
 
@@ -64,6 +66,7 @@ Rails.application.routes.draw do
       get 'refused_members/:id' => 'groups#refused_members'
       put 'invitation/:id' => 'groups#invitation'
       get 'apply_group/:id' => 'groups#apply_group'
+      put 'accept_member/:id' => 'groups#accept_member'
       put 'save_cover_photo/:id' => 'groups#save_cover_photo'
     end
   end
@@ -79,6 +82,7 @@ Rails.application.routes.draw do
       get 'pending_guests/:id' => 'events#pending_guests'
       get 'refused_guests/:id' => 'events#refused_guests'
       put 'invitation/:id' => 'events#invitation'
+      get 'is_on_event/:id' => 'events#is_on_event'
     end
   end
 

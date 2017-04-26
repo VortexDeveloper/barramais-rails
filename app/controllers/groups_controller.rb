@@ -78,6 +78,13 @@ class GroupsController < ApplicationController
     end
   end
 
+  def accept_member
+    set_group
+    @group.group_members.where(member_id: params[:member]).first.accept!
+    response = { response: "Usuário aceito!" }
+    respond_for response
+  end
+
   def save_cover_photo
     image = Paperclip.io_adapters.for(cover_photo_params[:image])
     image.original_filename = "#{cover_photo_params[:filename]}"
