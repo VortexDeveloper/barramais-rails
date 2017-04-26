@@ -1,1 +1,1 @@
-json.array! @nautical_sports, partial: 'users/nautical_sport', as: :nautical_sport
+json.array! @nautical_sports, partial: 'nautical_sports/nautical_sport', as: :nautical_sport
