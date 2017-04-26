@@ -22,7 +22,7 @@ class Message < ApplicationRecord
     # Notification targets as :targets is a necessary option
     # Set to notify to author and users commented to the article, except comment owner self
     targets: ->(message, key) {
-      ([message.conversation.user]).uniq
+      ([message.conversation.sender]).uniq
     }
 
     def notify_users
