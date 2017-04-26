@@ -18,6 +18,11 @@ class User::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
+  #Update Resource without password - Inserido por Arthur 26/04
+  def update_resource(resource, params)
+    resource.update_without_password(params)
+  end
+
   # PUT /resource
   def update
     self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
