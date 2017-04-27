@@ -69,6 +69,9 @@ class VesselTypesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def vessel_type_params
-      params.fetch(:vessel_type, {})
+        params.require(:vessel_type).permit(
+          :name,
+          :photo
+        )
     end
 end
