@@ -83,6 +83,7 @@ Rails.application.routes.draw do
       get 'pending_guests/:id' => 'events#pending_guests'
       get 'refused_guests/:id' => 'events#refused_guests'
       put 'invitation/:id' => 'events#invitation'
+      put 'save_cover_photo/:id' => 'groups#save_cover_photo'
       get 'is_on_event/:id' => 'events#is_on_event'
     end
   end

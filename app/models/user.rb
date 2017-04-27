@@ -61,6 +61,7 @@ class User < ApplicationRecord
     :widow
   ]
   enum nautical_license: [
+    :unlicensed,
     :motonauta,
     :arrais_amador,
     :mestre_amador,
@@ -68,6 +69,7 @@ class User < ApplicationRecord
     :sem_interesse
   ]
   enum naval_service_patent: [
+    :civil,
     :marinheiro,
     :cabo,
     :terceiro_sargento,

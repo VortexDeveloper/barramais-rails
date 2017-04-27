@@ -40,8 +40,19 @@ class EventsController < ApplicationController
   def save_cover_photo event
     image = Paperclip.io_adapters.for(cover_photo_params[:image])
     image.original_filename = "#{cover_photo_params[:filename]}"
-    event.cover_photo = image
-    event.save
+    @event.cover_photo = image
+
+    respond_to do |format|
+      if @event.save
+        format.html {}
+        format.json do
+          render json: @event
+        end
+      else
+        format.html {}
+        format.json { render json: {errors: {cover_photo: ['não foi possível salvar']}}.to_json }
+      end
+    end
   end
 
   #Seleção de países
@@ -137,6 +148,9 @@ class EventsController < ApplicationController
   # PATCH/PUT /events/
   # PATCH/PUT /events/1.json
   def update
+    # byebug
+    # @event.update(event_params)
+    @event.address.update(address_params)
     respond_to do |format|
       if @event.update(event_params)
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
