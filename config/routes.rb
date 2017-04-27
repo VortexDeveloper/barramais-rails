@@ -50,6 +50,7 @@ Rails.application.routes.draw do
       get 'send_request_to/:group' => 'users#send_request_to'
       get 'i_was_invited_to/:group' => 'users#i_was_invited_to'
       get 'send_support_email'
+      get 'load_interests/:id' => 'users#load_interests'
     end
 
     resources :own_vessels
