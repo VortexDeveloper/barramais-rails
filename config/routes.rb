@@ -2,7 +2,10 @@ Rails.application.routes.draw do
   get 'barrachat/index'
 
   devise_for :users, controllers: {
-        registrations: 'user/registrations', sessions: 'user/sessions', passwords: 'user/passwords'
+    registrations: 'user/registrations',
+    sessions: 'user/sessions',
+    passwords: 'user/passwords',
+    omniauth_callbacks: "user/omniauth_callbacks"
   }
 
   root to: 'users#index'

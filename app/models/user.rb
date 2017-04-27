@@ -37,7 +37,8 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-          :recoverable, :rememberable, :trackable, :validatable
+          :recoverable, :rememberable, :trackable, :validatable,
+          :omniauthable, :omniauth_providers => [:facebook]
 
   acts_as_voter
 
@@ -112,18 +113,43 @@ class User < ApplicationRecord
   }
 
   validates :first_name, :last_name, presence: true
-  validates_date :birthday, on_or_before: 18.years.ago, on: :create
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\z/
   devise :database_authenticatable, :validatable, password_length: 8..128
   validate :single_word_last_name
   validate :single_word_first_name
-  validates :birthday, presence: true
 
   #SCOPES
   scope :all_by,      ->(event) {joins(:event_invitations).where(event_guests: {event_id: event.id})}
   scope :pending_by,  ->(event) {joins(:event_invitations).where(event_guests: {event_id: event.id, status: 0})}
   scope :accepted_by, ->(event) {joins(:event_invitations).where(event_guests: {event_id: event.id, status: 1})}
   scope :refused_by,  ->(event) {joins(:event_invitations).where(event_guests: {event_id: event.id, status: 2})}
+
+  class << self
+    def from_facebook4(auth)
+      begin
+        where(provider: 'facebook', uid: auth['login_response']['authResponse']['userID']).first_or_create do |user|
+          user.email = auth['basic_info']['email']
+          user.password = Devise.friendly_token[0,20]
+          user.birthday = auth['basic_info']['birthday']
+          user.first_name = auth['basic_info']['first_name']
+          user.last_name = auth['basic_info']['last_name']
+          user.avatar = auth['picture']['data']['url']
+        end
+      rescue => e
+        byebug
+      end
+    end
+
+    def from_omniauth(auth)
+      where(provider: auth.provider, uid: uid).first_or_create do |user|
+        user.email = auth.info.email
+        user.password = Devise.friendly_token[0,20]
+        user.first_name = auth.info.name.split(' ').first
+        user.last_name = auth.info.name.split(' ').last
+        user.avatar = auth.info.image
+      end
+    end
+  end
 
 
   def create_post(post_params)
