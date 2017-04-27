@@ -5542,7 +5542,7 @@ NauticalSport.find_or_create_by("name"=>"Kitesurf")
 NauticalSport.find_or_create_by("name"=>"Paddle")
 NauticalSport.find_or_create_by("name"=>"Veleiro")
 NauticalSport.find_or_create_by("name"=>"Windsurf")
-
-%w(Lanchas Veleiros Jet\ Skis Barcos\ Pesca).each do |type_name|
-  VesselType.find_or_create_by(name: type_name)
-end
+VesselType.find_or_create_by("name"=>"Lancha")
+VesselType.find_or_create_by("name"=>"Barco de Pesca")
+VesselType.find_or_create_by("name"=>"Veleiro")
+VesselType.find_or_create_by("name"=>"Jetski")

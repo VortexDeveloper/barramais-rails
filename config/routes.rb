@@ -174,4 +174,8 @@ Rails.application.routes.draw do
   notify_to :admins, with_devise: :users, controllers: 'admins/notifications_with_devise'
 
   # get '/users/:id/notifications/check_notifications' => 'users/notifications#check_notifications'
+
+  resources :vessels
+
+  resources :vessel_types
 end
