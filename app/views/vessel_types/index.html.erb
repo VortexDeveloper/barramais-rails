@@ -12,6 +12,7 @@
   <tbody>
     <% @vessel_types.each do |vessel_type| %>
       <tr>
+        <td><%= vessel_type.name %></td>
         <td><%= link_to 'Show', vessel_type %></td>
         <td><%= link_to 'Edit', edit_vessel_type_path(vessel_type) %></td>
         <td><%= link_to 'Destroy', vessel_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
