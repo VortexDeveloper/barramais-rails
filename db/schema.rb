@@ -294,16 +294,6 @@ ActiveRecord::Schema.define(version: 20170426205724) do
     t.index ["user_id"], name: "index_messages_on_user_id", using: :btree
   end
 
-  create_table "model_names", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "brand_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "vessel_id"
-    t.index ["brand_id"], name: "index_model_names_on_brand_id", using: :btree
-    t.index ["vessel_id"], name: "index_model_names_on_vessel_id", using: :btree
-  end
-
   create_table "molds", force: :cascade do |t|
     t.string   "name"
     t.integer  "brand_id"
@@ -538,6 +528,10 @@ ActiveRecord::Schema.define(version: 20170426205724) do
     t.integer  "license_interest"
     t.integer  "fishing",                         default: 0
     t.integer  "nautical_tour",                   default: 0
+    t.string   "cover_photo_file_name"
+    t.string   "cover_photo_content_type"
+    t.integer  "cover_photo_file_size"
+    t.datetime "cover_photo_updated_at"
     t.string   "nickname"
     t.string   "facebook"
     t.string   "instagram"
@@ -557,10 +551,6 @@ ActiveRecord::Schema.define(version: 20170426205724) do
     t.text     "tourist_places"
     t.boolean  "fishing_tourist"
     t.integer  "water_sport"
-    t.string   "cover_photo_file_name"
-    t.string   "cover_photo_content_type"
-    t.integer  "cover_photo_file_size"
-    t.datetime "cover_photo_updated_at"
     t.text     "national_trips"
     t.text     "international_trips"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
@@ -641,8 +631,6 @@ ActiveRecord::Schema.define(version: 20170426205724) do
   add_foreign_key "groups", "users"
   add_foreign_key "messages", "conversations"
   add_foreign_key "messages", "users"
-  add_foreign_key "model_names", "brands"
-  add_foreign_key "model_names", "vessels"
   add_foreign_key "molds", "brands"
   add_foreign_key "own_vessels", "users"
   add_foreign_key "own_vessels", "vessel_types"
