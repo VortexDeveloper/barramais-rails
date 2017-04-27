@@ -21,7 +21,7 @@ class UsersController < ApplicationController
     :get_nautical_sports_by_user,
     :send_request_to,
     :is_member_of,
-    :i_was_invited_to
+    :i_was_invited_to,
   ]
 
   before_action :set_group, only: [
@@ -55,6 +55,10 @@ class UsersController < ApplicationController
     :refuse_event,
     :send_support_email
   ]
+
+  def load_interests
+    @interests = @user.interests
+  end
 
   def open_all_user_notifications
     @user.open_all_notifications
