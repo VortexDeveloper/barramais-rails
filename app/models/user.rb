@@ -62,6 +62,7 @@ class User < ApplicationRecord
     :widow
   ]
   enum nautical_license: [
+    :unlicensed,
     :motonauta,
     :arrais_amador,
     :mestre_amador,
@@ -69,6 +70,7 @@ class User < ApplicationRecord
     :sem_interesse
   ]
   enum naval_service_patent: [
+    :civil,
     :marinheiro,
     :cabo,
     :terceiro_sargento,
@@ -106,10 +108,6 @@ class User < ApplicationRecord
   # VALIDATIONS
   validates :email, format: {
     with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, on: :create
-  }
-
-  validates :alternative_email, format: {
-    with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, on: :update
   }
 
   validates :first_name, :last_name, presence: true

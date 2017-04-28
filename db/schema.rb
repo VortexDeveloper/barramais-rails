@@ -313,8 +313,12 @@ ActiveRecord::Schema.define(version: 20170427174908) do
 
   create_table "nautical_sports", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_file_size"
+    t.datetime "photo_updated_at"
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -576,8 +580,12 @@ ActiveRecord::Schema.define(version: 20170427174908) do
 
   create_table "vessel_types", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_file_size"
+    t.datetime "photo_updated_at"
   end
 
   create_table "vessels", force: :cascade do |t|
@@ -592,6 +600,10 @@ ActiveRecord::Schema.define(version: 20170427174908) do
     t.datetime "updated_at",           null: false
     t.integer  "mold_id"
     t.integer  "brand_id"
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_file_size"
+    t.datetime "photo_updated_at"
     t.index ["brand_id"], name: "index_vessels_on_brand_id", using: :btree
     t.index ["classified_id"], name: "index_vessels_on_classified_id", using: :btree
     t.index ["mold_id"], name: "index_vessels_on_mold_id", using: :btree

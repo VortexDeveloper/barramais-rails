@@ -53,6 +53,7 @@ Rails.application.routes.draw do
       get 'send_request_to/:group' => 'users#send_request_to'
       get 'i_was_invited_to/:group' => 'users#i_was_invited_to'
       get 'send_support_email'
+      get 'load_interests/:id' => 'users#load_interests'
     end
 
     resources :own_vessels
@@ -85,6 +86,7 @@ Rails.application.routes.draw do
       get 'pending_guests/:id' => 'events#pending_guests'
       get 'refused_guests/:id' => 'events#refused_guests'
       put 'invitation/:id' => 'events#invitation'
+      put 'save_cover_photo/:id' => 'groups#save_cover_photo'
       get 'is_on_event/:id' => 'events#is_on_event'
     end
   end
@@ -177,4 +179,8 @@ Rails.application.routes.draw do
   notify_to :admins, with_devise: :users, controllers: 'admins/notifications_with_devise'
 
   # get '/users/:id/notifications/check_notifications' => 'users/notifications#check_notifications'
+
+  resources :vessels
+
+  resources :vessel_types
 end

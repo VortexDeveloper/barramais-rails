@@ -75,7 +75,8 @@ class NauticalSportsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def nautical_sport_params
       params.require(:nautical_sport).permit(
-        :name
+        :name,
+        :photo
       )
     end
 end
