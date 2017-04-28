@@ -302,7 +302,6 @@ class UsersController < ApplicationController
   end
 
   def send_support_email
-    byebug
     begin
       UserMailer.send_support_email(current_user, params[:message]).deliver
       head :no_content

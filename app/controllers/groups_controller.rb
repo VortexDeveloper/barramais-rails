@@ -132,33 +132,28 @@ class GroupsController < ApplicationController
   def create
     @group = Group.new(group_params)
     @group.user = current_user
-    respond_to do |format|
-      if @group.save
-        @group.members << current_user
-        current_user.accept_group @group
-        image = Paperclip.io_adapters.for(cover_photo_params[:image])
-        image.original_filename = "#{cover_photo_params[:filename]}"
-        @group.cover_photo = image
-        format.html { redirect_to @group, notice: 'Group was successfully created.' }
-        format.json { render @group }
-      else
-        format.html { render :new }
-        format.json { render json: @group.errors, status: :unprocessable_entity }
-      end
+    if @group.save
+      @group.members << current_user
+      current_user.accept_group @group
+      image = Paperclip.io_adapters.for(cover_photo_params[:image])
+      image.original_filename = "#{cover_photo_params[:filename]}"
+      @group.cover_photo = image
+      @group
+    else
+      @group.errors
     end
   end
 
   # PATCH/PUT /groups/1
   # PATCH/PUT /groups/1.json
   def update
-    respond_to do |format|
-      if @group.update(group_params)
-        format.html { redirect_to @group, notice: 'Group was successfully updated.' }
-        format.json { render @group }
-      else
-        format.html { render :edit }
-        format.json { render json: @group.errors, status: :unprocessable_entity }
-      end
+    if @group.update(group_params)
+      image = Paperclip.io_adapters.for(cover_photo_params[:image])
+      image.original_filename = "#{cover_photo_params[:filename]}"
+      @group.cover_photo = image
+      @group
+    else
+      @group.errors
     end
   end
 
@@ -184,6 +179,7 @@ class GroupsController < ApplicationController
         :event_date,
         :about,
         :address,
+        :cover_photo
       )
     end
 

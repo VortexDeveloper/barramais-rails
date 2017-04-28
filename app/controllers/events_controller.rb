@@ -129,7 +129,9 @@ class EventsController < ApplicationController
     @event.save
     @event.guests << current_user
     current_user.accept_event @event
-    save_cover_photo(@event)
+    image = Paperclip.io_adapters.for(cover_photo_params[:image])
+    image.original_filename = "#{cover_photo_params[:filename]}"
+    @event.cover_photo = image
     @event
     # respond_to do |format|
     #   if @event.save
@@ -148,17 +150,13 @@ class EventsController < ApplicationController
   # PATCH/PUT /events/
   # PATCH/PUT /events/1.json
   def update
-    # byebug
-    # @event.update(event_params)
-    @event.address.update(address_params)
-    respond_to do |format|
-      if @event.update(event_params)
-        format.html { redirect_to @event, notice: 'Event was successfully updated.' }
-        format.json { render :show, status: :ok, location: @event }
-      else
-        format.html { render :edit }
-        format.json { render json: @event.errors, status: :unprocessable_entity }
-      end
+    if @event.update(group_params)
+      image = Paperclip.io_adapters.for(cover_photo_params[:image])
+      image.original_filename = "#{cover_photo_params[:filename]}"
+      @event.cover_photo = image
+      @event
+    else
+      @event.errors
     end
   end
 
@@ -184,7 +182,8 @@ class EventsController < ApplicationController
         :name,
         :event_date,
         :about,
-        :address_id
+        :address_id,
+        :cover_photo
       )
     end
 
