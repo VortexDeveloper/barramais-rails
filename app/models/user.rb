@@ -122,9 +122,12 @@ class User < ApplicationRecord
   scope :accepted_by, ->(event) {joins(:event_invitations).where(event_guests: {event_id: event.id, status: 1})}
   scope :refused_by,  ->(event) {joins(:event_invitations).where(event_guests: {event_id: event.id, status: 2})}
 
+
   class << self
     def from_facebook4(auth)
-      begin
+      if exists?(email: auth['basic_info']['email'])
+        find_by_email auth['basic_info']['email']
+      else
         where(provider: 'facebook', uid: auth['login_response']['authResponse']['userID']).first_or_create do |user|
           user.email = auth['basic_info']['email']
           user.password = Devise.friendly_token[0,20]
@@ -133,18 +136,20 @@ class User < ApplicationRecord
           user.last_name = auth['basic_info']['last_name']
           user.avatar = auth['picture']['data']['url']
         end
-      rescue => e
-        byebug
       end
     end
 
     def from_omniauth(auth)
-      where(provider: auth.provider, uid: uid).first_or_create do |user|
-        user.email = auth.info.email
-        user.password = Devise.friendly_token[0,20]
-        user.first_name = auth.info.name.split(' ').first
-        user.last_name = auth.info.name.split(' ').last
-        user.avatar = auth.info.image
+      if exists?(email: auth.info.email)
+        find_by_email auth.info.email
+      else
+        where(provider: auth.provider, uid: uid).first_or_create do |user|
+          user.email = auth.info.email
+          user.password = Devise.friendly_token[0,20]
+          user.first_name = auth.info.name.split(' ').first
+          user.last_name = auth.info.name.split(' ').last
+          user.avatar = auth.info.image
+        end
       end
     end
   end
