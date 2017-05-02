@@ -1,5 +1,6 @@
 class Comment < ActiveRecord::Base
   after_create :notify_users
+  before_destroy :delete_notifications
 
   include ActionView::Helpers::DateHelper
   acts_as_nested_set :scope => [:commentable_id, :commentable_type]
@@ -77,4 +78,9 @@ class Comment < ActiveRecord::Base
   def notify_users
     notify :users
   end
+
+  def delete_notifications
+    ActivityNotification::Notification.where(notifiable_id: self.id).destroy_all
+  end
+
 end

@@ -22,6 +22,7 @@ class UsersController < ApplicationController
     :send_request_to,
     :is_member_of,
     :i_was_invited_to,
+    :my_notifications
   ]
 
   before_action :set_group, only: [
@@ -53,8 +54,18 @@ class UsersController < ApplicationController
     :i_was_invited_to,
     :set_group,
     :refuse_event,
-    :send_support_email
+    :send_support_email,
+    :my_notifications,
+    :open_my_notifications
   ]
+
+  def open_my_notifications
+    current_user.open_all_notifications
+  end
+
+  def my_notifications
+    @my_notifications = current_user.notifications
+  end
 
   def load_interests
     @interests = @user.interests

@@ -54,6 +54,8 @@ Rails.application.routes.draw do
       get 'i_was_invited_to/:group' => 'users#i_was_invited_to'
       get 'send_support_email'
       get 'load_interests/:id' => 'users#load_interests'
+      get 'my_notifications' => 'users#my_notifications'
+      get 'open_my_notifications' => 'users#open_my_notifications'
     end
 
     resources :own_vessels
