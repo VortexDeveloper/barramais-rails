@@ -153,6 +153,10 @@ Rails.application.routes.draw do
       get 'get_fishing_sub_category_by_id/:id' => 'classifieds#get_fishing_sub_category_by_id'
       get 'fishing_categories_for_select' => 'classifieds#fishing_categories_for_select'
       get 'fishing_sub_categories_for_select/:id' => 'classifieds#fishing_sub_categories_for_select'
+      get 'product_categories_for_select' => 'classifieds#product_categories_for_select'
+      get 'product_sub_categories_for_select/:id' => 'classifieds#product_sub_categories_for_select'
+      get 'get_product_category_by_id/:id' => 'classifieds#get_product_category_by_id'
+      get 'get_product_sub_category_by_id/:id' => 'classifieds#get_product_sub_category_by_id'
     end
   end
 

@@ -65,12 +65,20 @@ class ClassifiedsController < ApplicationController
     respond_for response
   end
 
+  def get_product_category_by_id
+    @product_category = ProductCategory.find(params[:id])
+  end
+
+  def get_product_sub_category_by_id
+    @product_sub_category = ProductSubCategory.find(params[:id])
+  end
+
   def product_categories_for_select
     @product_categories_for_select = ProductCategory.all
   end
 
   def product_sub_categories_for_select
-    @product_sub_categories_for_select = ProductSubCategory.all
+    @product_sub_categories_for_select = ProductSubCategory.where(product_category_id: params[:id])
   end
 
   # GET /classifieds
