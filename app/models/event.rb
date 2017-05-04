@@ -6,7 +6,7 @@ class Event < ApplicationRecord
 
   validates :name, :event_date, :about, presence: true
 
-  has_attached_file :cover_photo, styles: { large: "1368x500>", medium: "800x400>", small: "500x300>" }, default_url: '/images/grupo.png'
+  has_attached_file :cover_photo, styles: { large: "1368x500>", medium: "800x400>", small: "500x300>" }, default_url: '/images/eventos.png'
   validates_attachment_content_type :cover_photo, content_type: /\Aimage\/.*\z/
 
   # scope :accepted_by, -> (user) {join_to_user(user).where(event_guests: {status: :accept})}

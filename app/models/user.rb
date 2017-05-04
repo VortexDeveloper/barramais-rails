@@ -45,7 +45,7 @@ class User < ApplicationRecord
   has_attached_file :avatar, styles: {
     medium: "300x300>",
     thumb: "100x100>"
-  }, default_url: '/images/comum.png'
+  }, default_url: '/images/user.jpg'
 
   has_attached_file :cover_photo, styles: {
     medium: "300x300>",
@@ -54,12 +54,12 @@ class User < ApplicationRecord
 
   # ENUMS
   enum relationship: [
-    :single,
-    :serious_relationship,
-    :married,
-    :open_relationship,
-    :divorced,
-    :widow
+    :Solteiro,
+    :Relacionamento_serio,
+    :Casado,
+    :Relacionamento_aberto,
+    :Divorciado,
+    :Viuvo
   ]
   enum nautical_license: [
     :unlicensed,
