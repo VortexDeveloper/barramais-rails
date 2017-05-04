@@ -141,6 +141,7 @@ Rails.application.routes.draw do
     collection do
       post 'create_vessel' => 'classifieds#create_vessel'
       post 'create_fishing' => 'classifieds#create_fishing'
+      post 'create_product' => 'classifieds#create_product'
       get 'get_classifieds_by_user/:id' => 'classifieds#get_classifieds_by_user'
       get 'get_brand_by_id/:id' => 'classifieds#get_brand_by_id'
       get 'get_mold_by_id/:id' => 'classifieds#get_mold_by_id'
@@ -153,6 +154,12 @@ Rails.application.routes.draw do
       get 'get_fishing_sub_category_by_id/:id' => 'classifieds#get_fishing_sub_category_by_id'
       get 'fishing_categories_for_select' => 'classifieds#fishing_categories_for_select'
       get 'fishing_sub_categories_for_select/:id' => 'classifieds#fishing_sub_categories_for_select'
+      get 'product_categories_for_select' => 'classifieds#product_categories_for_select'
+      get 'product_sub_categories_for_select/:id' => 'classifieds#product_sub_categories_for_select'
+      get 'get_product_category_by_id/:id' => 'classifieds#get_product_category_by_id'
+      get 'get_product_sub_category_by_id/:id' => 'classifieds#get_product_sub_category_by_id'
+      get 'product_sub_categories_2_for_select/:id' => 'classifieds#product_sub_categories_2_for_select'
+      get 'get_product_sub_category_2_by_id/:id' => 'classifieds#get_product_sub_category_2_by_id'
     end
   end
 
