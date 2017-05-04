@@ -18,3 +18,9 @@ if notification.notifiable
     json.partial! "users/user", user: notification.notifiable.user
   end
 end
+
+if notification.created_at.today?
+  json.sent_date_format "a " + time_ago_in_words(notification.created_at)
+else
+  json.sent_date_format "em " + notification.created_at.strftime("%b, %d %Y - %H:%M")
+end

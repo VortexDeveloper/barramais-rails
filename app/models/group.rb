@@ -5,7 +5,7 @@ class Group < ApplicationRecord
 
   validates :name, presence: true
 
-  has_attached_file :cover_photo, styles: { large: "1368x500>", medium: "800x400>", small: "500x300>" }, default_url: '/images/evento_cover.jpg'
+  has_attached_file :cover_photo, styles: { large: "1368x500>", medium: "800x400>", small: "500x300>" }, default_url: '/images/grupo.png'
   validates_attachment_content_type :cover_photo, content_type: /\Aimage\/.*\z/
 
   #Todos os membros confirmados deste grupo

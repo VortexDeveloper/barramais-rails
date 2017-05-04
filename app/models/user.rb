@@ -45,12 +45,12 @@ class User < ApplicationRecord
   has_attached_file :avatar, styles: {
     medium: "300x300>",
     thumb: "100x100>"
-  }, default_url: '/images/user.jpg'
+  }, default_url: '/images/comum.png'
 
   has_attached_file :cover_photo, styles: {
     medium: "300x300>",
     thumb: "100x100>"
-  }, default_url: '/images/user_cover.jpg'
+  }, default_url: '/images/comum.png'
 
   # ENUMS
   enum relationship: [
