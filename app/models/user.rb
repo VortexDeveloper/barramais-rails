@@ -2,6 +2,8 @@ class User < ApplicationRecord
   # TARGET FOR NOTIFICATIONS
   acts_as_target
 
+  before_destroy :destroy_my_recipient_conversations
+
   # ASSOCIATIONS
   belongs_to :partner, class_name: User, optional: true
 
@@ -11,8 +13,8 @@ class User < ApplicationRecord
   has_many :groups, dependent: :destroy
   has_many :events, dependent: :destroy
   has_many :posts, dependent: :destroy
-  has_many :event_invitations, foreign_key: "guest_id", class_name: "EventGuest"
-  has_many :group_invitations, foreign_key: "member_id", class_name: "GroupMember"
+  has_many :event_invitations, foreign_key: "guest_id", class_name: "EventGuest", dependent: :destroy
+  has_many :group_invitations, foreign_key: "member_id", class_name: "GroupMember", dependent: :destroy
   has_many :messages, dependent: :destroy
   has_many :conversations, foreign_key: :sender_id, dependent: :destroy
   has_many :own_vessels, dependent: :destroy
@@ -54,12 +56,12 @@ class User < ApplicationRecord
 
   # ENUMS
   enum relationship: [
-    :Solteiro,
-    :Relacionamento_serio,
-    :Casado,
-    :Relacionamento_aberto,
-    :Divorciado,
-    :Viuvo
+    :solteiro,
+    :relacionamento_serio,
+    :casado,
+    :relacionamento_aberto,
+    :divorciado,
+    :viuvo
   ]
   enum nautical_license: [
     :unlicensed,
@@ -80,12 +82,12 @@ class User < ApplicationRecord
     :segundo_tenente,
     :primeiro_tenente,
     :capitao_tenente,
-    :capitao_corveta,
-    :capitao_fragata,
-    :capitao_mar_guerra,
+    :capitao_de_corveta,
+    :capitao_de_fragata,
+    :capitao_de_mar_e_guerra,
     :contra_almirante,
     :vice_almirante,
-    :almirante_esquadra
+    :almirante_de_esquadra
   ]
 
   enum water_sport: [
@@ -275,8 +277,11 @@ class User < ApplicationRecord
     #corrigir isso não está chamando o asse_url corretamente.
     user_h.merge!({avatar_url: ApplicationController.helpers.asset_url(avatar.url)})
     user_h.merge!({cover_photo_url: ApplicationController.helpers.asset_url(cover_photo.url)})
+    user_h.merge!({nautical_license_name: nautical_license.to_s.humanize})
+    user_h.merge!({naval_service_patent_name: naval_service_patent.to_s.humanize})
+    user_h.merge!({relationship_name: relationship.to_s.humanize})
     own_vessels_hash = own_vessels.reload.map do |own_vessel|
-      {id: own_vessel.vessel_type.id}.merge!({vessel_type_name: own_vessel.vessel_type.name})
+      {id: own_vessel.vessel_type.id}.merge!({vessel_type_name: own_vessel.vessel_type.name, vessel_type_photo_url: own_vessel.vessel_type.photo.url})
     end
     user_h[:own_vessels] = own_vessels_hash
     user_h
@@ -313,6 +318,10 @@ class User < ApplicationRecord
     else
       return false
     end
+  end
+
+  def destroy_my_recipient_conversations
+    conversations = Conversation.where(recipient_id: self.id).destroy_all
   end
 
   private
