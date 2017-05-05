@@ -2,6 +2,8 @@ class User < ApplicationRecord
   # TARGET FOR NOTIFICATIONS
   acts_as_target
 
+  before_destroy :destroy_my_recipient_conversations
+
   # ASSOCIATIONS
   belongs_to :partner, class_name: User, optional: true
 
@@ -11,8 +13,8 @@ class User < ApplicationRecord
   has_many :groups, dependent: :destroy
   has_many :events, dependent: :destroy
   has_many :posts, dependent: :destroy
-  has_many :event_invitations, foreign_key: "guest_id", class_name: "EventGuest"
-  has_many :group_invitations, foreign_key: "member_id", class_name: "GroupMember"
+  has_many :event_invitations, foreign_key: "guest_id", class_name: "EventGuest", dependent: :destroy
+  has_many :group_invitations, foreign_key: "member_id", class_name: "GroupMember", dependent: :destroy
   has_many :messages, dependent: :destroy
   has_many :conversations, foreign_key: :sender_id, dependent: :destroy
   has_many :own_vessels, dependent: :destroy
@@ -316,6 +318,10 @@ class User < ApplicationRecord
     else
       return false
     end
+  end
+
+  def destroy_my_recipient_conversations
+    conversations = Conversation.where(recipient_id: self.id).destroy_all
   end
 
   private
