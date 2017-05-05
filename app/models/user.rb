@@ -5,32 +5,32 @@ class User < ApplicationRecord
   # ASSOCIATIONS
   belongs_to :partner, class_name: User, optional: true
 
-  has_one :advertiser
-  has_many :classifieds
+  has_one :advertiser, dependent: :destroy
+  has_many :classifieds, dependent: :destroy
 
-  has_many :groups
-  has_many :events
+  has_many :groups, dependent: :destroy
+  has_many :events, dependent: :destroy
   has_many :posts, dependent: :destroy
   has_many :event_invitations, foreign_key: "guest_id", class_name: "EventGuest"
   has_many :group_invitations, foreign_key: "member_id", class_name: "GroupMember"
-  has_many :messages
-  has_many :conversations, foreign_key: :sender_id
-  has_many :own_vessels
+  has_many :messages, dependent: :destroy
+  has_many :conversations, foreign_key: :sender_id, dependent: :destroy
+  has_many :own_vessels, dependent: :destroy
 
   #FRIENDSHIP
-  has_many :friendships
-  has_many :friends, :through => :friendships
-  has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
-  has_many :inverse_friends, :through => :inverse_friendships, :source => :user
+  has_many :friendships, dependent: :destroy
+  has_many :friends, :through => :friendships, dependent: :destroy
+  has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id", dependent: :destroy
+  has_many :inverse_friends, :through => :inverse_friendships, :source => :user, dependent: :destroy
   has_many :user_nautical_sports, dependent: :destroy
-  has_many :nautical_sports, :through => :user_nautical_sports
-  has_many :traveled_states
-  has_many :state_for_travels, :through => :traveled_states
-  has_many :traveled_countries
-  has_many :country_for_travels, :through => :traveled_countries
-  has_many :album_photos
+  has_many :nautical_sports, :through => :user_nautical_sports, dependent: :destroy
+  has_many :traveled_states, dependent: :destroy
+  has_many :state_for_travels, :through => :traveled_states, dependent: :destroy
+  has_many :traveled_countries, dependent: :destroy
+  has_many :country_for_travels, :through => :traveled_countries, dependent: :destroy
+  has_many :album_photos, dependent: :destroy
   has_many :user_interests, dependent: :destroy
-  has_many :interests, :through => :user_interests
+  has_many :interests, :through => :user_interests, dependent: :destroy
 
   # VENDOR METHODS
 
