@@ -10,3 +10,6 @@ json.extract! user, :id, :first_name, :last_name, :cellphone, :birthday, :sex,
 json.isFriend current_user.friend_of? user
 json.avatar_url asset_url(user.avatar.url)
 json.cover_photo_url asset_url(user.cover_photo.url)
+json.nautical_license_name user.nautical_license.to_s.humanize
+json.naval_service_patent_name user.naval_service_patent.to_s.humanize
+json.relationship_name user.relationship.to_s.humanize

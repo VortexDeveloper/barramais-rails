@@ -54,12 +54,12 @@ class User < ApplicationRecord
 
   # ENUMS
   enum relationship: [
-    :Solteiro,
-    :Relacionamento_serio,
-    :Casado,
-    :Relacionamento_aberto,
-    :Divorciado,
-    :Viuvo
+    :solteiro,
+    :relacionamento_serio,
+    :casado,
+    :relacionamento_aberto,
+    :divorciado,
+    :viuvo
   ]
   enum nautical_license: [
     :unlicensed,
@@ -80,12 +80,12 @@ class User < ApplicationRecord
     :segundo_tenente,
     :primeiro_tenente,
     :capitao_tenente,
-    :capitao_corveta,
-    :capitao_fragata,
-    :capitao_mar_guerra,
+    :capitao_de_corveta,
+    :capitao_de_fragata,
+    :capitao_de_mar_e_guerra,
     :contra_almirante,
     :vice_almirante,
-    :almirante_esquadra
+    :almirante_de_esquadra
   ]
 
   enum water_sport: [
@@ -275,8 +275,11 @@ class User < ApplicationRecord
     #corrigir isso não está chamando o asse_url corretamente.
     user_h.merge!({avatar_url: ApplicationController.helpers.asset_url(avatar.url)})
     user_h.merge!({cover_photo_url: ApplicationController.helpers.asset_url(cover_photo.url)})
+    user_h.merge!({nautical_license_name: nautical_license.to_s.humanize})
+    user_h.merge!({naval_service_patent_name: naval_service_patent.to_s.humanize})
+    user_h.merge!({relationship_name: relationship.to_s.humanize})
     own_vessels_hash = own_vessels.reload.map do |own_vessel|
-      {id: own_vessel.vessel_type.id}.merge!({vessel_type_name: own_vessel.vessel_type.name})
+      {id: own_vessel.vessel_type.id}.merge!({vessel_type_name: own_vessel.vessel_type.name, vessel_type_photo_url: own_vessel.vessel_type.photo.url})
     end
     user_h[:own_vessels] = own_vessels_hash
     user_h
