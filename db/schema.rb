@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170427174908) do
+ActiveRecord::Schema.define(version: 20170504151728) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -294,16 +294,6 @@ ActiveRecord::Schema.define(version: 20170427174908) do
     t.index ["user_id"], name: "index_messages_on_user_id", using: :btree
   end
 
-  create_table "model_names", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "brand_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "vessel_id"
-    t.index ["brand_id"], name: "index_model_names_on_brand_id", using: :btree
-    t.index ["vessel_id"], name: "index_model_names_on_vessel_id", using: :btree
-  end
-
   create_table "molds", force: :cascade do |t|
     t.string   "name"
     t.integer  "brand_id"
@@ -411,15 +401,25 @@ ActiveRecord::Schema.define(version: 20170427174908) do
     t.index ["product_category_id"], name: "index_product_sub_categories_on_product_category_id", using: :btree
   end
 
+  create_table "product_sub_category2s", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "product_sub_category_id"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.index ["product_sub_category_id"], name: "index_product_sub_category2s_on_product_sub_category_id", using: :btree
+  end
+
   create_table "products", force: :cascade do |t|
     t.integer  "classified_id"
     t.integer  "status"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.integer  "product_category_id"
     t.integer  "product_sub_category_id"
+    t.integer  "product_sub_category2_id"
     t.index ["classified_id"], name: "index_products_on_classified_id", using: :btree
     t.index ["product_category_id"], name: "index_products_on_product_category_id", using: :btree
+    t.index ["product_sub_category2_id"], name: "index_products_on_product_sub_category2_id", using: :btree
     t.index ["product_sub_category_id"], name: "index_products_on_product_sub_category_id", using: :btree
   end
 
@@ -538,6 +538,10 @@ ActiveRecord::Schema.define(version: 20170427174908) do
     t.integer  "license_interest"
     t.integer  "fishing",                         default: 0
     t.integer  "nautical_tour",                   default: 0
+    t.string   "cover_photo_file_name"
+    t.string   "cover_photo_content_type"
+    t.integer  "cover_photo_file_size"
+    t.datetime "cover_photo_updated_at"
     t.string   "nickname"
     t.string   "facebook"
     t.string   "instagram"
@@ -557,10 +561,6 @@ ActiveRecord::Schema.define(version: 20170427174908) do
     t.text     "tourist_places"
     t.boolean  "fishing_tourist"
     t.integer  "water_sport"
-    t.string   "cover_photo_file_name"
-    t.string   "cover_photo_content_type"
-    t.integer  "cover_photo_file_size"
-    t.datetime "cover_photo_updated_at"
     t.text     "national_trips"
     t.text     "international_trips"
     t.string   "provider"
@@ -651,17 +651,17 @@ ActiveRecord::Schema.define(version: 20170427174908) do
   add_foreign_key "groups", "users"
   add_foreign_key "messages", "conversations"
   add_foreign_key "messages", "users"
-  add_foreign_key "model_names", "brands"
-  add_foreign_key "model_names", "vessels"
   add_foreign_key "molds", "brands"
   add_foreign_key "own_vessels", "users"
   add_foreign_key "own_vessels", "vessel_types"
   add_foreign_key "post_images", "posts"
   add_foreign_key "posts", "users"
   add_foreign_key "product_sub_categories", "product_categories"
+  add_foreign_key "product_sub_category2s", "product_sub_categories"
   add_foreign_key "products", "classifieds"
   add_foreign_key "products", "product_categories"
   add_foreign_key "products", "product_sub_categories"
+  add_foreign_key "products", "product_sub_category2s"
   add_foreign_key "states", "countries"
   add_foreign_key "transactions", "ads"
   add_foreign_key "transactions", "advertisers"

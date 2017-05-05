@@ -65,12 +65,28 @@ class ClassifiedsController < ApplicationController
     respond_for response
   end
 
+  def get_product_category_by_id
+    @product_category = ProductCategory.find(params[:id])
+  end
+
+  def get_product_sub_category_by_id
+    @product_sub_category = ProductSubCategory.find(params[:id])
+  end
+
+  def get_product_sub_category_2_by_id
+    @product_sub_category_2 = ProductSubCategory2.find(params[:id])
+  end
+
   def product_categories_for_select
     @product_categories_for_select = ProductCategory.all
   end
 
   def product_sub_categories_for_select
-    @product_sub_categories_for_select = ProductSubCategory.all
+    @product_sub_categories_for_select = ProductSubCategory.where(product_category_id: params[:id])
+  end
+
+  def product_sub_categories_2_for_select
+    @product_sub_categories_2_for_select = ProductSubCategory2.where(product_sub_category_id: params[:id])
   end
 
   # GET /classifieds
@@ -128,6 +144,20 @@ class ClassifiedsController < ApplicationController
   def create_fishing
     @classified = Classified.new(classified_params)
     @classified.fishing = Fishing.create(fishing_params)
+    respond_to do |format|
+      if @classified.save
+        format.html { redirect_to @classified, notice: 'Classified was successfully created.' }
+        format.json { render :show, status: :created, location: @classified }
+      else
+        format.html { render :new }
+        format.json { render json: @classified.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def create_product
+    @classified = Classified.new(classified_params)
+    @classified.product = Product.create(product_params)
     respond_to do |format|
       if @classified.save
         format.html { redirect_to @classified, notice: 'Classified was successfully created.' }
@@ -204,6 +234,15 @@ class ClassifiedsController < ApplicationController
         :fishing_category_id,
         :fishing_sub_category_id,
         :provisional_category,
+        :status,
+        :classified_id
+      )
+    end
+
+    def product_params
+      params.require(:product).permit(
+        :product_category_id,
+        :product_sub_category_id,
         :status,
         :classified_id
       )

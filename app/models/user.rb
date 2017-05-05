@@ -2,35 +2,37 @@ class User < ApplicationRecord
   # TARGET FOR NOTIFICATIONS
   acts_as_target
 
+  before_destroy :destroy_my_recipient_conversations
+
   # ASSOCIATIONS
   belongs_to :partner, class_name: User, optional: true
 
-  has_one :advertiser
-  has_many :classifieds
+  has_one :advertiser, dependent: :destroy
+  has_many :classifieds, dependent: :destroy
 
-  has_many :groups
-  has_many :events
+  has_many :groups, dependent: :destroy
+  has_many :events, dependent: :destroy
   has_many :posts, dependent: :destroy
-  has_many :event_invitations, foreign_key: "guest_id", class_name: "EventGuest"
-  has_many :group_invitations, foreign_key: "member_id", class_name: "GroupMember"
-  has_many :messages
-  has_many :conversations, foreign_key: :sender_id
-  has_many :own_vessels
+  has_many :event_invitations, foreign_key: "guest_id", class_name: "EventGuest", dependent: :destroy
+  has_many :group_invitations, foreign_key: "member_id", class_name: "GroupMember", dependent: :destroy
+  has_many :messages, dependent: :destroy
+  has_many :conversations, foreign_key: :sender_id, dependent: :destroy
+  has_many :own_vessels, dependent: :destroy
 
   #FRIENDSHIP
-  has_many :friendships
-  has_many :friends, :through => :friendships
-  has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
-  has_many :inverse_friends, :through => :inverse_friendships, :source => :user
+  has_many :friendships, dependent: :destroy
+  has_many :friends, :through => :friendships, dependent: :destroy
+  has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id", dependent: :destroy
+  has_many :inverse_friends, :through => :inverse_friendships, :source => :user, dependent: :destroy
   has_many :user_nautical_sports, dependent: :destroy
-  has_many :nautical_sports, :through => :user_nautical_sports
-  has_many :traveled_states
-  has_many :state_for_travels, :through => :traveled_states
-  has_many :traveled_countries
-  has_many :country_for_travels, :through => :traveled_countries
-  has_many :album_photos
+  has_many :nautical_sports, :through => :user_nautical_sports, dependent: :destroy
+  has_many :traveled_states, dependent: :destroy
+  has_many :state_for_travels, :through => :traveled_states, dependent: :destroy
+  has_many :traveled_countries, dependent: :destroy
+  has_many :country_for_travels, :through => :traveled_countries, dependent: :destroy
+  has_many :album_photos, dependent: :destroy
   has_many :user_interests, dependent: :destroy
-  has_many :interests, :through => :user_interests
+  has_many :interests, :through => :user_interests, dependent: :destroy
 
   # VENDOR METHODS
 
@@ -45,7 +47,7 @@ class User < ApplicationRecord
   has_attached_file :avatar, styles: {
     medium: "300x300>",
     thumb: "100x100>"
-  }, default_url: '/images/comum.png'
+  }, default_url: '/images/user.jpg'
 
   has_attached_file :cover_photo, styles: {
     medium: "300x300>",
@@ -54,12 +56,12 @@ class User < ApplicationRecord
 
   # ENUMS
   enum relationship: [
-    :single,
-    :serious_relationship,
-    :married,
-    :open_relationship,
-    :divorced,
-    :widow
+    :solteiro,
+    :relacionamento_serio,
+    :casado,
+    :relacionamento_aberto,
+    :divorciado,
+    :viuvo
   ]
   enum nautical_license: [
     :unlicensed,
@@ -80,12 +82,12 @@ class User < ApplicationRecord
     :segundo_tenente,
     :primeiro_tenente,
     :capitao_tenente,
-    :capitao_corveta,
-    :capitao_fragata,
-    :capitao_mar_guerra,
+    :capitao_de_corveta,
+    :capitao_de_fragata,
+    :capitao_de_mar_e_guerra,
     :contra_almirante,
     :vice_almirante,
-    :almirante_esquadra
+    :almirante_de_esquadra
   ]
 
   enum water_sport: [
@@ -275,8 +277,11 @@ class User < ApplicationRecord
     #corrigir isso não está chamando o asse_url corretamente.
     user_h.merge!({avatar_url: ApplicationController.helpers.asset_url(avatar.url)})
     user_h.merge!({cover_photo_url: ApplicationController.helpers.asset_url(cover_photo.url)})
+    user_h.merge!({nautical_license_name: nautical_license.to_s.humanize})
+    user_h.merge!({naval_service_patent_name: naval_service_patent.to_s.humanize})
+    user_h.merge!({relationship_name: relationship.to_s.humanize})
     own_vessels_hash = own_vessels.reload.map do |own_vessel|
-      {id: own_vessel.vessel_type.id}.merge!({vessel_type_name: own_vessel.vessel_type.name})
+      {id: own_vessel.vessel_type.id}.merge!({vessel_type_name: own_vessel.vessel_type.name, vessel_type_photo_url: own_vessel.vessel_type.photo.url})
     end
     user_h[:own_vessels] = own_vessels_hash
     user_h
@@ -313,6 +318,10 @@ class User < ApplicationRecord
     else
       return false
     end
+  end
+
+  def destroy_my_recipient_conversations
+    conversations = Conversation.where(recipient_id: self.id).destroy_all
   end
 
   private
