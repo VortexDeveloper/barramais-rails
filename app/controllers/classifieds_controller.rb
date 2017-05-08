@@ -13,6 +13,11 @@ class ClassifiedsController < ApplicationController
     respond_for response
   end
 
+  def get_vessel_type_by_id
+    response = { vessel_type: VesselType.find(params[:id]) }
+    respond_for response
+  end
+
   def get_brand_by_id
     response = { brand: Brand.find(params[:id]) }
     respond_for response
@@ -23,8 +28,13 @@ class ClassifiedsController < ApplicationController
     respond_for response
   end
 
+  def vessel_types_for_select
+    response = { vessel_types: VesselType.all }
+    respond_for response
+  end
+
   def brands_for_select
-    response = { brands: Brand.all }
+    response = { brands: Brand.where(vessel_type_id: params[:id]) }
     respond_for response
   end
 
