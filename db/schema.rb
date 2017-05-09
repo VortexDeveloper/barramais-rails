@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170508181321) do
+ActiveRecord::Schema.define(version: 20170509145040) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -121,8 +121,8 @@ ActiveRecord::Schema.define(version: 20170508181321) do
     t.string   "cell_phone"
     t.text     "description"
     t.float    "price"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
     t.string   "photo_file_name"
     t.string   "photo_content_type"
     t.integer  "photo_file_size"
@@ -138,6 +138,7 @@ ActiveRecord::Schema.define(version: 20170508181321) do
     t.string   "photo_b_content_type"
     t.integer  "photo_b_file_size"
     t.datetime "photo_b_updated_at"
+    t.integer  "classified_conditional"
     t.index ["user_id"], name: "index_classifieds_on_user_id", using: :btree
   end
 

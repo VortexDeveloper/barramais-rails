@@ -162,6 +162,9 @@ Rails.application.routes.draw do
       get 'get_product_sub_category_by_id/:id' => 'classifieds#get_product_sub_category_by_id'
       get 'product_sub_categories_2_for_select/:id' => 'classifieds#product_sub_categories_2_for_select'
       get 'get_product_sub_category_2_by_id/:id' => 'classifieds#get_product_sub_category_2_by_id'
+      get 'get_vessel_by_classified/:id' => 'classifieds#get_vessel_by_classified'
+      get 'get_fishing_by_classified/:id' => 'classifieds#get_fishing_by_classified'
+      get 'get_product_by_classified/:id' => 'classifieds#get_product_by_classified'
     end
   end
 

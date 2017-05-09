@@ -13,6 +13,33 @@ class ClassifiedsController < ApplicationController
     respond_for response
   end
 
+  # def get_vessel_by_classified
+  #   response = { vessel: Vessel.where(classified_id: params[:id]) }
+  #   respond_for response
+  # end
+
+  def get_vessel_by_classified
+    @vessel = Vessel.where(classified_id: params[:id]).first
+  end
+
+  # def get_fishing_by_classified
+  #   response = { fishing: Fishing.where(classified_id: params[:id]) }
+  #   respond_for response
+  # end
+
+  def get_fishing_by_classified
+    @fishing = Fishing.where(classified_id: params[:id]).first
+  end
+
+  # def get_product_by_classified
+  #   response = { product: Product.where(classified_id: params[:id]) }
+  #   respond_for response
+  # end
+
+  def get_product_by_classified
+    @product = Product.where(classified_id: params[:id]).first
+  end
+
   def get_vessel_type_by_id
     response = { vessel_type: VesselType.find(params[:id]) }
     respond_for response
@@ -221,7 +248,9 @@ class ClassifiedsController < ApplicationController
         :cell_phone,
         :description,
         :price,
-        :user_id
+        :user_id,
+        :bonded,
+        :classified_conditional
       )
     end
 
