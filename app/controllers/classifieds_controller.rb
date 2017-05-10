@@ -220,6 +220,52 @@ class ClassifiedsController < ApplicationController
     end
   end
 
+  def update_vessel
+    @classified = Classified.find(classified_params[:id])
+    @classified.vessel.accessories = []
+    params[:accessories].each do |accessory|
+      @classified.vessel.accessories << Accessory.find(accessory[:id])
+    end
+    respond_to do |format|
+      if @classified.update(classified_params)
+        @classified.vessel.update(vessel_params)
+        format.html { redirect_to @classified, notice: 'Classified was successfully updated.' }
+        format.json { render :show, status: :ok, location: @classified }
+      else
+        format.html { render :edit }
+        format.json { render json: @classified.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def update_fishing
+    @classified = Classified.find(classified_params[:id])
+    respond_to do |format|
+      if @classified.update(classified_params)
+        @classified.fishing.update(fishing_params)
+        format.html { redirect_to @classified, notice: 'Classified was successfully updated.' }
+        format.json { render :show, status: :ok, location: @classified }
+      else
+        format.html { render :edit }
+        format.json { render json: @classified.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def update_product
+    @classified = Classified.find(classified_params[:id])
+    respond_to do |format|
+      if @classified.update(classified_params)
+        @classified.product.update(product_params)
+        format.html { redirect_to @classified, notice: 'Classified was successfully updated.' }
+        format.json { render :show, status: :ok, location: @classified }
+      else
+        format.html { render :edit }
+        format.json { render json: @classified.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # DELETE /classifieds/1
   # DELETE /classifieds/1.json
   def destroy
@@ -239,6 +285,7 @@ class ClassifiedsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def classified_params
       params.require(:classified).permit(
+        :id,
         :title,
         :document_type,
         :document_number,
@@ -256,7 +303,7 @@ class ClassifiedsController < ApplicationController
 
     def vessel_params
       params.require(:vessel).permit(
-        :vessel_type,
+        :vessel_type_id,
         :status,
         :manufacturation_year,
         :activation_year,
@@ -282,6 +329,7 @@ class ClassifiedsController < ApplicationController
       params.require(:product).permit(
         :product_category_id,
         :product_sub_category_id,
+        :product_sub_category2_id,
         :status,
         :classified_id
       )
