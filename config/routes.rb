@@ -145,9 +145,11 @@ Rails.application.routes.draw do
       post 'create_fishing' => 'classifieds#create_fishing'
       post 'create_product' => 'classifieds#create_product'
       get 'get_classifieds_by_user/:id' => 'classifieds#get_classifieds_by_user'
+      get 'get_vessel_type_by_id/:id' => 'classifieds#get_vessel_type_by_id'
       get 'get_brand_by_id/:id' => 'classifieds#get_brand_by_id'
       get 'get_mold_by_id/:id' => 'classifieds#get_mold_by_id'
-      get 'brands_for_select' => 'classifieds#brands_for_select'
+      get 'vessel_types_for_select' => 'classifieds#vessel_types_for_select'
+      get 'brands_for_select/:id' => 'classifieds#brands_for_select'
       get 'molds_for_select/:id' => 'classifieds#molds_for_select'
       get 'accessories_for_select' => 'classifieds#accessories_for_select'
       get 'communications_for_select' => 'classifieds#communications_for_select'
@@ -162,6 +164,9 @@ Rails.application.routes.draw do
       get 'get_product_sub_category_by_id/:id' => 'classifieds#get_product_sub_category_by_id'
       get 'product_sub_categories_2_for_select/:id' => 'classifieds#product_sub_categories_2_for_select'
       get 'get_product_sub_category_2_by_id/:id' => 'classifieds#get_product_sub_category_2_by_id'
+      get 'get_vessel_by_classified/:id' => 'classifieds#get_vessel_by_classified'
+      get 'get_fishing_by_classified/:id' => 'classifieds#get_fishing_by_classified'
+      get 'get_product_by_classified/:id' => 'classifieds#get_product_by_classified'
     end
   end
 

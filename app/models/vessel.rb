@@ -3,6 +3,7 @@ class Vessel < ApplicationRecord
   validates_attachment_content_type :photo, content_type: /\Aimage\/.*\z/
 
   belongs_to :classified
+  belongs_to :vessel_type
   belongs_to :brand
   belongs_to :mold
 

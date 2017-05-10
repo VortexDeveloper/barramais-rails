@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170504151728) do
+ActiveRecord::Schema.define(version: 20170509145040) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,8 +98,10 @@ ActiveRecord::Schema.define(version: 20170504151728) do
 
   create_table "brands", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.integer  "vessel_type_id"
+    t.index ["vessel_type_id"], name: "index_brands_on_vessel_type_id", using: :btree
   end
 
   create_table "cities", force: :cascade do |t|
@@ -119,8 +121,8 @@ ActiveRecord::Schema.define(version: 20170504151728) do
     t.string   "cell_phone"
     t.text     "description"
     t.float    "price"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
     t.string   "photo_file_name"
     t.string   "photo_content_type"
     t.integer  "photo_file_size"
@@ -136,6 +138,7 @@ ActiveRecord::Schema.define(version: 20170504151728) do
     t.string   "photo_b_content_type"
     t.integer  "photo_b_file_size"
     t.datetime "photo_b_updated_at"
+    t.integer  "classified_conditional"
     t.index ["user_id"], name: "index_classifieds_on_user_id", using: :btree
   end
 
@@ -292,6 +295,16 @@ ActiveRecord::Schema.define(version: 20170504151728) do
     t.datetime "updated_at",      null: false
     t.index ["conversation_id"], name: "index_messages_on_conversation_id", using: :btree
     t.index ["user_id"], name: "index_messages_on_user_id", using: :btree
+  end
+
+  create_table "model_names", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "brand_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "vessel_id"
+    t.index ["brand_id"], name: "index_model_names_on_brand_id", using: :btree
+    t.index ["vessel_id"], name: "index_model_names_on_vessel_id", using: :btree
   end
 
   create_table "molds", force: :cascade do |t|
@@ -538,10 +551,6 @@ ActiveRecord::Schema.define(version: 20170504151728) do
     t.integer  "license_interest"
     t.integer  "fishing",                         default: 0
     t.integer  "nautical_tour",                   default: 0
-    t.string   "cover_photo_file_name"
-    t.string   "cover_photo_content_type"
-    t.integer  "cover_photo_file_size"
-    t.datetime "cover_photo_updated_at"
     t.string   "nickname"
     t.string   "facebook"
     t.string   "instagram"
@@ -561,6 +570,10 @@ ActiveRecord::Schema.define(version: 20170504151728) do
     t.text     "tourist_places"
     t.boolean  "fishing_tourist"
     t.integer  "water_sport"
+    t.string   "cover_photo_file_name"
+    t.string   "cover_photo_content_type"
+    t.integer  "cover_photo_file_size"
+    t.datetime "cover_photo_updated_at"
     t.text     "national_trips"
     t.text     "international_trips"
     t.string   "provider"
@@ -590,7 +603,6 @@ ActiveRecord::Schema.define(version: 20170504151728) do
   end
 
   create_table "vessels", force: :cascade do |t|
-    t.integer  "vessel_type"
     t.integer  "status"
     t.string   "manufacturation_year"
     t.string   "activation_year"
@@ -605,9 +617,11 @@ ActiveRecord::Schema.define(version: 20170504151728) do
     t.string   "photo_content_type"
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
+    t.integer  "vessel_type_id"
     t.index ["brand_id"], name: "index_vessels_on_brand_id", using: :btree
     t.index ["classified_id"], name: "index_vessels_on_classified_id", using: :btree
     t.index ["mold_id"], name: "index_vessels_on_mold_id", using: :btree
+    t.index ["vessel_type_id"], name: "index_vessels_on_vessel_type_id", using: :btree
   end
 
   create_table "votes", force: :cascade do |t|
@@ -634,6 +648,7 @@ ActiveRecord::Schema.define(version: 20170504151728) do
   add_foreign_key "advertisers", "users"
   add_foreign_key "album_photos", "users"
   add_foreign_key "areas", "ads"
+  add_foreign_key "brands", "vessel_types"
   add_foreign_key "cities", "states"
   add_foreign_key "classifieds", "users"
   add_foreign_key "conversations", "users", column: "recipient_id"
@@ -651,6 +666,8 @@ ActiveRecord::Schema.define(version: 20170504151728) do
   add_foreign_key "groups", "users"
   add_foreign_key "messages", "conversations"
   add_foreign_key "messages", "users"
+  add_foreign_key "model_names", "brands"
+  add_foreign_key "model_names", "vessels"
   add_foreign_key "molds", "brands"
   add_foreign_key "own_vessels", "users"
   add_foreign_key "own_vessels", "vessel_types"
@@ -679,4 +696,5 @@ ActiveRecord::Schema.define(version: 20170504151728) do
   add_foreign_key "vessels", "brands"
   add_foreign_key "vessels", "classifieds"
   add_foreign_key "vessels", "molds"
+  add_foreign_key "vessels", "vessel_types"
 end
