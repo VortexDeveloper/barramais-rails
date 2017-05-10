@@ -98,6 +98,8 @@ Rails.application.routes.draw do
   resources :posts do
     member do
       get :like
+      get :unlike
+      get :get_likes
       post :comment
       get :comments
     end
