@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   # before_action :authenticate_user!, except: [:enrich_link]
-  before_action :set_post, only: [:show, :edit, :update, :destroy, :like, :comments, :comment]
+  before_action :set_post, only: [:show, :edit, :update, :destroy, :like, :unlike, :get_likes, :comments, :comment]
 
   # GET /posts
   # GET /posts.json
@@ -82,6 +82,22 @@ class PostsController < ApplicationController
         format.json { render json: @post.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def unlike
+    respond_to do |format|
+      if @post.unliked_by current_user
+        # format.html { redirect_to @post, notice: 'Post was successfully updated.' }
+        format.json { render :show, status: :ok, location: @post }
+      else
+        # format.html { render :edit }
+        format.json { render json: @post.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def get_likes
+    @post_likes = @post.get_likes
   end
 
   def comment
