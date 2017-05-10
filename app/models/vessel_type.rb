@@ -7,4 +7,7 @@ class VesselType < ApplicationRecord
     h[:photo_url]   = ApplicationController.helpers.asset_url(photo.url)
     h
   end
+
+  has_many :brands
+  has_many :vessels
 end
