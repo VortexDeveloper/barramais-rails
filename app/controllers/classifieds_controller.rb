@@ -13,28 +13,13 @@ class ClassifiedsController < ApplicationController
     respond_for response
   end
 
-  # def get_vessel_by_classified
-  #   response = { vessel: Vessel.where(classified_id: params[:id]) }
-  #   respond_for response
-  # end
-
   def get_vessel_by_classified
     @vessel = Vessel.where(classified_id: params[:id]).first
   end
 
-  # def get_fishing_by_classified
-  #   response = { fishing: Fishing.where(classified_id: params[:id]) }
-  #   respond_for response
-  # end
-
   def get_fishing_by_classified
     @fishing = Fishing.where(classified_id: params[:id]).first
   end
-
-  # def get_product_by_classified
-  #   response = { product: Product.where(classified_id: params[:id]) }
-  #   respond_for response
-  # end
 
   def get_product_by_classified
     @product = Product.where(classified_id: params[:id]).first
@@ -124,6 +109,18 @@ class ClassifiedsController < ApplicationController
 
   def product_sub_categories_2_for_select
     @product_sub_categories_2_for_select = ProductSubCategory2.where(product_sub_category_id: params[:id])
+  end
+
+  def get_all_vessels_by_date
+    @vessels = Vessel.all.order("created_at DESC")
+  end
+
+  def get_all_fishings_by_date
+    @fishings = Fishing.all.order("created_at DESC")
+  end
+
+  def get_all_products_by_date
+    @products = Product.all.order("created_at DESC")
   end
 
   # GET /classifieds

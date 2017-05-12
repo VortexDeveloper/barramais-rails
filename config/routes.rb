@@ -170,6 +170,9 @@ Rails.application.routes.draw do
       put 'update_vessel/:id' => 'classifieds#update_vessel'
       put 'update_fishing/:id' => 'classifieds#update_fishing'
       put 'update_product/:id' => 'classifieds#update_product'
+      get 'get_all_vessels_by_date' => 'classifieds#get_all_vessels_by_date'
+      get 'get_all_fishings_by_date' => 'classifieds#get_all_fishings_by_date'
+      get 'get_all_products_by_date' => 'classifieds#get_all_products_by_date'
     end
   end
 
