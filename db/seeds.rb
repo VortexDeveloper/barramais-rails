@@ -6,7 +6,6 @@
 #
 #  movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #  Character.create(name: 'Luke', movie: movies.first)
-<<<<<<< HEAD
 Country.find_or_create_by("name"=>"Brasil", "code"=>"BR")
 State.find_or_create_by("name"=>"Acre", "uf"=>"AC", "country_id"=>1)
 State.find_or_create_by("name"=>"Alagoas", "uf"=>"AL", "country_id"=>1)
