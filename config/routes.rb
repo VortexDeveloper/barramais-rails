@@ -173,6 +173,9 @@ Rails.application.routes.draw do
       get 'get_all_vessels_by_date' => 'classifieds#get_all_vessels_by_date'
       get 'get_all_fishings_by_date' => 'classifieds#get_all_fishings_by_date'
       get 'get_all_products_by_date' => 'classifieds#get_all_products_by_date'
+      get 'get_vessels_with_starting_id/:id' => 'classifieds#get_vessels_with_starting_id'
+      get 'get_fishings_with_starting_id/:id' => 'classifieds#get_fishings_with_starting_id'
+      get 'get_products_with_starting_id/:id' => 'classifieds#get_products_with_starting_id'
     end
   end
 
