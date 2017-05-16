@@ -5936,7 +5936,7 @@ FishingSubCategory.find_or_create_by("name" => "Óculos", "fishing_category_id" 
 # Mold.find_or_create_by("name"=>"Cigarette 360 Open", "brand_id"=>22)
 # Mold.find_or_create_by("name"=>"Dart 200", "brand_id"=>22)
 # Brand.find_or_create_by("name"=>"Esquimar", "vessel_type_id" => 1)
-# # Mold.find_or_create_by("name"=>"", "brand_id"=>23)
+# # Mold.find_or_create_by("name"=>"Modelo Único", "brand_id"=>23)
 #
 # Brand.find_or_create_by("name"=>"Euroboats", "vessel_type_id" => 1)
 # Mold.find_or_create_by("name"=>"310 Cab SLX", "brand_id"=>24)
@@ -6059,14 +6059,14 @@ FishingSubCategory.find_or_create_by("name" => "Óculos", "fishing_category_id" 
 # Mold.find_or_create_by("name"=>"NX 270", "brand_id"=>46)
 # Mold.find_or_create_by("name"=>"NX 280", "brand_id"=>46)
 # Brand.find_or_create_by("name"=>"Nautika", "vessel_type_id" => 1)
-# # Mold.find_or_create_by("name"=>"", "brand_id"=>47)
+# # Mold.find_or_create_by("name"=>"Modelo único", "brand_id"=>47)
 #
 # Brand.find_or_create_by("name"=>"Navy", "vessel_type_id" => 1)
 # Mold.find_or_create_by("name"=>"Navy 7.2", "brand_id"=>48)
 # Brand.find_or_create_by("name"=>"New HD Boats", "vessel_type_id" => 1)
 # Mold.find_or_create_by("name"=>"NHD 210", "brand_id"=>49)
 # Brand.find_or_create_by("name"=>"O.L Náutica", "vessel_type_id" => 1)
-# # Mold.find_or_create_by("name"=>"", "brand_id"=>50)
+# # Mold.find_or_create_by("name"=>"Modelo único", "brand_id"=>50)
 #
 # Brand.find_or_create_by("name"=>"Phoenix Boats", "vessel_type_id" => 1)
 # Mold.find_or_create_by("name"=>"190 Plus", "brand_id"=>51)
@@ -6122,7 +6122,7 @@ FishingSubCategory.find_or_create_by("name" => "Óculos", "fishing_category_id" 
 # Brand.find_or_create_by("name"=>"SHARK", "vessel_type_id" => 1)
 # Mold.find_or_create_by("name"=>"SHARK 19", "brand_id"=>60)
 # Brand.find_or_create_by("name"=>"Sboats", "vessel_type_id" => 1)
-# # Mold.find_or_create_by("name"=>"", "brand_id"=>61)
+# # Mold.find_or_create_by("name"=>"Modelo único", "brand_id"=>61)
 #
 # Brand.find_or_create_by("name"=>"Schaefer Yachts", "vessel_type_id" => 1)
 # Mold.find_or_create_by("name"=>"560", "brand_id"=>62)

@@ -176,6 +176,7 @@ Rails.application.routes.draw do
       get 'get_vessels_with_starting_id/:id' => 'classifieds#get_vessels_with_starting_id'
       get 'get_fishings_with_starting_id/:id' => 'classifieds#get_fishings_with_starting_id'
       get 'get_products_with_starting_id/:id' => 'classifieds#get_products_with_starting_id'
+      get 'get_classified_with_starting_id/:id' => 'classifieds#get_classified_with_starting_id'
     end
   end
 

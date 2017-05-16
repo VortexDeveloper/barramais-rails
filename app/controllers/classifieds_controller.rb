@@ -1,5 +1,6 @@
 class ClassifiedsController < ApplicationController
   before_action :set_classified, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:get_classified_with_starting_id]
 
   #Resposta JSON Padrão
   def respond_for response, status=200
@@ -9,8 +10,12 @@ class ClassifiedsController < ApplicationController
   end
 
   def get_classifieds_by_user
-    response = { classifieds: Classified.where(user_id: params[:id]).order(:title) }
+    response = { classifieds: Classified.where(user_id: params[:id]).order(:title).limit(5) }
     respond_for response
+  end
+
+  def get_classified_with_starting_id
+    @classifieds = Classified.where("id < ? AND user_id = ?", params[:id], current_user.id).order("created_at DESC").limit(5)
   end
 
   def get_vessel_by_classified
