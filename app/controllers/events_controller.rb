@@ -151,9 +151,13 @@ class EventsController < ApplicationController
   # PATCH/PUT /events/1.json
   def update
     if @event.update(event_params)
-      image = Paperclip.io_adapters.for(cover_photo_params[:image])
-      image.original_filename = "#{cover_photo_params[:filename]}"
-      @event.cover_photo = image
+      if cover_photo_params[:image]
+        image = Paperclip.io_adapters.for(cover_photo_params[:image])
+        image.original_filename = "#{cover_photo_params[:filename]}"
+        @event.cover_photo = image
+      end
+      @event.address.update(address_params)
+      @event.save
       @event
     else
       @event.errors
@@ -183,7 +187,6 @@ class EventsController < ApplicationController
         :event_date,
         :about,
         :address_id,
-        :cover_photo
       )
     end
 

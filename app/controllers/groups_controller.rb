@@ -148,10 +148,12 @@ class GroupsController < ApplicationController
   # PATCH/PUT /groups/1.json
   def update
     if @group.update(group_params)
-      image = Paperclip.io_adapters.for(cover_photo_params[:image])
-      image.original_filename = "#{cover_photo_params[:filename]}"
-      @group.cover_photo = image
-      @group
+      if cover_photo_params[:image]
+        image = Paperclip.io_adapters.for(cover_photo_params[:image])
+        image.original_filename = "#{cover_photo_params[:filename]}"
+        @group.cover_photo = image
+      end
+      @group.save
     else
       @group.errors
     end
