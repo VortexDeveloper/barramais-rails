@@ -56,6 +56,7 @@ Rails.application.routes.draw do
       get 'load_interests/:id' => 'users#load_interests'
       get 'my_notifications' => 'users#my_notifications'
       get 'open_my_notifications' => 'users#open_my_notifications'
+      get 'get_ads_with_starting_id/:id' => 'users#get_ads_with_starting_id'
     end
 
     resources :own_vessels

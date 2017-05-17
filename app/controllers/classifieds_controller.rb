@@ -10,12 +10,12 @@ class ClassifiedsController < ApplicationController
   end
 
   def get_classifieds_by_user
-    response = { classifieds: Classified.where(user_id: params[:id]).order(:title).limit(5) }
+    response = { classifieds: Classified.where(user_id: params[:id]).order("created_at DESC").limit(2) }
     respond_for response
   end
 
   def get_classified_with_starting_id
-    @classifieds = Classified.where("id < ? AND user_id = ?", params[:id], current_user.id).order("created_at DESC").limit(5)
+    @classifieds = Classified.where("id < ? AND user_id = ?", params[:id], current_user.id).order("created_at DESC").limit(2)
   end
 
   def get_vessel_by_classified
@@ -117,27 +117,27 @@ class ClassifiedsController < ApplicationController
   end
 
   def get_all_vessels_by_date
-    @vessels = Vessel.all.order("created_at DESC").limit(5)
+    @vessels = Vessel.all.order("created_at DESC").limit(2)
   end
 
   def get_vessels_with_starting_id
-    @vessels = Vessel.where("id < ?", params[:id]).order("created_at DESC").limit(5)
+    @vessels = Vessel.where("id < ?", params[:id]).order("created_at DESC").limit(2)
   end
 
   def get_all_fishings_by_date
-    @fishings = Fishing.all.order("created_at DESC").limit(5)
+    @fishings = Fishing.all.order("created_at DESC").limit(2)
   end
 
   def get_fishings_with_starting_id
-    @fishings = Fishing.where("id < ?", params[:id]).order("created_at DESC").limit(5)
+    @fishings = Fishing.where("id < ?", params[:id]).order("created_at DESC").limit(2)
   end
 
   def get_all_products_by_date
-    @products = Product.all.order("created_at DESC").limit(5)
+    @products = Product.all.order("created_at DESC").limit(2)
   end
 
   def get_products_with_starting_id
-    @products = Product.where("id < ?", params[:id]).order("created_at DESC").limit(5)
+    @products = Product.where("id < ?", params[:id]).order("created_at DESC").limit(2)
   end
 
   # GET /classifieds
