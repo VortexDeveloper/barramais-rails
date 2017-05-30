@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  # before_action :authenticate_user!, except: [:enrich_link]
+  before_action :authenticate_user!, except: [:enrich_link]
   before_action :set_post, only: [:show, :edit, :update, :destroy, :like, :unlike, :get_likes, :comments, :comment]
 
   # GET /posts

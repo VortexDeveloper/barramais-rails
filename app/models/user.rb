@@ -112,10 +112,11 @@ class User < ApplicationRecord
     with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, on: :create
   }
 
-  validates :first_name, :last_name, presence: true
+  # validates :first_name, :last_name, presence: true == Removido solicitação UX
+  validates :first_name, presence: true
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\z/
   devise :database_authenticatable, :validatable, password_length: 8..128
-  validate :single_word_last_name
+  # validate :single_word_last_name == Removido solicitação UX
   validate :single_word_first_name
 
   #SCOPES
