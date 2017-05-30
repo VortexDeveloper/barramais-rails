@@ -6,7 +6,7 @@ json.user_advertiser do
     json.city @user.advertiser.address.city
 
     json.ads do
-      json.array!(@user.advertiser.ads) do |ad|
+      json.array!(@user.advertiser.ads.order("created_at DESC")) do |ad|
         json.extract! ad, :id, :description, :created_at, :updated_at, :area
         json.photo_url ad.photo.url
 

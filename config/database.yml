@@ -23,8 +23,8 @@ default: &default
 
 local: &local
 
-  username: arthur
-  # username: vortex
+  # username: arthur
+  username: vortex
 
 development:
   <<: *default

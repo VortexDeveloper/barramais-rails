@@ -22,7 +22,8 @@ class UsersController < ApplicationController
     :send_request_to,
     :is_member_of,
     :i_was_invited_to,
-    :my_notifications
+    :my_notifications,
+    :get_ads_with_starting_id
   ]
 
   before_action :set_group, only: [
@@ -56,11 +57,16 @@ class UsersController < ApplicationController
     :refuse_event,
     :send_support_email,
     :my_notifications,
-    :open_my_notifications
+    :open_my_notifications,
+    :get_ads_with_starting_id
   ]
 
   def open_my_notifications
     current_user.open_all_notifications
+  end
+
+  def get_ads_with_starting_id
+    @ads = current_user.advertiser.ads.where("ad_id < ?", params[:id]).order("created_at DESC").limit(2)
   end
 
   def my_notifications

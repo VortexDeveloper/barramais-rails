@@ -188,7 +188,7 @@ class User < ApplicationRecord
 
   #Eventos em que este usuário está na lista de membros com o status aceito
   def confirmed_groups
-    GroupMember.where(member: self, status: 1).map { |f| f.group }
+    GroupMember.where(member: self, status: 1).includes(:group).map { |f| f.group }
   end
 
   def confirmed_groups_ids
@@ -197,12 +197,12 @@ class User < ApplicationRecord
 
   #Eventos em que este usuário está na lista de membros com o status recusado
   def refused_groups
-    GroupMember.where(member: self, status: 2).map { |f| f.group }
+    GroupMember.where(member: self, status: 2).includes(:group).map { |f| f.group }
   end
 
   #Eventos em que este usuário está na lista de membros com o status pendente
   def pending_groups
-    GroupMember.where(member: self, status: 0).map { |f| f.group }
+    GroupMember.where(member: self, status: 0).includes(:group).map { |f| f.group }
   end
 
   #Aceitar convite do grupo passado por parametro
